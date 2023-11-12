@@ -20,3 +20,5 @@ rootProject.name = "kotlin_playground"
 include ':app'
 include ':file_lister'
 include ':local_file_lister'
+include ':file_explorer'
+include ':local_file_explorer'
