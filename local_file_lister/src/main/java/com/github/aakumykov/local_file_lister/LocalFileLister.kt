@@ -4,10 +4,7 @@ import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.FileLister
 import com.github.aakumykov.file_lister.SimpleFSItem
 
-class LocalFileLister(private val initialPath: String) : FileLister {
-
-    override fun listRootDir(): List<FSItem>
-        = listDir(initialPath)
+class LocalFileLister : FileLister {
 
     override fun listDir(path: String): List<FSItem> {
         return listOf(
