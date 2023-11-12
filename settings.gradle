@@ -18,3 +18,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "kotlin_playground"
 include ':app'
+include ':file_lister'
+include ':local_file_lister'
