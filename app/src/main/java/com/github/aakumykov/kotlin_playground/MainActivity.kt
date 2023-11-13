@@ -18,23 +18,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.button.setOnClickListener { onButtonClicked() }
-
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-    }
-
-    private fun onButtonClicked() {
-
-        val fileExplorer = mainViewModel.getFileExplorer()
-        fileExplorer.goToRootDir()
-
-        fileExplorer.listDir(fileExplorer.getCurrentPath()).let { list ->
-            val sb = StringBuilder()
-            for (fsItem: FSItem in list) {
-                sb.append(fsItem.name)
-                sb.append("\n")
-            }
-            binding.textView.text = sb
-        }
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainerView, MainFragment.create(), MainFragment.TAG)
+            .commit()
     }
 }
