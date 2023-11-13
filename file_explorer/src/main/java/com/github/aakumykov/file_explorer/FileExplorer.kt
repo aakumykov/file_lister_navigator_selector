@@ -16,4 +16,10 @@ interface FileExplorer : FileLister {
     fun goToRootDir() // throws IOException, AccessDeniesException
 
     fun getCurrentPath(): String
+
+    companion object {
+        // Используется в качестве "последнего пути", когда переходы в родительский
+        // каталог приводят к тому, что секущий путь превращается в пустую строку.
+        const val ROOT_DIR_PATH: String = "/"
+    }
 }

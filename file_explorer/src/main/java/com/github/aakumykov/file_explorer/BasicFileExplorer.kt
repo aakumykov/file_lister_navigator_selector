@@ -20,7 +20,9 @@ abstract class BasicFileExplorer(
     }
 
     override fun goToParentDir() {
-        currentPath = currentPath.replace(Regex("(..)/?$"), "")
+        currentPath = currentPath.replace(Regex("/[^/]+/?$"), "")
+        if (currentPath.isEmpty())
+            currentPath = FileExplorer.ROOT_DIR_PATH
     }
 
     override fun goToChildDir(dirName: String) {

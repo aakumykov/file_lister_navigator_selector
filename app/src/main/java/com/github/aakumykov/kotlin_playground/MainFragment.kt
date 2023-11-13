@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.file_lister.ParentDirItem
 import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
@@ -120,11 +121,14 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val fsItem = itemsList[position]
-        if (fsItem.isDir) {
-            fileExplorer.goToChildDir(fsItem.name)
-            listCurrentDir()
-        } else {
-            showToast(R.string.it_is_not_a_dir)
+        when {
+            fsItem is ParentDirItem -> fileExplorer.goToParentDir()
+            fsItem.isDir -> fileExplorer.goToChildDir(fsItem.name)
+            else -> {
+                showToast(R.string.it_is_not_a_dir)
+                return
+            }
         }
+        listCurrentDir()
     }
 }

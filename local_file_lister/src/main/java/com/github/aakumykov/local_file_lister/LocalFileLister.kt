@@ -2,6 +2,7 @@ package com.github.aakumykov.local_file_lister
 
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.FileLister
+import com.github.aakumykov.file_lister.ParentDirItem
 import com.github.aakumykov.file_lister.SimpleFSItem
 import java.io.File
 
@@ -11,7 +12,7 @@ class LocalFileLister(private val dirSeparator: String = FileLister.DS) : FileLi
 
         val fileNamesArray = File(path).list()
 
-        val fileList = mutableListOf<FSItem>()
+        val fileList = mutableListOf<FSItem>(ParentDirItem())
 
         if (null != fileNamesArray) {
             for (name: String in fileNamesArray) {

@@ -15,5 +15,7 @@ interface FileLister {
 
     companion object {
         const val DS: String = "/"
+        const val PARENT_DIR_NAME: String = ".."
+        const val PARENT_DIR_PATH: String = ".."
     }
 }
