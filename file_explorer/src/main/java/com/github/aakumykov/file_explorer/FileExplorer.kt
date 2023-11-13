@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_explorer
 
+import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.FileLister
 
 /**
@@ -15,6 +16,7 @@ interface FileExplorer : FileLister {
     fun goToParentDir() // throws IOException, AccessDeniesException
     fun goToRootDir() // throws IOException, AccessDeniesException
 
+    fun listCurrentPath(): List<FSItem>
     fun getCurrentPath(): String
 
     companion object {

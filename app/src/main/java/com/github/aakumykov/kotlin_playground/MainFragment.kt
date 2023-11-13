@@ -46,12 +46,23 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         binding.button.setOnClickListener { listInitialDirWithPermissions() }
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        fileExplorer = mainViewModel.getFileExplorer()
+
+        mainViewModel.currentList.observe(viewLifecycleOwner, ::onListChanged)
+
+        fileExplorer = mainViewModel.fileExplorer()
 
         listAdapter = ListAdapter(requireActivity(), R.layout.list_item, itemsList)
         binding.listView.adapter = listAdapter
 
         binding.listView.setOnItemClickListener(this)
+    }
+
+    private fun onListChanged(fsItems: List<FSItem>?) {
+        fsItems?.let { list ->
+            itemsList.clear()
+            itemsList.addAll(list)
+            listAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun onStart() {
@@ -79,9 +90,11 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         try {
             hideProgressBar()
 
-            itemsList.clear()
+            /*itemsList.clear()
             itemsList.addAll(fileExplorer.listDir(fileExplorer.getCurrentPath()))
-            listAdapter.notifyDataSetChanged()
+            listAdapter.notifyDataSetChanged()*/
+
+            mainViewModel.listCurrentPath()
 
             binding.button.text = getString(R.string.list_of_files_in, fileExplorer.getCurrentPath())
         }

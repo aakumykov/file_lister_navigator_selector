@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_explorer
 
+import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.FileLister
 
 abstract class BasicFileExplorer(
@@ -10,6 +11,10 @@ abstract class BasicFileExplorer(
     private var currentPath: String = initialPath
 
     override fun getCurrentPath(): String = currentPath
+
+    override fun listCurrentPath(): List<FSItem> {
+        return listDir(getCurrentPath())
+    }
 
     fun setCurrentPath(path: String) {
         currentPath = path
