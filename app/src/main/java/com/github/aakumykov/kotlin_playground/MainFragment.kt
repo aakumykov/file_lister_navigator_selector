@@ -43,12 +43,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         _binding = FragmentMainBinding.bind(view)
 
-        binding.button.setOnClickListener { onButtonClicked() }
+        binding.button.setOnClickListener { listDirWithPermissions() }
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         listAdapter = ListAdapter(requireActivity(), R.layout.list_item, listItems)
         binding.listView.adapter = listAdapter
+    }
+
+    override fun onStart() {
+        super.onStart()
+        listDirWithPermissions()
     }
 
     override fun onDestroyView() {
@@ -57,9 +62,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
 
-    private fun onButtonClicked() {
+    private fun listDirWithPermissions() {
         storagePermissionRequest.launch()
     }
+
 
     private fun listDir() {
 
@@ -80,6 +86,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             listItems.clear()
             listItems.addAll(list)
             listAdapter.notifyDataSetChanged()
+
+            binding.button.text = getString(R.string.list_of_files_in, fileExplorer.getCurrentPath())
         }
         catch (e: IOException) {
             showError(e)
