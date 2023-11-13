@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.github.aakumykov.file_lister.FSItem
 
 class ListAdapter (
     context: Context,
     private val resource: Int,
-    private val list: List<TitleItem>
+    private val list: List<FSItem>
 )
-    : ArrayAdapter<ListAdapter.TitleItem>(context, resource, list)
+    : ArrayAdapter<FSItem>(context, resource, list)
 {
     private val inflater: LayoutInflater
 
@@ -35,7 +36,12 @@ class ListAdapter (
             convertView
         }
 
-        viewHolder.titleView.text = list[position].getTitle()
+        val fsItem: FSItem = list[position]
+
+        viewHolder.titleView.text = when {
+            fsItem.isDir -> "[${fsItem.name}]"
+            else -> fsItem.name
+        }
 
         return itemView
     }
@@ -47,13 +53,5 @@ class ListAdapter (
         init {
             titleView = view.findViewById(R.id.titleView)
         }
-    }
-
-    interface TitleItem {
-        fun getTitle(): String
-    }
-
-    class SimpleTitleItem constructor(private val title: String) : TitleItem {
-        override fun getTitle(): String = title
     }
 }

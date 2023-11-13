@@ -2,10 +2,8 @@ package com.github.aakumykov.kotlin_playground
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_lister.FSItem
@@ -14,12 +12,10 @@ import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
-import java.io.IOError
 import java.io.IOException
 import java.lang.Exception
-import java.lang.StringBuilder
 
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickListener {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
@@ -27,7 +23,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var storagePermissionRequest: PermissionsRequester
 
-    private val listItems = mutableListOf<ListAdapter.TitleItem>()
+    private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
 
 
@@ -47,8 +43,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
-        listAdapter = ListAdapter(requireActivity(), R.layout.list_item, listItems)
+        listAdapter = ListAdapter(requireActivity(), R.layout.list_item, itemsList)
         binding.listView.adapter = listAdapter
+
+        binding.listView.setOnItemClickListener(this)
     }
 
     override fun onStart() {
@@ -78,13 +76,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         try {
             hideProgressBar()
 
-            val list = fileExplorer.listDir(fileExplorer.getCurrentPath())
-                .map { fsItem ->
-                    ListAdapter.SimpleTitleItem(fsItem.name)
-                }
-
-            listItems.clear()
-            listItems.addAll(list)
+            itemsList.clear()
+            itemsList.addAll(fileExplorer.listDir(fileExplorer.getCurrentPath()))
             listAdapter.notifyDataSetChanged()
 
             binding.button.text = getString(R.string.list_of_files_in, fileExplorer.getCurrentPath())
@@ -121,5 +114,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         fun create(): MainFragment {
             return MainFragment()
         }
+    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val fsItem = itemsList[position]
+
     }
 }
