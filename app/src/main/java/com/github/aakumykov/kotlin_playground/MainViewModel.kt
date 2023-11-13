@@ -9,7 +9,7 @@ import com.github.aakumykov.file_lister.FileLister
 import com.github.aakumykov.local_file_explorer.LocalFileExplorer
 import com.github.aakumykov.local_file_lister.LocalFileLister
 
-class MainViewModel : BasicViewModel(), FileLister.ListCache, FileExplorer.PathCache {
+class MainViewModel : BasicViewModel() {
 
     private var isRirstRun: Boolean = true
 
@@ -22,12 +22,6 @@ class MainViewModel : BasicViewModel(), FileLister.ListCache, FileExplorer.PathC
         LocalFileExplorer(initialPath, LocalFileLister(), this, this)
 
 //    private val fileExplorer: FileExplorer =
-
-    private val _currentList: MutableLiveData<List<FSItem>> = MutableLiveData()
-    val currentList: LiveData<List<FSItem>> = _currentList
-
-    private val _currentPath: MutableLiveData<String> = MutableLiveData()
-    val currentPath: LiveData<String> = _currentPath
 
 
     override fun getFileExplorer(): FileExplorer = fileExplorer

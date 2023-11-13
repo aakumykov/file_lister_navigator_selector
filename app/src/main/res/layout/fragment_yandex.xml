@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/yandexButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="@string/login_to_yandex"
+        android:backgroundTint="@color/yandex"
+        app:icon="@drawable/ic_logged_out"
+        app:iconGravity="textStart"/>
+
     <Button
         android:id="@+id/manageAllFilesButton"
         android:layout_width="match_parent"
@@ -17,11 +27,11 @@
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/listButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:text="Список местных файлов" />
+        android:text="Список файлов" />
 
     <ProgressBar
         android:id="@+id/progressBar"

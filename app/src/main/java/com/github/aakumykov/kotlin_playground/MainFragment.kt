@@ -63,7 +63,6 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
         _binding = FragmentMainBinding.bind(view)
 
-        binding.yandexButton.setOnClickListener { onYandexButtonClicked() }
         binding.manageAllFilesButton.setOnClickListener { onManageAllFilesButtonClicked() }
         binding.button.setOnClickListener { listDirPermissionRequest.launch() }
 
@@ -78,20 +77,6 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         binding.listView.setOnItemClickListener(this)
 
         binding.button.text = fileExplorer.getCurrentPath()
-
-        restoreYandexAuthToken()
-        displayYandexAuthStatus()
-
-        prepareYandexAuth()
-    }
-
-    private fun onYandexButtonClicked() {
-        if (null == yandexAuthToken)
-            yandexAuthLauncher.launch(YandexAuthLoginOptions())
-        else {
-            yandexAuthToken = null
-            displayYandexAuthStatus()
-        }
     }
 
     private fun onManageAllFilesButtonClicked() {
@@ -171,15 +156,6 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         binding.errorView.visibility = View.GONE
     }
 
-
-    companion object {
-        val TAG: String = MainFragment::class.java.simpleName
-        const val YANDEX_AUTH_TOKEN = "YANDEX_AUTH_TOKEN"
-        fun create(): MainFragment {
-            return MainFragment()
-        }
-    }
-
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val fsItem = itemsList[position]
         when {
@@ -193,42 +169,10 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         listCurrentDir()
     }
 
-    private fun storeYandexAuthToken() {
-        storeString(YANDEX_AUTH_TOKEN, yandexAuthToken)
-    }
-
-    private fun restoreYandexAuthToken() {
-        yandexAuthToken = restoreString(YANDEX_AUTH_TOKEN)
-    }
-
-    private fun prepareYandexAuth() {
-
-        val yandexAuthOptions by lazy {
-            YandexAuthOptions(requireContext(), true)
-        }
-
-        val yandexAuthSdkContract by lazy {
-            YandexAuthSdkContract(yandexAuthOptions)
-        }
-
-        yandexAuthLauncher = registerForActivityResult(yandexAuthSdkContract) { result ->
-            yandexAuthToken = result.getOrNull()?.value
-            storeYandexAuthToken()
-            displayYandexAuthStatus()
-        }
-    }
-
-    private fun displayYandexAuthStatus() {
-        if (null != yandexAuthToken) {
-            with (binding.yandexButton) {
-                setIconResource(R.drawable.ic_logged_in)
-                text = getString(R.string.logout_from_yandex)
-            }
-        } else {
-            with(binding.yandexButton) {
-                setIconResource(R.drawable.ic_logged_out)
-                text = getString(R.string.login_to_yandex)
-            }
+    companion object {
+        val TAG: String = MainFragment::class.java.simpleName
+        fun create(): MainFragment {
+            return MainFragment()
         }
     }
 }
