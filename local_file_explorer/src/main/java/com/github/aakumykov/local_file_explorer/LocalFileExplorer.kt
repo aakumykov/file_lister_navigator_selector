@@ -10,6 +10,3 @@ class LocalFileExplorer(
 ) :
     BasicFileExplorer(initialPath),
     FileLister by localFileLister
-{
-
-}

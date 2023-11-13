@@ -13,20 +13,14 @@ class MainViewModel : BasicViewModel() {
     private var _initialPath: String? = null
     val initialPath get() = _initialPath ?: DEFAULT_INITIAL_PATH
 
-    private val localFileExplorer: FileExplorer
+    private val fileExplorer: FileExplorer = LocalFileExplorer(initialPath, LocalFileLister())
 
-
-    init {
-        localFileExplorer = LocalFileExplorer(initialPath, LocalFileLister())
-    }
 
     override fun getFileLister(): FileLister {
-        return localFileExplorer
+        return fileExplorer
     }
 
     override fun getFileExplorer(): FileExplorer {
-        return localFileExplorer
+        return fileExplorer
     }
-
-
 }
