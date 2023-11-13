@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
@@ -26,22 +27,25 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
     private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
 
+    private lateinit var fileExplorer: FileExplorer
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         storagePermissionRequest = constructPermissionsRequest(
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            requiresPermission = ::listDir,
+            requiresPermission = ::listCurrentDir,
             onNeverAskAgain = { showToast("Нужны разрешение на чтение памяти") },
             onPermissionDenied = { showToast("Вы запретили чтение памяти...") }
         )
 
         _binding = FragmentMainBinding.bind(view)
 
-        binding.button.setOnClickListener { listDirWithPermissions() }
+        binding.button.setOnClickListener { listInitialDirWithPermissions() }
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        fileExplorer = mainViewModel.getFileExplorer()
 
         listAdapter = ListAdapter(requireActivity(), R.layout.list_item, itemsList)
         binding.listView.adapter = listAdapter
@@ -51,7 +55,7 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
     override fun onStart() {
         super.onStart()
-        listDirWithPermissions()
+        listInitialDirWithPermissions()
     }
 
     override fun onDestroyView() {
@@ -60,18 +64,16 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
     }
 
 
-    private fun listDirWithPermissions() {
+    private fun listInitialDirWithPermissions() {
+        fileExplorer.goToRootDir()
         storagePermissionRequest.launch()
     }
 
 
-    private fun listDir() {
+    private fun listCurrentDir() {
 
         hideError()
         showProgressBar()
-
-        val fileExplorer = mainViewModel.getFileExplorer()
-        fileExplorer.goToRootDir()
 
         try {
             hideProgressBar()
@@ -118,6 +120,11 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val fsItem = itemsList[position]
-
+        if (fsItem.isDir) {
+            fileExplorer.goToChildDir(fsItem.name)
+            listCurrentDir()
+        } else {
+            showToast(R.string.it_is_not_a_dir)
+        }
     }
 }

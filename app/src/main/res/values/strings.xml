@@ -2,4 +2,5 @@
     <string name="app_name">FileLister2</string>
     <string name="MENU_app_properties">Свойства приложения</string>
     <string name="list_of_files_in">Список файлов в %1$s</string>
+    <string name="it_is_not_a_dir">Это не каталог</string>
 </resources>
