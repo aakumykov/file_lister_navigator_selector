@@ -48,6 +48,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         listAdapter = ListAdapter(requireActivity(), R.layout.list_item, listItems)
+        binding.listView.adapter = listAdapter
     }
 
     override fun onDestroyView() {

@@ -35,7 +35,7 @@ class ListAdapter (
             convertView
         }
 
-        viewHolder.titleView.text = list[position].name
+        viewHolder.titleView.text = list[position].getTitle()
 
         return itemView
     }
@@ -50,12 +50,10 @@ class ListAdapter (
     }
 
     interface TitleItem {
-        val name: String
+        fun getTitle(): String
     }
 
-    class SimpleTitleItem(override val name: String) : TitleItem {
-        override fun toString(): String {
-            return SimpleTitleItem::class.simpleName + " { $name }"
-        }
+    class SimpleTitleItem constructor(private val title: String) : TitleItem {
+        override fun getTitle(): String = title
     }
 }
