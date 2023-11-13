@@ -10,7 +10,38 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:text="Список файлов" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:indeterminate="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/errorView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:padding="6dp"
+        android:textColor="@color/error_message_fg"
+        android:background="@color/error_message_bg"
+        android:textSize="14sp"
+        android:visibility="gone"
+        tools:text="Ошибка"
+        tools:visibility="visible" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#ada"/>
 
     <!--<CheckBox
         android:id="@+id/checkBox"
@@ -19,18 +50,5 @@
         android:layout_weight="0"
         android:textSize="18sp"
         android:text="Управляет / не управляет всеми файлами" />-->
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textSize="16sp"
-            tools:text="TextView" />
-    </ScrollView>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.github.aakumykov.kotlin_playground
 
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +11,24 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
+import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
+import java.io.IOError
+import java.io.IOException
+import java.lang.Exception
 import java.lang.StringBuilder
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var mainViewModel: MainViewModel
     private lateinit var storagePermissionRequest: PermissionsRequester
+
+    private val listItems = mutableListOf<ListAdapter.TitleItem>()
+    private lateinit var listAdapter: ListAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,6 +46,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.button.setOnClickListener { onButtonClicked() }
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+        listAdapter = ListAdapter(requireActivity(), R.layout.list_item, listItems)
     }
 
     override fun onDestroyView() {
@@ -51,18 +62,50 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun listDir() {
 
+        hideError()
+        showProgressBar()
+
         val fileExplorer = mainViewModel.getFileExplorer()
         fileExplorer.goToRootDir()
 
-        fileExplorer.listDir(fileExplorer.getCurrentPath()).let { list ->
-            val sb = StringBuilder()
-            for (fsItem: FSItem in list) {
-                sb.append(fsItem.name)
-                sb.append("\n")
-            }
-            binding.textView.text = sb
+        try {
+            hideProgressBar()
+
+            val list = fileExplorer.listDir(fileExplorer.getCurrentPath())
+                .map { fsItem ->
+                    ListAdapter.SimpleTitleItem(fsItem.name)
+                }
+
+            listItems.clear()
+            listItems.addAll(list)
+            listAdapter.notifyDataSetChanged()
+        }
+        catch (e: IOException) {
+            showError(e)
+            hideProgressBar()
         }
     }
+
+
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
+    }
+
+
+    private fun showError(e: Exception) {
+        binding.errorView.text = ExceptionUtils.getErrorMessage(e)
+        binding.errorView.visibility = View.VISIBLE
+    }
+
+    private fun hideError() {
+        binding.errorView.text = ""
+        binding.errorView.visibility = View.GONE
+    }
+
 
     companion object {
         val TAG: String = MainFragment::class.java.simpleName
