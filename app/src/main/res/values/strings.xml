@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">MANAGE_ALL_FILES</string>
+    <string name="app_name">FileLister2</string>
     <string name="MENU_app_properties">Свойства приложения</string>
 </resources>
