@@ -27,7 +27,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         storagePermissionRequest = constructPermissionsRequest(
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            requiresPermission = ::onButtonClicked,
+            requiresPermission = ::listDir,
             onNeverAskAgain = { showToast("Нужны разрешение на чтение памяти") },
             onPermissionDenied = { showToast("Вы запретили чтение памяти...") }
         )
@@ -46,6 +46,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
 
     private fun onButtonClicked() {
+        storagePermissionRequest.launch()
+    }
+
+    private fun listDir() {
 
         val fileExplorer = mainViewModel.getFileExplorer()
         fileExplorer.goToRootDir()
