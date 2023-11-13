@@ -19,10 +19,15 @@ abstract class BasicFileExplorer(
         currentPath = initialPath
     }
 
+    // TODO: обрабатывать через на массив
     override fun goToParentDir() {
         currentPath = currentPath.replace(Regex("/[^/]+/?$"), "")
         if (currentPath.isEmpty())
             currentPath = FileExplorer.ROOT_DIR_PATH
+
+        /*val pathParts = currentPath.split(dirSeparator)
+        val parentPathParts = pathParts.subList(0, pathParts.size-2)
+        currentPath = parentPathParts.joinToString(separator = dirSeparator)*/
     }
 
     override fun goToChildDir(dirName: String) {
