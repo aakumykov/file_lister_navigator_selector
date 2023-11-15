@@ -19,8 +19,6 @@ interface FileExplorer : FileLister {
     fun listCurrentPath(): List<FSItem>
     fun getCurrentPath(): String
 
-    fun getCurrentList(): List<FSItem>
-
     companion object {
         // Используется в качестве "последнего пути", когда переходы в родительский
         // каталог приводят к тому, что секущий путь превращается в пустую строку.
