@@ -23,18 +23,22 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
     private val binding get() = _binding!!
 
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var storagePermissionRequest: PermissionsRequester
+    private lateinit var listDirPermissionRequest: PermissionsRequester
 
     private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
 
-    private lateinit var fileExplorer: FileExplorer
+    private val fileExplorer: FileExplorer get() = mainViewModel.getFileExplorer()
+
+    private var isFirstRun: Boolean = true
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        storagePermissionRequest = constructPermissionsRequest(
+        isFirstRun = null == savedInstanceState
+
+        listDirPermissionRequest = constructPermissionsRequest(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             requiresPermission = ::listCurrentDir,
             onNeverAskAgain = { showToast("Нужны разрешение на чтение памяти") },
@@ -43,19 +47,27 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
         _binding = FragmentMainBinding.bind(view)
 
-        binding.button.setOnClickListener { listInitialDirWithPermissions() }
+        binding.button.setOnClickListener { listDirPermissionRequest.launch() }
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         mainViewModel.currentList.observe(viewLifecycleOwner, ::onListChanged)
-
-        fileExplorer = mainViewModel.fileExplorer()
+        mainViewModel.currentPath.observe(viewLifecycleOwner, ::onPathChanged)
 
         listAdapter = ListAdapter(requireActivity(), R.layout.list_item, itemsList)
         binding.listView.adapter = listAdapter
 
         binding.listView.setOnItemClickListener(this)
+
+        binding.button.text = fileExplorer.getCurrentPath()
     }
+
+
+    override fun onStart() {
+        super.onStart()
+        mainViewModel.startWork()
+    }
+
 
     private fun onListChanged(fsItems: List<FSItem>?) {
         fsItems?.let { list ->
@@ -65,20 +77,14 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        listInitialDirWithPermissions()
+    private fun onPathChanged(path: String?) {
+        path?.let { binding.button.text = it }
     }
+
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-
-    private fun listInitialDirWithPermissions() {
-        fileExplorer.goToRootDir()
-        storagePermissionRequest.launch()
     }
 
 
@@ -89,11 +95,7 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
         try {
             hideProgressBar()
-
-            itemsList.clear()
-            itemsList.addAll(fileExplorer.listCurrentPath())
-            listAdapter.notifyDataSetChanged()
-
+            fileExplorer.listCurrentPath()
             binding.button.text = getString(R.string.list_of_files_in, fileExplorer.getCurrentPath())
         }
         catch (e: IOException) {

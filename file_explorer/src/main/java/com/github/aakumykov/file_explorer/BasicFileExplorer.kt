@@ -3,8 +3,11 @@ package com.github.aakumykov.file_explorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.FileLister
 
+// FIXME: перенести кеш в реализацию
 abstract class BasicFileExplorer(
     private val initialPath: String,
+    private val listCache: FileLister.ListCache,
+    private val pathCache: FileExplorer.PathCache,
     private val dirSeparator: String = FileLister.DS
 ) : FileExplorer {
 
@@ -13,30 +16,36 @@ abstract class BasicFileExplorer(
     override fun getCurrentPath(): String = currentPath
 
     override fun listCurrentPath(): List<FSItem> {
-        return listDir(getCurrentPath())
-    }
-
-    fun setCurrentPath(path: String) {
-        currentPath = path
+        val list = listDir(getCurrentPath())
+        listCache.cacheList(list)
+        return list
     }
 
     override fun goToRootDir() {
-        currentPath = initialPath
+        changeDir(FileExplorer.ROOT_DIR_PATH)
     }
 
     // TODO: обрабатывать через на массив
     override fun goToParentDir() {
-        currentPath = currentPath.replace(Regex("/[^/]+/?$"), "")
-        if (currentPath.isEmpty())
-            currentPath = FileExplorer.ROOT_DIR_PATH
+        var parentPath = currentPath.replace(Regex("/[^/]+/?$"), "")
+        if (parentPath.isEmpty())
+            parentPath = FileExplorer.ROOT_DIR_PATH
 
         /*val pathParts = currentPath.split(dirSeparator)
         val parentPathParts = pathParts.subList(0, pathParts.size-2)
         currentPath = parentPathParts.joinToString(separator = dirSeparator)*/
+
+        changeDir(parentPath)
     }
 
     override fun goToChildDir(dirName: String) {
-        currentPath += dirSeparator + dirName
-        currentPath = currentPath.replace(Regex("($dirSeparator)+"), dirSeparator)
+        var childPath = currentPath + dirSeparator + dirName
+        childPath = childPath.replace(Regex("($dirSeparator)+"), dirSeparator)
+        changeDir(childPath)
+    }
+
+    private fun changeDir(path: String) {
+        currentPath = path
+        pathCache.cachePath(currentPath)
     }
 }

@@ -13,6 +13,10 @@ interface FileLister {
      */
     fun listDir(path: String): List<FSItem> // TODO: throws NotADirException
 
+    interface ListCache {
+        fun cacheList(list: List<FSItem>)
+    }
+
     companion object {
         const val DS: String = "/"
         const val PARENT_DIR_NAME: String = ".."
