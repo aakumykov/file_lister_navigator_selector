@@ -80,8 +80,7 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
     @RequiresApi(Build.VERSION_CODES.R)
     private fun showManageAllFilesDialog() {
         val intent = Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-        val pn = "com.github.aakumykov.kotlin_playground"
-        intent.data = Uri.parse("package:$pn")
+        intent.data = Uri.parse("package:${requireActivity().packageName}")
         startActivity(intent)
     }
 
