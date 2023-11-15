@@ -1,9 +1,15 @@
 package com.github.aakumykov.kotlin_playground
 
 import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.view.View
 import android.widget.AdapterView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_explorer.FileExplorer
@@ -47,6 +53,7 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
         _binding = FragmentMainBinding.bind(view)
 
+        binding.manageAllFilesButton.setOnClickListener { onManageAllFilesButtonClicked() }
         binding.button.setOnClickListener { listDirPermissionRequest.launch() }
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
@@ -60,6 +67,22 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         binding.listView.setOnItemClickListener(this)
 
         binding.button.text = fileExplorer.getCurrentPath()
+    }
+
+    private fun onManageAllFilesButtonClicked() {
+        if (AndroidVersionHelper.is_android_R_or_later())
+            showManageAllFilesDialog()
+        else
+            showToast("Неприменимо к этой версии Android")
+    }
+
+    // FIXME: package name
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun showManageAllFilesDialog() {
+        val intent = Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+        val pn = "com.github.aakumykov.kotlin_playground"
+        intent.data = Uri.parse("package:$pn")
+        startActivity(intent)
     }
 
 
