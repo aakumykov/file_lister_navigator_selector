@@ -7,6 +7,14 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/manageAllFilesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:backgroundTint="#DC9C4D"
+        android:text="Управлять всеми файлами" />
+
+    <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

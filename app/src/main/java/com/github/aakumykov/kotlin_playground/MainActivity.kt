@@ -7,10 +7,7 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.kotlin_playground.databinding.ActivityMainBinding
-import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,14 +34,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (R.id.actionAppProperties == item.itemId) {
-            openAppPeoperties()
-            return true
+        return when (item.itemId) {
+            R.id.actionAppProperties -> {
+                openAppProperties()
+                true
+            }
+            R.id.actionCloseApp -> {
+                closeApp()
+                true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
         }
-        return super.onOptionsItemSelected(item)
     }
 
-    private fun openAppPeoperties() {
+    private fun closeApp() {
+        finish()
+    }
+
+    private fun openAppProperties() {
         val uri = Uri.parse("package:$packageName")
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri)
         startActivity(intent)
