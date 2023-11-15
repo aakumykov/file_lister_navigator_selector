@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
@@ -22,10 +23,12 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels { MainViewModel.Factory }
+
     private lateinit var storagePermissionRequest: PermissionsRequester
 
     private val itemsList = mutableListOf<FSItem>()
+
     private lateinit var listAdapter: ListAdapter
 
     private lateinit var fileExplorer: FileExplorer
@@ -45,7 +48,7 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
         binding.button.setOnClickListener { listInitialDirWithPermissions() }
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+//        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         mainViewModel.currentList.observe(viewLifecycleOwner, ::onListChanged)
 
@@ -90,11 +93,9 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         try {
             hideProgressBar()
 
-            /*itemsList.clear()
+            itemsList.clear()
             itemsList.addAll(fileExplorer.listDir(fileExplorer.getCurrentPath()))
-            listAdapter.notifyDataSetChanged()*/
-
-            mainViewModel.listCurrentPath()
+            listAdapter.notifyDataSetChanged()
 
             binding.button.text = getString(R.string.list_of_files_in, fileExplorer.getCurrentPath())
         }
