@@ -90,11 +90,9 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         try {
             hideProgressBar()
 
-            /*itemsList.clear()
-            itemsList.addAll(fileExplorer.listDir(fileExplorer.getCurrentPath()))
-            listAdapter.notifyDataSetChanged()*/
-
-            mainViewModel.listCurrentPath()
+            itemsList.clear()
+            itemsList.addAll(fileExplorer.listCurrentPath())
+            listAdapter.notifyDataSetChanged()
 
             binding.button.text = getString(R.string.list_of_files_in, fileExplorer.getCurrentPath())
         }

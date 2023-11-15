@@ -11,7 +11,7 @@ interface FileLister {
      * Если расположение, указанное в аргументе, не удаётся прочитать, возвращает пустой список.
      * Может выбрасывать исключения, если реализации предполагают их.
      */
-    fun listDir(path: String): List<FSItem>
+    fun listDir(path: String): List<FSItem> // TODO: throws NotADirException
 
     companion object {
         const val DS: String = "/"

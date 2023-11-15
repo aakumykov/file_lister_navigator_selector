@@ -9,7 +9,7 @@ import com.github.aakumykov.file_lister.FileLister
 import com.github.aakumykov.local_file_explorer.LocalFileExplorer
 import com.github.aakumykov.local_file_lister.LocalFileLister
 
-class MainViewModel : BasicViewModel(), FileExplorer {
+class MainViewModel : BasicViewModel() {
 
     private val DEFAULT_INITIAL_PATH = Environment.getExternalStorageDirectory().path
 
@@ -27,27 +27,4 @@ class MainViewModel : BasicViewModel(), FileExplorer {
     override fun fileExplorer(): FileExplorer = fileExplorer
 
 
-    override fun goToChildDir(dirName: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun goToParentDir() {
-        TODO("Not yet implemented")
-    }
-
-    override fun goToRootDir() {
-        TODO("Not yet implemented")
-    }
-
-    override fun listCurrentPath(): List<FSItem> = fileExplorer().listCurrentPath()
-
-    override fun getCurrentPath(): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun listDir(path: String): List<FSItem> {
-        val list = listCurrentPath()
-        _currentList.value = list
-        return list
-    }
 }

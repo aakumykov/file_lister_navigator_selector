@@ -12,11 +12,11 @@ import com.github.aakumykov.file_lister.FileLister
  */
 interface FileExplorer : FileLister {
 
-    fun goToChildDir(dirName: String) // throws IOException, AccessDeniesException
-    fun goToParentDir() // throws IOException, AccessDeniesException
-    fun goToRootDir() // throws IOException, AccessDeniesException
+    fun goToChildDir(dirName: String) // TODO: throws IOException, AccessDeniesException
+    fun goToParentDir() // TODO: throws IOException, AccessDeniesException
+    fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 
-    fun listCurrentPath(): List<FSItem>
+    fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
     fun getCurrentPath(): String
 
     companion object {
