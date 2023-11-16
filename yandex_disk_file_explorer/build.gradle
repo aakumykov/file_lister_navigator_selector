@@ -4,8 +4,8 @@ plugins {
 }
 
 android {
-    namespace 'com.github.aakumykov.local_file_explorer'
-    compileSdk 34
+    namespace 'com.example.yandex_disk_file_explorer'
+    compileSdk 33
 
     defaultConfig {
         minSdk 21
@@ -32,8 +32,7 @@ android {
 dependencies {
 
     api project(path: ':file_explorer')
-    api project(path: ':local_file_lister')
-
+    api project(path: ':yandex_disk_file_lister')
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'

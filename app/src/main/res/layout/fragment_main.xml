@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:backgroundTint="#DC9C4D"
-        android:text="Управлять всеми файлами" />
+        android:text="Управлять всеми файлами"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/button"

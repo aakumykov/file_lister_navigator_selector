@@ -18,8 +18,10 @@ class MainViewModel : BasicViewModel(), FileLister.ListCache, FileExplorer.PathC
     private var _initialPath: String? = null
     val initialPath get() = _initialPath ?: DEFAULT_INITIAL_PATH
 
-    private val fileExplorer: FileExplorer = LocalFileExplorer(initialPath, LocalFileLister(),
-        this, this)
+    private val fileExplorer: FileExplorer =
+        LocalFileExplorer(initialPath, LocalFileLister(), this, this)
+
+//    private val fileExplorer: FileExplorer =
 
     private val _currentList: MutableLiveData<List<FSItem>> = MutableLiveData()
     val currentList: LiveData<List<FSItem>> = _currentList
@@ -27,8 +29,6 @@ class MainViewModel : BasicViewModel(), FileLister.ListCache, FileExplorer.PathC
     private val _currentPath: MutableLiveData<String> = MutableLiveData()
     val currentPath: LiveData<String> = _currentPath
 
-
-    override fun getFileLister(): FileLister = fileExplorer
 
     override fun getFileExplorer(): FileExplorer = fileExplorer
 

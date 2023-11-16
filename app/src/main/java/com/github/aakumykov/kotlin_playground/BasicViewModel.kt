@@ -6,6 +6,5 @@ import com.github.aakumykov.file_lister.FileLister
 
 abstract class BasicViewModel : ViewModel() {
 
-    abstract fun getFileLister(): FileLister
     abstract fun getFileExplorer(): FileExplorer
 }
