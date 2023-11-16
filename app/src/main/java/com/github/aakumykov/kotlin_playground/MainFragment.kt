@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.view.View
 import android.widget.AdapterView
@@ -17,9 +18,13 @@ import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.ParentDirItem
 import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
+import com.github.aakumykov.kotlin_playground.extensions.restoreString
 import com.github.aakumykov.kotlin_playground.extensions.showToast
+import com.github.aakumykov.kotlin_playground.extensions.storeString
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
+import com.yandex.authsdk.YandexAuthOptions
+import com.yandex.authsdk.YandexAuthSdkContract
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
@@ -73,10 +78,20 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         binding.listView.setOnItemClickListener(this)
 
         binding.button.text = fileExplorer.getCurrentPath()
+
+        restoreYandexAuthToken()
+        displayYandexAuthStatus()
+
+        prepareYandexAuth()
     }
 
     private fun onYandexButtonClicked() {
-
+        if (null == yandexAuthToken)
+            yandexAuthLauncher.launch(YandexAuthLoginOptions())
+        else {
+            yandexAuthToken = null
+            displayYandexAuthStatus()
+        }
     }
 
     private fun onManageAllFilesButtonClicked() {
@@ -159,6 +174,7 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
     companion object {
         val TAG: String = MainFragment::class.java.simpleName
+        const val YANDEX_AUTH_TOKEN = "YANDEX_AUTH_TOKEN"
         fun create(): MainFragment {
             return MainFragment()
         }
@@ -175,5 +191,44 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
             }
         }
         listCurrentDir()
+    }
+
+    private fun storeYandexAuthToken() {
+        storeString(YANDEX_AUTH_TOKEN, yandexAuthToken)
+    }
+
+    private fun restoreYandexAuthToken() {
+        yandexAuthToken = restoreString(YANDEX_AUTH_TOKEN)
+    }
+
+    private fun prepareYandexAuth() {
+
+        val yandexAuthOptions by lazy {
+            YandexAuthOptions(requireContext(), true)
+        }
+
+        val yandexAuthSdkContract by lazy {
+            YandexAuthSdkContract(yandexAuthOptions)
+        }
+
+        yandexAuthLauncher = registerForActivityResult(yandexAuthSdkContract) { result ->
+            yandexAuthToken = result.getOrNull()?.value
+            storeYandexAuthToken()
+            displayYandexAuthStatus()
+        }
+    }
+
+    private fun displayYandexAuthStatus() {
+        if (null != yandexAuthToken) {
+            with (binding.yandexButton) {
+                setIconResource(R.drawable.ic_logged_in)
+                text = getString(R.string.logout_from_yandex)
+            }
+        } else {
+            with(binding.yandexButton) {
+                setIconResource(R.drawable.ic_logged_out)
+                text = getString(R.string.login_to_yandex)
+            }
+        }
     }
 }
