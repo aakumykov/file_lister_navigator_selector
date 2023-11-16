@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.view.View
 import android.widget.AdapterView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import com.github.aakumykov.file_lister.ParentDirItem
 import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
+import com.yandex.authsdk.YandexAuthLoginOptions
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
@@ -38,6 +40,9 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
     private var isFirstRun: Boolean = true
 
+    private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
+    private var yandexAuthToken: String? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,6 +58,7 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
 
         _binding = FragmentMainBinding.bind(view)
 
+        binding.yandexButton.setOnClickListener { onYandexButtonClicked() }
         binding.manageAllFilesButton.setOnClickListener { onManageAllFilesButtonClicked() }
         binding.button.setOnClickListener { listDirPermissionRequest.launch() }
 
@@ -67,6 +73,10 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         binding.listView.setOnItemClickListener(this)
 
         binding.button.text = fileExplorer.getCurrentPath()
+    }
+
+    private fun onYandexButtonClicked() {
+
     }
 
     private fun onManageAllFilesButtonClicked() {
