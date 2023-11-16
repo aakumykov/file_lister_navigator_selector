@@ -11,3 +11,15 @@ fun Fragment.showToast(text: String) {
 fun Fragment.showToast(@StringRes strRes: Int) {
     showToast(getString(strRes))
 }
+
+fun Fragment.storeString(key: String, value: String?): Unit {
+    androidx.preference.PreferenceManager.getDefaultSharedPreferences(requireContext())
+        .edit()
+        .putString(key, value)
+        .apply()
+}
+
+fun Fragment.restoreString(key: String): String? {
+    return androidx.preference.PreferenceManager.getDefaultSharedPreferences(requireContext())
+        .getString(key, null)
+}
