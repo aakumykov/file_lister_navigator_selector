@@ -11,6 +11,7 @@ import com.github.aakumykov.kotlin_playground.databinding.FragmentYandexBinding
 import com.github.aakumykov.kotlin_playground.extensions.restoreString
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.github.aakumykov.kotlin_playground.extensions.storeString
+import com.github.aakumykov.yandex_disk_file_explorer.YandexDiskFileExplorer
 import com.github.aakumykov.yandex_disk_file_lister.YandexDiskFileLister
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
@@ -63,12 +64,15 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
         }
 
         val fileLister = YandexDiskFileLister(yandexAuthToken!!)
+        val fileExplorer = YandexDiskFileExplorer(fileLister)
+
         showProgressBar()
         hideError()
 
         thread {
             try {
-                val list = fileLister.listDir("/")
+//                val list = fileLister.listDir("/")
+                val list = fileExplorer.listCurrentPath()
                 uiRun { displayList(list) }
             } catch (t: Throwable) {
                 uiRun { showError(t) }

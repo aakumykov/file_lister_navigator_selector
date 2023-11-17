@@ -6,8 +6,8 @@ import com.github.aakumykov.file_lister.FileLister
 // FIXME: перенести кеш в реализацию
 abstract class BasicFileExplorer(
     private val initialPath: String,
-    private val listCache: FileLister.ListCache,
-    private val pathCache: FileExplorer.PathCache,
+    private val listCache: FileLister.ListCache? = null,
+    private val pathCache: FileExplorer.PathCache? = null,
     private val dirSeparator: String = FileLister.DS
 ) : FileExplorer {
 
@@ -17,7 +17,7 @@ abstract class BasicFileExplorer(
 
     override fun listCurrentPath(): List<FSItem> {
         val list = listDir(getCurrentPath())
-        listCache.cacheList(list)
+        listCache?.cacheList(list)
         return list
     }
 
@@ -41,6 +41,6 @@ abstract class BasicFileExplorer(
 
     private fun changeDir(path: String) {
         currentPath = path
-        pathCache.cachePath(currentPath)
+        pathCache?.cachePath(currentPath)
     }
 }
