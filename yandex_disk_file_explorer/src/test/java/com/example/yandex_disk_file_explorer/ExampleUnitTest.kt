@@ -1,4 +1,4 @@
-package com.example.yandex_disk_file_explorer
+package com.github.aakumykov.yandex_disk_file_explorer
 
 import org.junit.Test
 

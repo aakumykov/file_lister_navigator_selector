@@ -1,4 +1,4 @@
-package com.example.yandex_disk_file_lister
+package com.github.aakumykov.yandex_disk_file_lister
 
 import org.junit.Test
 

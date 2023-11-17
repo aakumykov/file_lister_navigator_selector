@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.yandex_disk_file_lister'
+    namespace 'com.github.aakumykov.yandex_disk_file_lister'
     compileSdk 33
 
     defaultConfig {
