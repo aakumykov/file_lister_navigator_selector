@@ -83,6 +83,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     }
 
     private fun onListButtonClicked() {
+
         if (null == yandexAuthToken) {
             showToast("Авторизуйтесь в Яндекс")
             return
@@ -159,10 +160,12 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
     private fun storeYandexAuthToken() {
         storeString(YANDEX_AUTH_TOKEN, yandexAuthToken)
+        YandexFragment.yandexAuthToken = yandexAuthToken
     }
 
     private fun restoreYandexAuthToken() {
         yandexAuthToken = restoreString(YANDEX_AUTH_TOKEN)
+        YandexFragment.yandexAuthToken = yandexAuthToken
     }
 
     private fun displayYandexAuthStatus() {
@@ -182,6 +185,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
     companion object {
         const val YANDEX_AUTH_TOKEN = "YANDEX_AUTH_TOKEN"
+        var yandexAuthToken: String? = null
         fun create(): YandexFragment {
             return YandexFragment()
         }

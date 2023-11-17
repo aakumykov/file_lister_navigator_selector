@@ -1,5 +1,7 @@
 package com.github.aakumykov.kotlin_playground
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,9 @@ import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.FileLister
 
 class FileExplorerViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.PathCache {
+
+    private val handler = Handler(Looper.getMainLooper())
+
 
     private var _fileExplorer: FileExplorer? = null
 
@@ -27,10 +32,11 @@ class FileExplorerViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.
 
 
     override fun cachePath(path: String) {
-        _pathMutableLiveData.value = path
+        handler.post { _pathMutableLiveData.value = path }
     }
 
+
     override fun cacheList(list: List<FSItem>) {
-        _listMutableLiveData.value = list
+        handler.post { _listMutableLiveData.value = list }
     }
 }
