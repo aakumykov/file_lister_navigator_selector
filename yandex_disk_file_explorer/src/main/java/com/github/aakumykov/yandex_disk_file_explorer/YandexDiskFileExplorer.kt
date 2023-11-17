@@ -7,6 +7,12 @@ import com.github.aakumykov.yandex_disk_file_lister.YandexDiskFileLister
 
 class YandexDiskFileExplorer(
     yandexDiskFileLister: YandexDiskFileLister,
-    initialPath: String = FileExplorer.ROOT_DIR_PATH
+    initialPath: String = FileExplorer.ROOT_DIR_PATH,
+    listCache: FileExplorer.ListCache? = null,
+    pathCache: FileExplorer.PathCache? = null
 )
-    : BasicFileExplorer(initialPath), FileLister by yandexDiskFileLister
+    : BasicFileExplorer(
+        initialPath = initialPath,
+        listCache = listCache,
+        pathCache = pathCache
+    ), FileLister by yandexDiskFileLister

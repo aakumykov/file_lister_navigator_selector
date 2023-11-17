@@ -19,9 +19,17 @@ interface FileExplorer : FileLister {
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
     fun getCurrentPath(): String
 
+    fun setPathCache(pathCache: PathCache)
+    fun setListCache(listCache: ListCache)
+
     interface PathCache {
         fun cachePath(path: String)
     }
+
+    interface ListCache {
+        fun cacheList(list: List<FSItem>)
+    }
+
 
     companion object {
         // Используется в качестве "последнего пути", когда переходы в родительский

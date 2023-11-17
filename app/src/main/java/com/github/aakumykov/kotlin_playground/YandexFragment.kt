@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister.FSItem
-import com.github.aakumykov.file_lister.ParentDirItem
-import com.github.aakumykov.file_lister.SimpleFSItem
 import com.github.aakumykov.kotlin_playground.databinding.FragmentYandexBinding
 import com.github.aakumykov.kotlin_playground.extensions.restoreString
 import com.github.aakumykov.kotlin_playground.extensions.showToast
@@ -24,7 +23,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     private var _binding: FragmentYandexBinding? = null
     private val binding get() = _binding!!
 
-    private var isFirstRun: Boolean = true
+    private val viewModel: FileExplorerViewModel by viewModels()
 
     private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
     private var yandexAuthToken: String? = null
@@ -36,15 +35,41 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        isFirstRun = null == savedInstanceState
+        // Этот метод должен выбываться первым.
+        restoreYandexAuthToken()
+
         _binding = FragmentYandexBinding.bind(view)
 
+        if (null == savedInstanceState)
+            prepareFileExplorer()
+
+        prepareViewModel()
         prepareButtons()
         prepareListAdapter()
         prepareYandexAuth()
 
-        restoreYandexAuthToken()
         displayYandexAuthStatus()
+    }
+
+    private fun prepareViewModel() {
+        viewModel.currentPath.observe(viewLifecycleOwner, ::onCurrentPathChanged)
+        viewModel.currentList.observe(viewLifecycleOwner, ::onCurrentListChanged)
+    }
+
+    private fun onCurrentListChanged(list: List<FSItem>?) {
+        list?.let { displayList(it) }
+    }
+
+    private fun onCurrentPathChanged(path: String?) {
+        path?.let { uiRun {
+            binding.listButton.text = path
+        } }
+    }
+
+    private fun prepareFileExplorer() {
+        val fileLister = YandexDiskFileLister(yandexAuthToken!!)
+        val fileExplorer = YandexDiskFileExplorer(fileLister, listCache = viewModel, pathCache = viewModel)
+        viewModel.setFileExplorer(fileExplorer)
     }
 
     private fun prepareListAdapter() {
@@ -63,17 +88,12 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
             return
         }
 
-        val fileLister = YandexDiskFileLister(yandexAuthToken!!)
-        val fileExplorer = YandexDiskFileExplorer(fileLister)
-
         showProgressBar()
         hideError()
 
         thread {
             try {
-//                val list = fileLister.listDir("/")
-                val list = fileExplorer.listCurrentPath()
-                uiRun { displayList(list) }
+                viewModel.fileExplorer.listCurrentPath()
             } catch (t: Throwable) {
                 uiRun { showError(t) }
             } finally {
@@ -103,9 +123,11 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     }
 
     private fun displayList(list: List<FSItem>) {
-        itemsList.clear()
-        itemsList.addAll(list)
-        listAdapter.notifyDataSetChanged()
+        uiRun {
+            itemsList.clear()
+            itemsList.addAll(list)
+            listAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun onYandexButtonClicked() {
