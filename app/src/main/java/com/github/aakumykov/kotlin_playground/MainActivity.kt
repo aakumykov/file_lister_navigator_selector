@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragmentContainerView, MainFragment.create(), MainFragment.TAG)
+            .replace(R.id.fragmentContainerView, YandexFragment.create(), MainFragment.TAG)
             .commit()
 
         setSupportActionBar(binding.toolbar)
