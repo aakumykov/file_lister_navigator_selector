@@ -4,13 +4,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
+import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.file_lister.ParentDirItem
+import com.github.aakumykov.file_lister.SimpleFSItem
 import com.github.aakumykov.kotlin_playground.databinding.FragmentYandexBinding
 import com.github.aakumykov.kotlin_playground.extensions.restoreString
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.github.aakumykov.kotlin_playground.extensions.storeString
+import com.github.aakumykov.yandex_disk_file_lister.YandexDiskFileLister
+import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
 import com.yandex.authsdk.YandexAuthSdkContract
+import kotlin.concurrent.thread
 
 class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
@@ -22,6 +28,9 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
     private var yandexAuthToken: String? = null
 
+    private val itemsList = mutableListOf<FSItem>()
+    private lateinit var listAdapter: ListAdapter
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,14 +39,69 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
         _binding = FragmentYandexBinding.bind(view)
 
         prepareButtons()
+        prepareListAdapter()
         prepareYandexAuth()
 
         restoreYandexAuthToken()
         displayYandexAuthStatus()
     }
 
+    private fun prepareListAdapter() {
+        listAdapter = ListAdapter(requireContext(), R.layout.list_item, itemsList)
+        binding.listView.adapter = listAdapter
+    }
+
     private fun prepareButtons() {
         binding.yandexButton.setOnClickListener { onYandexButtonClicked() }
+        binding.listButton.setOnClickListener { onListButtonClicked() }
+    }
+
+    private fun onListButtonClicked() {
+        if (null == yandexAuthToken) {
+            showToast("Авторизуйтесь в Яндекс")
+            return
+        }
+
+        val fileLister = YandexDiskFileLister(yandexAuthToken!!)
+        showProgressBar()
+        hideError()
+
+        thread {
+            try {
+                val list = fileLister.listDir("/")
+                uiRun { displayList(list) }
+            } catch (t: Throwable) {
+                uiRun { showError(t) }
+            } finally {
+                uiRun { hideProgressBar() }
+            }
+        }
+    }
+
+    private fun uiRun(function: () -> Unit) {
+        binding.root.post(function)
+    }
+
+    private fun showError(t: Throwable) {
+        binding.errorView.text = ExceptionUtils.getErrorMessage(t)
+        binding.errorView.visibility = View.VISIBLE
+    }
+    private fun hideError() {
+        binding.errorView.text = ""
+        binding.errorView.visibility = View.GONE
+    }
+
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun displayList(list: List<FSItem>) {
+        itemsList.clear()
+        itemsList.addAll(list)
+        listAdapter.notifyDataSetChanged()
     }
 
     private fun onYandexButtonClicked() {
