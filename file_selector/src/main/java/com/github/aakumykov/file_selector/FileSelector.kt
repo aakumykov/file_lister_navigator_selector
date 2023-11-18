@@ -114,7 +114,7 @@ abstract class FileSelector
     }
 
     private fun onConfirmSelectionClicked() {
-        callback?.onConfirmSelectionClicked(viewModel.getSelectedList())
+        callback?.onFilesSelected(viewModel.getSelectedList())
         dismiss()
     }
 
@@ -236,7 +236,7 @@ abstract class FileSelector
 
 
     interface Callback {
-        fun onConfirmSelectionClicked(selectedItemsList: List<FSItem>)
+        fun onFilesSelected(selectedItemsList: List<FSItem>)
     }
 
 
