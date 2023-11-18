@@ -49,6 +49,9 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
         prepareYandexAuth()
 
         displayYandexAuthStatus()
+
+        if (null == savedInstanceState)
+            listCurrentDir()
     }
 
     private fun prepareViewModel() {
@@ -75,6 +78,15 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     private fun prepareListAdapter() {
         listAdapter = ListAdapter(requireContext(), R.layout.list_item, itemsList)
         binding.listView.adapter = listAdapter
+
+        binding.listView.setOnItemClickListener { _, _, position, _ -> onListItemClicked(itemsList[position]) }
+    }
+
+    private fun onListItemClicked(fsItem: FSItem) {
+        if (fsItem.isDir) {
+            viewModel.fileExplorer.changeDir(fsItem)
+            listCurrentDir()
+        }
     }
 
     private fun prepareButtons() {
@@ -83,6 +95,10 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     }
 
     private fun onListButtonClicked() {
+        listCurrentDir()
+    }
+
+    private fun listCurrentDir() {
 
         if (null == yandexAuthToken) {
             showToast("Авторизуйтесь в Яндекс")
