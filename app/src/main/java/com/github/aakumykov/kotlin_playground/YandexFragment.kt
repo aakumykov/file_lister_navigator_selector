@@ -184,6 +184,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
 
     companion object {
+        val TAG: String = YandexFragment::class.java.simpleName
         const val YANDEX_AUTH_TOKEN = "YANDEX_AUTH_TOKEN"
         var yandexAuthToken: String? = null
         fun create(): YandexFragment {
