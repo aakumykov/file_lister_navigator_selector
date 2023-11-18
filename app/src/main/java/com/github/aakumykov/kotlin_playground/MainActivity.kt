@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.github.aakumykov.kotlin_playground.databinding.ActivityMainBinding
+import com.github.aakumykov.kotlin_playground.extensions.showToast
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,10 +21,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainerView, YandexFragment.create(), YandexFragment.TAG)
-            .commit()
+        if (null == savedInstanceState) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, YandexFragment.create(), YandexFragment.TAG)
+                .commit()
+        }
 
         setSupportActionBar(binding.toolbar)
     }
