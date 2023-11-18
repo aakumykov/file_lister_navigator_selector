@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
 //                .replace(R.id.fragmentContainerView, MainFragment.create(), MainFragment.TAG)
-                .replace(R.id.fragmentContainerView, YandexFragment.create(), YandexFragment.TAG)
+//                .replace(R.id.fragmentContainerView, YandexFragment.create(), YandexFragment.TAG)
+                .replace(R.id.fragmentContainerView, SelectorFragment.create(), SelectorFragment.TAG)
                 .commit()
         }
 
