@@ -4,4 +4,8 @@ open class SimpleFSItem(
     override val name: String,
     override val path: String,
     override val isDir: Boolean
-) : FSItem
+) : FSItem {
+    override fun toString(): String {
+        return "$name ($path)"
+    }
+}
