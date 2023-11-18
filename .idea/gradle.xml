@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/file_explorer" />
             <option value="$PROJECT_DIR$/file_lister" />
+            <option value="$PROJECT_DIR$/file_selector" />
             <option value="$PROJECT_DIR$/local_file_explorer" />
             <option value="$PROJECT_DIR$/local_file_lister" />
             <option value="$PROJECT_DIR$/yandex_disk_file_explorer" />
