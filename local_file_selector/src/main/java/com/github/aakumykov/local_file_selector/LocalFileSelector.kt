@@ -28,7 +28,7 @@ class LocalFileSelector : FileSelector() {
     }
 
     companion object {
-        fun create(initialPath: String,
+        fun create(initialPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
                    isDirMode: Boolean = false) : LocalFileSelector
         {
