@@ -2,6 +2,7 @@ package com.github.aakumykov.file_explorer
 
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.FileLister
+import com.github.aakumykov.file_lister.ParentDirItem
 
 // FIXME: перенести кеш в реализацию
 abstract class BasicFileExplorer(
@@ -16,7 +17,7 @@ abstract class BasicFileExplorer(
     override fun getCurrentPath(): String = currentPath
 
     override fun listCurrentPath(): List<FSItem> {
-        val list = listDir(getCurrentPath())
+        val list = listOf(ParentDirItem()) + listDir(getCurrentPath())
         listCache?.cacheList(list)
         return list
     }

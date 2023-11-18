@@ -12,7 +12,7 @@ class LocalFileLister(private val dirSeparator: String = FileLister.DS) : FileLi
 
         val fileNamesArray = File(path).list()
 
-        val fileList = mutableListOf<FSItem>(ParentDirItem())
+        val fileList = mutableListOf<FSItem>()
 
         if (null != fileNamesArray) {
             for (name: String in fileNamesArray) {
