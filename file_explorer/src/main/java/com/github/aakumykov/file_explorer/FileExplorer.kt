@@ -12,7 +12,8 @@ import com.github.aakumykov.file_lister.FileLister
  */
 interface FileExplorer : FileLister {
 
-    fun goToChildDir(dirName: String) // TODO: throws IOException, AccessDeniesException
+    fun changeDir(fsItem: FSItem) // TODO: выброс исключений...
+    fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
     fun goToParentDir() // TODO: throws IOException, AccessDeniesException
     fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 

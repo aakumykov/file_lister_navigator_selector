@@ -22,20 +22,28 @@ abstract class BasicFileExplorer(
         return list
     }
 
+    override fun changeDir(fsItem: FSItem) {
+        when (fsItem) {
+            is ParentDirItem -> goToParentDir()
+            else -> goToChildDir(fsItem.path)
+        }
+    }
+
     override fun goToRootDir() {
         changeDir(FileExplorer.ROOT_DIR_PATH)
     }
 
-    // TODO: обрабатывать через на массив
     override fun goToParentDir() {
         val pathParts = currentPath.split(dirSeparator)
         val parentPathParts = pathParts.subList(0, pathParts.size-1)
-        val parentPath = parentPathParts.joinToString(separator = dirSeparator)
+        var parentPath = parentPathParts.joinToString(separator = dirSeparator)
+        if (parentPath.isEmpty())
+            parentPath = initialPath
         changeDir(parentPath)
     }
 
-    override fun goToChildDir(dirName: String) {
-        var childPath = currentPath + dirSeparator + dirName
+    override fun goToChildDir(dirPath: String) {
+        var childPath = currentPath + dirSeparator + dirPath
         childPath = childPath.replace(Regex("($dirSeparator)+"), dirSeparator)
         changeDir(childPath)
     }
