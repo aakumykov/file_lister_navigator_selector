@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.github.aakumykov.file_selector'
+    namespace 'com.github.aakumykov.local_file_selector'
     compileSdk 33
 
     defaultConfig {
@@ -13,9 +13,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
-    buildFeatures {
-        viewBinding true
-    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -33,12 +31,11 @@ android {
 
 dependencies {
 
+    api project(path: ':file_selector')
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
-    implementation 'com.github.aakumykov:exception_utils:0.4'
-    implementation 'androidx.fragment:fragment-ktx:1.7.0-alpha06'
-    api project(path: ':file_explorer')
+    implementation project(path: ':local_file_explorer')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

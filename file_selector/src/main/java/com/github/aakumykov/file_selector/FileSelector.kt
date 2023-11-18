@@ -11,8 +11,6 @@ import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.DirItem
 import com.github.aakumykov.file_lister.FSItem
@@ -49,7 +47,7 @@ abstract class FileSelector
     }
 
     private val startPath: String by lazy {
-        arguments?.getString(START_PATH) ?: "/"
+        arguments?.getString(INITIAL_PATH) ?: "/"
     }
 
     //
@@ -245,10 +243,10 @@ abstract class FileSelector
     companion object {
         val TAG: String = FileSelector::class.java.simpleName
 
-        const val AUTH_TOKEN = "AUTH_TOKEN"
+        const val INITIAL_PATH = "INITIAL_PATH"
         const val IS_MULTIPLE_SELECTION_MODE = "IS_MULTIPLE_SELECTION_MODE"
         const val IS_DIR_MODE = "IS_DIR_MODE"
-        const val START_PATH = "START_PATH"
+        const val AUTH_TOKEN = "AUTH_TOKEN"
 
         fun find(fragmentManager: FragmentManager): FileSelector? {
             return when(val fragment = fragmentManager.findFragmentByTag(TAG)) {
