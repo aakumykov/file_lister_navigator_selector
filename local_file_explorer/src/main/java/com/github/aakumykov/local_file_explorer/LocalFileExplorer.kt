@@ -8,8 +8,8 @@ import com.github.aakumykov.local_file_lister.LocalFileLister
 class LocalFileExplorer(
     initialPath: String,
     localFileLister: LocalFileLister,
-    listCache: FileExplorer.ListCache,
-    pathCache: FileExplorer.PathCache
+    listCache: FileExplorer.ListCache?,
+    pathCache: FileExplorer.PathCache?
 )
     : BasicFileExplorer(
         initialPath = initialPath,
