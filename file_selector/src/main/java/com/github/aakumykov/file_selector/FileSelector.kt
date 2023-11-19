@@ -111,6 +111,7 @@ abstract class FileSelector
         binding.listView.onItemClickListener = this
         binding.listView.onItemLongClickListener = this
 
+        binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
 

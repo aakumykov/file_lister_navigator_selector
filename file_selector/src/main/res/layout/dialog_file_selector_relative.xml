@@ -19,9 +19,16 @@
         android:textColor="@color/design_default_color_on_primary"
         android:textStyle="bold" />
 
-    <!--<ImageView
+    <ImageView
+        android:id="@+id/dialogCloseButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />-->
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:src="@drawable/ic_close"
+        android:layout_alignEnd="@id/pathView"
+        android:layout_alignTop="@id/pathView"
+        android:layout_alignBottom="@id/pathView"
+        android:contentDescription="@string/description_dialog_close_button"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
