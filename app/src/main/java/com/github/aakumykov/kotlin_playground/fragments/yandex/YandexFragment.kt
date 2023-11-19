@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.file_selector.FileSelector
 import com.github.aakumykov.kotlin_playground.common.ListAdapter
 import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.FragmentYandexBinding
@@ -14,13 +15,14 @@ import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.github.aakumykov.kotlin_playground.extensions.storeString
 import com.github.aakumykov.yandex_disk_file_explorer.YandexDiskFileExplorer
 import com.github.aakumykov.yandex_disk_file_lister.YandexDiskFileLister
+import com.github.aakumykov.yandex_disk_file_selector.YandexDiskFileSelector
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
 import com.yandex.authsdk.YandexAuthSdkContract
 import kotlin.concurrent.thread
 
-class YandexFragment : Fragment(R.layout.fragment_yandex) {
+class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback {
 
     private var _binding: FragmentYandexBinding? = null
     private val binding get() = _binding!!
@@ -42,7 +44,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
         _binding = FragmentYandexBinding.bind(view)
 
-        if (null == savedInstanceState)
+        if (null == savedInstanceState && null != yandexAuthToken)
             prepareFileExplorer()
 
         prepareViewModel()
@@ -94,6 +96,19 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     private fun prepareButtons() {
         binding.yandexButton.setOnClickListener { onYandexButtonClicked() }
         binding.listButton.setOnClickListener { onListButtonClicked() }
+        binding.selectFilesButton.setOnClickListener { onSelectFilesButtonClicked() }
+    }
+
+    private fun onSelectFilesButtonClicked() {
+        val fs = YandexDiskFileSelector.create(
+            authToken = yandexAuthToken!!,
+            isMultipleSelectionMode = true
+        ).show(childFragmentManager)
+        fs.setCallback(this)
+    }
+
+    override fun onFilesSelected(selectedItemsList: List<FSItem>) {
+        showToast(selectedItemsList.joinToString("\n"))
     }
 
     private fun onListButtonClicked() {
@@ -155,6 +170,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     }
 
     override fun onDestroyView() {
+        FileSelector.find(childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }
@@ -173,6 +189,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
             yandexAuthToken = result.getOrNull()?.value
             storeYandexAuthToken()
             displayYandexAuthStatus()
+            prepareFileExplorer()
         }
     }
 
@@ -209,4 +226,6 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
             return YandexFragment()
         }
     }
+
+
 }

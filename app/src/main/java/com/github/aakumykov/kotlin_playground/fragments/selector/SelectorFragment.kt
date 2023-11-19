@@ -10,6 +10,7 @@ import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.FragmentSelectorBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.github.aakumykov.local_file_selector.LocalFileSelector
+import com.github.aakumykov.yandex_disk_file_selector.YandexDiskFileSelector
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 
@@ -18,6 +19,8 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
     private lateinit var selectFilePermissionRequest: PermissionsRequester
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +39,9 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
 
     private fun showFileSelector() {
-        val fileSelector = LocalFileSelector.create(isMultipleSelectionMode = true).show(childFragmentManager)
+        val fileSelector =
+            LocalFileSelector.create(isMultipleSelectionMode = true).show(childFragmentManager)
+//                YandexDiskFileSelector.create(yandexAuthToken!!)
         fileSelector.setCallback(this)
     }
 

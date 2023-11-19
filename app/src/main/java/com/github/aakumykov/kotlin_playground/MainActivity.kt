@@ -9,7 +9,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.github.aakumykov.kotlin_playground.databinding.ActivityMainBinding
 import com.github.aakumykov.kotlin_playground.fragments.local.LocalViewModel
-import com.github.aakumykov.kotlin_playground.fragments.selector.SelectorFragment
+import com.github.aakumykov.kotlin_playground.fragments.yandex.YandexFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
 //                .replace(R.id.fragmentContainerView, LocalFragment.create(), LocalFragment.TAG)
-//                .replace(R.id.fragmentContainerView, YandexFragment.create(), YandexFragment.TAG)
-                .replace(R.id.fragmentContainerView, SelectorFragment.create(), SelectorFragment.TAG)
+                .replace(R.id.fragmentContainerView, YandexFragment.create(), YandexFragment.TAG)
+//                .replace(R.id.fragmentContainerView, SelectorFragment.create(), SelectorFragment.TAG)
                 .commit()
         }
 

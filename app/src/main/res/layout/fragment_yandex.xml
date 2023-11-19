@@ -33,6 +33,14 @@
         android:layout_weight="0"
         android:text="Список файлов" />
 
+    <Button
+        android:id="@+id/selectFilesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:backgroundTint="#0097A7"
+        android:text="Выбрать файлы" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
