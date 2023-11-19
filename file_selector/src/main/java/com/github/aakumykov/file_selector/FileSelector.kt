@@ -15,10 +15,11 @@ import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.SimpleFSItem
 import com.github.aakumykov.file_selector.databinding.DialogFileSelectorLinearBinding
+import com.github.aakumykov.file_selector.databinding.DialogFileSelectorRelativeBinding
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import kotlin.concurrent.thread
 
-typealias Layout = DialogFileSelectorLinearBinding
+typealias Layout = DialogFileSelectorRelativeBinding
 
 // FIXME: одновременное ручное и автоматизированное убирание коллбека неправильно.
 abstract class FileSelector
