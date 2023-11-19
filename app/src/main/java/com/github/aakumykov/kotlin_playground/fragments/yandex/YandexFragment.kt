@@ -102,7 +102,8 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     private fun onSelectFilesButtonClicked() {
         val fs = YandexDiskFileSelector.create(
             authToken = yandexAuthToken!!,
-            isMultipleSelectionMode = true
+            isMultipleSelectionMode = true,
+            isDirMode = true
         ).show(childFragmentManager)
         fs.setCallback(this)
     }
