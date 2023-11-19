@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground
+package com.github.aakumykov.kotlin_playground.fragments.yandex
 
 import android.os.Handler
 import android.os.Looper
@@ -7,9 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
-import com.github.aakumykov.file_lister.FileLister
 
-class FileExplorerViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.PathCache {
+class YandexViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.PathCache {
 
     private val handler = Handler(Looper.getMainLooper())
 

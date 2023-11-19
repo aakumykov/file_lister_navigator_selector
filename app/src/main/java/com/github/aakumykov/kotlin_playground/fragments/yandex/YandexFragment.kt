@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground
+package com.github.aakumykov.kotlin_playground.fragments.yandex
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.kotlin_playground.ListAdapter
+import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.FragmentYandexBinding
 import com.github.aakumykov.kotlin_playground.extensions.restoreString
 import com.github.aakumykov.kotlin_playground.extensions.showToast
@@ -23,7 +25,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     private var _binding: FragmentYandexBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FileExplorerViewModel by viewModels()
+    private val viewModel: YandexViewModel by viewModels()
 
     private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
     private var yandexAuthToken: String? = null
@@ -176,12 +178,12 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
     private fun storeYandexAuthToken() {
         storeString(YANDEX_AUTH_TOKEN, yandexAuthToken)
-        YandexFragment.yandexAuthToken = yandexAuthToken
+        Companion.yandexAuthToken = yandexAuthToken
     }
 
     private fun restoreYandexAuthToken() {
         yandexAuthToken = restoreString(YANDEX_AUTH_TOKEN)
-        YandexFragment.yandexAuthToken = yandexAuthToken
+        Companion.yandexAuthToken = yandexAuthToken
     }
 
     private fun displayYandexAuthStatus() {

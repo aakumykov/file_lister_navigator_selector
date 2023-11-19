@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground
+package com.github.aakumykov.kotlin_playground.fragments.local
 
 import android.Manifest
 import android.content.Intent
@@ -15,6 +15,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.ParentDirItem
+import com.github.aakumykov.kotlin_playground.AndroidVersionHelper
+import com.github.aakumykov.kotlin_playground.ListAdapter
+import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
@@ -29,13 +32,13 @@ class LocalFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickL
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var mLocalViewModel: LocalViewModel
     private lateinit var listDirPermissionRequest: PermissionsRequester
 
     private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
 
-    private val fileExplorer: FileExplorer get() = mainViewModel.getFileExplorer()
+    private val fileExplorer: FileExplorer get() = mLocalViewModel.getFileExplorer()
 
     private var isFirstRun: Boolean = true
 
@@ -60,10 +63,10 @@ class LocalFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickL
         binding.manageAllFilesButton.setOnClickListener { onManageAllFilesButtonClicked() }
         binding.button.setOnClickListener { listDirPermissionRequest.launch() }
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        mLocalViewModel = ViewModelProvider(requireActivity()).get(LocalViewModel::class.java)
 
-        mainViewModel.currentList.observe(viewLifecycleOwner, ::onListChanged)
-        mainViewModel.currentPath.observe(viewLifecycleOwner, ::onPathChanged)
+        mLocalViewModel.currentList.observe(viewLifecycleOwner, ::onListChanged)
+        mLocalViewModel.currentPath.observe(viewLifecycleOwner, ::onPathChanged)
 
         listAdapter = ListAdapter(requireActivity(), R.layout.list_item, itemsList)
         binding.listView.adapter = listAdapter
@@ -91,7 +94,7 @@ class LocalFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickL
 
     override fun onStart() {
         super.onStart()
-        mainViewModel.startWork()
+        mLocalViewModel.startWork()
     }
 
 

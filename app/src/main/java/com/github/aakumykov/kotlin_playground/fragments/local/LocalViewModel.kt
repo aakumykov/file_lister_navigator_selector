@@ -1,15 +1,13 @@
-package com.github.aakumykov.kotlin_playground
+package com.github.aakumykov.kotlin_playground.fragments.local
 
 import android.os.Environment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
-import com.github.aakumykov.file_lister.FileLister
+import com.github.aakumykov.kotlin_playground.BasicViewModel
 import com.github.aakumykov.local_file_explorer.LocalFileExplorer
 import com.github.aakumykov.local_file_lister.LocalFileLister
 
-class MainViewModel : BasicViewModel() {
+class LocalViewModel : BasicViewModel() {
 
     private var isRirstRun: Boolean = true
 

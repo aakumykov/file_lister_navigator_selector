@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground
+package com.github.aakumykov.kotlin_playground.fragments.selector
 
 import android.Manifest
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_selector.FileSelector
+import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.FragmentSelectorBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.github.aakumykov.local_file_selector.LocalFileSelector

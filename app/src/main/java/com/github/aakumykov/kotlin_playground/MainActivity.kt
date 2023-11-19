@@ -8,12 +8,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.github.aakumykov.kotlin_playground.databinding.ActivityMainBinding
-import com.github.aakumykov.kotlin_playground.extensions.showToast
+import com.github.aakumykov.kotlin_playground.fragments.local.LocalViewModel
+import com.github.aakumykov.kotlin_playground.fragments.selector.SelectorFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var mLocalViewModel: LocalViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
