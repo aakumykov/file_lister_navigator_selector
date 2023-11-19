@@ -30,12 +30,14 @@ class YandexDiskFileSelector : FileSelector() {
     
     // TODO: общий метод для создания этих диалогов
     companion object {
-        fun create(startPath: String? = null,
+        fun create(authToken: String,
+                    startPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
                    isDirMode: Boolean = false) : YandexDiskFileSelector
         {
             return YandexDiskFileSelector().apply {
                 arguments = Bundle().apply {
+                    putString(AUTH_TOKEN, authToken)
                     putString(START_PATH, startPath)
                     putBoolean(IS_DIR_MODE, isDirMode)
                     putBoolean(IS_MULTIPLE_SELECTION_MODE, isMultipleSelectionMode)
