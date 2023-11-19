@@ -2,4 +2,5 @@
 <resources>
     <string name="DIALOG_title">Выбор файла</string>
     <string name="BUTTON_confirm_selection">Выбрать отмеченное</string>
+    <string name="description_dialog_close_button">Кнопка закрытия диалога</string>
 </resources>
