@@ -30,7 +30,7 @@ abstract class BasicFileExplorer(
     }
 
     override fun goToRootDir() {
-        changeDir(FileExplorer.ROOT_DIR_PATH)
+        changePath(FileExplorer.ROOT_DIR_PATH)
     }
 
     override fun goToParentDir() {
@@ -39,11 +39,11 @@ abstract class BasicFileExplorer(
         var parentPath = parentPathParts.joinToString(separator = dirSeparator)
         if (parentPath.isEmpty())
             parentPath = initialPath
-        changeDir(parentPath)
+        changePath(parentPath)
     }
 
     override fun goToChildDir(dirPath: String) {
-        changeDir(dirPath)
+        changePath(dirPath)
     }
 
     override fun setPathCache(pathCache: FileExplorer.PathCache) {
@@ -55,7 +55,7 @@ abstract class BasicFileExplorer(
     }
 
 
-    private fun changeDir(path: String) {
+    private fun changePath(path: String) {
         currentPath = path
         pathCache?.cachePath(currentPath)
     }

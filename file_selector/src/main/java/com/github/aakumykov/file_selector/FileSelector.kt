@@ -45,7 +45,7 @@ abstract class FileSelector
     }
 
     private val startPath: String by lazy {
-        arguments?.getString(INITIAL_PATH) ?: "/"
+        arguments?.getString(START_PATH) ?: defaultStartPath()
     }
 
     //
@@ -57,6 +57,8 @@ abstract class FileSelector
 
 
     abstract fun fileExplorer(): FileExplorer
+
+    abstract fun defaultStartPath(): String
 
 
     fun show(fragmentManager: FragmentManager): FileSelector {
@@ -133,7 +135,8 @@ abstract class FileSelector
 
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        openDir(itemList[position])
+        val fsItem = itemList[position]
+        openDir(fsItem)
     }
 
     // FIXME: неверная логика
@@ -238,7 +241,7 @@ abstract class FileSelector
     companion object {
         val TAG: String = FileSelector::class.java.simpleName
 
-        const val INITIAL_PATH = "INITIAL_PATH"
+        const val START_PATH = "INITIAL_PATH"
         const val IS_MULTIPLE_SELECTION_MODE = "IS_MULTIPLE_SELECTION_MODE"
         const val IS_DIR_MODE = "IS_DIR_MODE"
         const val AUTH_TOKEN = "AUTH_TOKEN"

@@ -50,7 +50,9 @@
         app:layout_constraintBottom_toTopOf="@id/confirmSelectionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/errorView" />
+        app:layout_constraintTop_toBottomOf="@id/errorView"
+        android:divider="@color/list_divider"
+        android:dividerHeight="1dp"/>
 
     <Button
         android:id="@+id/confirmSelectionButton"

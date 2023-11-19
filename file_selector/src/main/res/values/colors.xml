@@ -2,4 +2,5 @@
 <resources>
     <color name="error_view_fg">#E53935</color>
     <color name="error_view_bg">#FFEBEE</color>
+    <color name="list_divider">#E1E1E1</color>
 </resources>
