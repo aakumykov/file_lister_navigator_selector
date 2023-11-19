@@ -26,12 +26,7 @@ class LocalFileSelector : FileSelector() {
 
 
     private fun createFileExplorer(arguments: Bundle?): FileExplorer {
-        /*var initialPath = arguments?.getString(INITIAL_PATH)
 
-        if (null == initialPath)
-            initialPath = Environment.getExternalStorageDirectory().path*/
-
-        // TODO: проверить, если не будет INITIAL_PATH
         val initialPath = arguments?.getString(START_PATH) ?: Environment.getExternalStorageDirectory().path
 
         return LocalFileExplorer(
