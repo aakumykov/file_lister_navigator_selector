@@ -19,7 +19,7 @@ internal class FileListerYandexDiskClient(authToken: String)
 
     override fun cloudItemToLocalItem(resource: Resource): FSItem {
         val name = resource.name
-        val path = name // Путь должен быть относительным, а resource.path.path даёт абсолютный путь.
+        val path = resource.path.path
         val isDir = resource.isDir
 
         return SimpleFSItem(name, path, isDir)

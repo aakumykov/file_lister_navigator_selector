@@ -12,12 +12,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister.DirItem
 import com.github.aakumykov.file_lister.FSItem
-import com.github.aakumykov.file_lister.ParentDirItem
+import com.github.aakumykov.file_lister.SimpleFSItem
 import com.github.aakumykov.file_selector.databinding.DialogFileSelectorLinearBinding
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
-import java.lang.IllegalArgumentException
 import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorLinearBinding
@@ -113,6 +111,14 @@ abstract class FileSelector
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        if (firstRun)
+            openDir(SimpleFSItem(startPath, startPath, true))
+    }
+
+
     private fun onConfirmSelectionClicked() {
         callback?.onFilesSelected(viewModel.getSelectedList())
         dismiss()
@@ -127,8 +133,7 @@ abstract class FileSelector
 
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val item = itemList[position]
-        if (item.isDir) openDir(item)
+        openDir(itemList[position])
     }
 
     // FIXME: неверная логика
@@ -149,7 +154,7 @@ abstract class FileSelector
     private fun openDir(fsItem: FSItem) {
 
         if (!fsItem.isDir)
-            throw IllegalArgumentException("FSItem is not dir: "+fsItem)
+            return
 
         hideError()
         showProgressBar()
@@ -192,9 +197,7 @@ abstract class FileSelector
     private fun onFileListChanged(list: List<FSItem>?) {
         list?.let {
             hideProgressBar()
-
             itemList.clear()
-            itemList.add(ParentDirItem())
             itemList.addAll(it)
         }
     }
@@ -203,14 +206,6 @@ abstract class FileSelector
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-
-    override fun onStart() {
-        super<DialogFragment>.onStart()
-
-        if (firstRun)
-            openDir(DirItem(startPath, startPath))
     }
 
 

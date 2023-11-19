@@ -2,11 +2,9 @@ package com.github.aakumykov.kotlin_playground
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.view.View
 import android.widget.AdapterView
@@ -18,13 +16,9 @@ import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.ParentDirItem
 import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
-import com.github.aakumykov.kotlin_playground.extensions.restoreString
 import com.github.aakumykov.kotlin_playground.extensions.showToast
-import com.github.aakumykov.kotlin_playground.extensions.storeString
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
-import com.yandex.authsdk.YandexAuthOptions
-import com.yandex.authsdk.YandexAuthSdkContract
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
@@ -160,7 +154,7 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
         val fsItem = itemsList[position]
         when {
             fsItem is ParentDirItem -> fileExplorer.goToParentDir()
-            fsItem.isDir -> fileExplorer.goToChildDir(fsItem.name)
+            fsItem.isDir -> fileExplorer.changeDir(fsItem)
             else -> {
                 showToast(R.string.it_is_not_a_dir)
                 return

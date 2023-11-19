@@ -25,7 +25,7 @@ abstract class BasicFileExplorer(
     override fun changeDir(fsItem: FSItem) {
         when (fsItem) {
             is ParentDirItem -> goToParentDir()
-            else -> goToChildDir(fsItem.path)
+            else -> goToChildDir(fsItem.absolutePath)
         }
     }
 
@@ -43,9 +43,7 @@ abstract class BasicFileExplorer(
     }
 
     override fun goToChildDir(dirPath: String) {
-        var childPath = currentPath + dirSeparator + dirPath
-        childPath = childPath.replace(Regex("($dirSeparator)+"), dirSeparator)
-        changeDir(childPath)
+        changeDir(dirPath)
     }
 
     override fun setPathCache(pathCache: FileExplorer.PathCache) {
