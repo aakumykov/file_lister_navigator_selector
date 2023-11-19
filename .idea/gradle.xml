@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/local_file_selector" />
             <option value="$PROJECT_DIR$/yandex_disk_file_explorer" />
             <option value="$PROJECT_DIR$/yandex_disk_file_lister" />
+            <option value="$PROJECT_DIR$/yandex_disk_file_selector" />
           </set>
         </option>
       </GradleProjectSettings>
