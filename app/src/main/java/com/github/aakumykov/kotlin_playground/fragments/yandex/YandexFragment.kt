@@ -6,7 +6,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister.FSItem
-import com.github.aakumykov.kotlin_playground.ListAdapter
+import com.github.aakumykov.kotlin_playground.common.ListAdapter
 import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.FragmentYandexBinding
 import com.github.aakumykov.kotlin_playground.extensions.restoreString

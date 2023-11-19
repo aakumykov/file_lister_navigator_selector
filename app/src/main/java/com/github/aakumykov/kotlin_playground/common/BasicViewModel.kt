@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground
+package com.github.aakumykov.kotlin_playground.common
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

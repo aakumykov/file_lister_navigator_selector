@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.ParentDirItem
-import com.github.aakumykov.kotlin_playground.AndroidVersionHelper
-import com.github.aakumykov.kotlin_playground.ListAdapter
+import com.github.aakumykov.kotlin_playground.utils.AndroidVersionHelper
+import com.github.aakumykov.kotlin_playground.common.ListAdapter
 import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
