@@ -24,7 +24,7 @@ import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
 import java.lang.Exception
 
-class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickListener {
+class LocalFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickListener {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
@@ -164,9 +164,9 @@ class MainFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickLi
     }
 
     companion object {
-        val TAG: String = MainFragment::class.java.simpleName
-        fun create(): MainFragment {
-            return MainFragment()
+        val TAG: String = LocalFragment::class.java.simpleName
+        fun create(): LocalFragment {
+            return LocalFragment()
         }
     }
 }
