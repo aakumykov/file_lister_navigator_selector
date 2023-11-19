@@ -14,7 +14,6 @@ import permissions.dispatcher.ktx.constructPermissionsRequest
 
 class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Callback {
 
-    private var fileSelector: FileSelector? = null
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
     private lateinit var selectFilePermissionRequest: PermissionsRequester
@@ -36,12 +35,12 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
 
     private fun showFileSelector() {
-        fileSelector = LocalFileSelector.create(isMultipleSelectionMode = true).show(childFragmentManager)
-        fileSelector?.setCallback(this)
+        val fileSelector = LocalFileSelector.create(isMultipleSelectionMode = true).show(childFragmentManager)
+        fileSelector.setCallback(this)
     }
 
     override fun onDestroyView() {
-        fileSelector?.unsetCallback()
+        FileSelector.find(childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }
