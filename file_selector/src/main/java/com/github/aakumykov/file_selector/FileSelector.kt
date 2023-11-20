@@ -20,10 +20,8 @@ import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
 
-// FIXME: одновременное ручное и автоматизированное убирание коллбека неправильно.
 abstract class FileSelector
     : DialogFragment(),
-//    DefaultLifecycleObserver,
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
 {
@@ -48,9 +46,6 @@ abstract class FileSelector
         arguments?.getString(START_PATH) ?: defaultStartPath()
     }
 
-    //
-    // Используется реализацией абстрактного метода fileLister() для создания объекта FileLister.
-    //
     protected val isDirMode: Boolean by lazy {
         arguments?.getBoolean(IS_DIR_MODE) ?: false
     }
@@ -75,17 +70,6 @@ abstract class FileSelector
     fun unsetCallback() {
         this.callback = null
     }
-
-
-    /*override fun onStart(owner: LifecycleOwner) {
-        super<DefaultLifecycleObserver>.onStart(owner)
-        callback?.let { setCallback(it) }
-    }
-
-    override fun onStop(owner: LifecycleOwner) {
-        super<DefaultLifecycleObserver>.onStop(owner)
-        this.callback = null
-    }*/
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
