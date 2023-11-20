@@ -7,7 +7,7 @@ import com.github.aakumykov.file_lister.ParentDirItem
 // FIXME: перенести кеш в реализацию
 abstract class BasicFileExplorer(
     private val initialPath: String,
-    private val isDirMode: Boolean = false,
+    private val isDirMode: Boolean,
     private var listCache: FileExplorer.ListCache?,
     private var pathCache: FileExplorer.PathCache?,
     private val dirSeparator: String = FileLister.DS

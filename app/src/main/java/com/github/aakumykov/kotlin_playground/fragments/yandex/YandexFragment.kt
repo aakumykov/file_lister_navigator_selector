@@ -75,7 +75,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
     private fun prepareFileExplorer() {
         val fileLister = YandexDiskFileLister(yandexAuthToken!!)
-        val fileExplorer = YandexDiskFileExplorer(fileLister, listCache = viewModel, pathCache = viewModel)
+        val fileExplorer = YandexDiskFileExplorer(fileLister, isDirMode = true, listCache = viewModel, pathCache = viewModel)
         viewModel.setFileExplorer(fileExplorer)
     }
 

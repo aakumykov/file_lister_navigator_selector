@@ -19,7 +19,10 @@ class YandexDiskFileSelector : FileSelector() {
             if (authToken.isNullOrEmpty())
                 throw IllegalArgumentException("Auth token is null or empty")
             else
-                _fileExplorer = YandexDiskFileExplorer(YandexDiskFileLister(authToken))
+                _fileExplorer = YandexDiskFileExplorer(
+                    YandexDiskFileLister(authToken),
+                    isDirMode = isDirMode
+                )
         }
 
         return _fileExplorer!!
@@ -31,9 +34,10 @@ class YandexDiskFileSelector : FileSelector() {
     // TODO: общий метод для создания этих диалогов
     companion object {
         fun create(authToken: String,
-                    startPath: String? = null,
+                   startPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
-                   isDirMode: Boolean = false) : YandexDiskFileSelector
+                   isDirMode: Boolean = false
+        ) : YandexDiskFileSelector
         {
             return YandexDiskFileSelector().apply {
                 arguments = Bundle().apply {
