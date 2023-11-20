@@ -231,8 +231,8 @@ abstract class FileSelector
         const val IS_DIR_MODE = "IS_DIR_MODE"
         const val AUTH_TOKEN = "AUTH_TOKEN"
 
-        fun find(fragmentManager: FragmentManager): FileSelector? {
-            return when(val fragment = fragmentManager.findFragmentByTag(TAG)) {
+        fun find(tag: String, fragmentManager: FragmentManager): FileSelector? {
+            return when(val fragment = fragmentManager.findFragmentByTag(tag)) {
                 is FileSelector -> fragment
                 else -> null
             }
