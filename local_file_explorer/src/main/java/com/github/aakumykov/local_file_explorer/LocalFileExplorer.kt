@@ -7,12 +7,14 @@ import com.github.aakumykov.local_file_lister.LocalFileLister
 
 class LocalFileExplorer(
     initialPath: String,
+    isDirMode: Boolean = false,
     localFileLister: LocalFileLister,
     listCache: FileExplorer.ListCache?,
     pathCache: FileExplorer.PathCache?
 )
     : BasicFileExplorer(
         initialPath = initialPath,
+        isDirMode = isDirMode,
         listCache = listCache,
         pathCache = pathCache
     ), FileLister by localFileLister
