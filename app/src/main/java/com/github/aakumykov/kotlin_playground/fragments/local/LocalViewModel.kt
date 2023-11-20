@@ -17,7 +17,12 @@ class LocalViewModel : BasicViewModel() {
     val initialPath get() = _initialPath ?: DEFAULT_INITIAL_PATH
 
     private val fileExplorer: FileExplorer =
-        LocalFileExplorer(initialPath, LocalFileLister(), this, this)
+        LocalFileExplorer(
+            initialPath = initialPath,
+            isDirMode = true,
+            localFileLister = LocalFileLister(), 
+            listCache = this,
+            pathCache = this)
 
 //    private val fileExplorer: FileExplorer =
 
