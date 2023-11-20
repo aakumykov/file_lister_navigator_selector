@@ -38,6 +38,8 @@ class LocalFileSelector : FileSelector() {
     }
 
     companion object {
+        val TAG: String = LocalFileSelector::class.java.simpleName
+
         fun create(startPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
                    isDirMode: Boolean = false) : LocalFileSelector

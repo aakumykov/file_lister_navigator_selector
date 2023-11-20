@@ -33,6 +33,8 @@ class YandexDiskFileSelector : FileSelector() {
     
     // TODO: общий метод для создания этих диалогов
     companion object {
+        val TAG: String = YandexDiskFileSelector::class.java.simpleName
+
         fun create(authToken: String,
                    startPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
