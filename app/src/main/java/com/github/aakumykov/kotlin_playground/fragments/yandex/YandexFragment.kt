@@ -171,7 +171,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     }
 
     override fun onDestroyView() {
-        FileSelector.find(childFragmentManager)?.unsetCallback()
+        FileSelector.find(YandexDiskFileSelector.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }
