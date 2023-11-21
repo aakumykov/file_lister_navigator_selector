@@ -100,6 +100,12 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     }
 
     private fun onSelectFilesButtonClicked() {
+
+        if (null == yandexAuthToken) {
+            showToast("Сначала авторизуйтесь в Яндекс")
+            return
+        }
+
         val fs = YandexDiskFileSelector.create(
             authToken = yandexAuthToken!!,
             isMultipleSelectionMode = true,
