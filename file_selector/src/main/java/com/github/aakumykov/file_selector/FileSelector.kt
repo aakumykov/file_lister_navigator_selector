@@ -14,11 +14,12 @@ import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.SimpleFSItem
+import com.github.aakumykov.file_selector.databinding.DialogFileSelector2Binding
 import com.github.aakumykov.file_selector.databinding.DialogFileSelectorBinding
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import kotlin.concurrent.thread
 
-typealias Layout = DialogFileSelectorBinding
+typealias Layout = DialogFileSelector2Binding
 
 abstract class FileSelector
     : DialogFragment(),
