@@ -21,8 +21,7 @@ import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelector2Binding
 
-abstract class FileSelector
-    : DialogFragment(),
+abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
 {
@@ -73,13 +72,10 @@ abstract class FileSelector
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = Layout.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        _binding = Layout.bind(view)
 
         firstRun = (null == savedInstanceState)
 

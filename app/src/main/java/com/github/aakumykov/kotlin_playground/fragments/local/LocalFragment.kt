@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.ParentDirItem
+import com.github.aakumykov.file_selector.LayoutProbeDialog
 import com.github.aakumykov.kotlin_playground.utils.AndroidVersionHelper
 import com.github.aakumykov.kotlin_playground.common.ListAdapter
 import com.github.aakumykov.kotlin_playground.R
@@ -61,7 +62,10 @@ class LocalFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickL
         _binding = FragmentMainBinding.bind(view)
 
         binding.manageAllFilesButton.setOnClickListener { onManageAllFilesButtonClicked() }
-        binding.button.setOnClickListener { listDirPermissionRequest.launch() }
+        binding.button.setOnClickListener {
+            listDirPermissionRequest.launch()
+//            LayoutProbeDialog().show(childFragmentManager, LayoutProbeDialog.TAG)
+        }
 
         mLocalViewModel = ViewModelProvider(requireActivity()).get(LocalViewModel::class.java)
 
