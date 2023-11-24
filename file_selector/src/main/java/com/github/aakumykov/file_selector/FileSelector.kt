@@ -19,7 +19,7 @@ import com.github.aakumykov.file_selector.databinding.DialogFileSelectorBinding
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import kotlin.concurrent.thread
 
-typealias Layout = DialogFileSelector2Binding
+typealias Layout = DialogFileSelectorBinding
 
 abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
