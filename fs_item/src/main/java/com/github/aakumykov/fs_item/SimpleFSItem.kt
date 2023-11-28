@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister
+package com.github.aakumykov.fs_item
 
 open class SimpleFSItem(
     override val name: String,

@@ -1,6 +1,6 @@
 package com.github.aakumykov.file_explorer
 
-import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.file_lister.FileLister
 
 /**

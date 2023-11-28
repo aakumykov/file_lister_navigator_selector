@@ -1,8 +1,8 @@
 package com.github.aakumykov.yandex_disk_file_lister
 
-import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.file_lister.FileSortingMode
-import com.github.aakumykov.file_lister.SimpleFSItem
+import com.github.aakumykov.fs_item.SimpleFSItem
 import com.github.aakumykov.yandex_disk_client.YandexDiskSortingMode
 import com.github.aakumykov.yandex_disk_client.YandexDiskClient
 import com.yandex.disk.rest.json.Resource

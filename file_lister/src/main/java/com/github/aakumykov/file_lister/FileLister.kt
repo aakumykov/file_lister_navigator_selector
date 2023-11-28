@@ -1,5 +1,7 @@
 package com.github.aakumykov.file_lister
 
+import com.github.aakumykov.fs_item.FSItem
+
 /**
  * Задача реализаций этого интерфейса просто выдавать список файлов по указанному пути.
  * Они не должны хранить состояние.

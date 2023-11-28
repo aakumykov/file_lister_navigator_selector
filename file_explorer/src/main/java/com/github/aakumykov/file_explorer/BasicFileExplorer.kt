@@ -1,8 +1,7 @@
 package com.github.aakumykov.file_explorer
 
-import com.github.aakumykov.file_lister.FSItem
-import com.github.aakumykov.file_lister.FileLister
-import com.github.aakumykov.file_lister.ParentDirItem
+import com.github.aakumykov.fs_item.FSItem
+import com.github.aakumykov.fs_item.ParentDirItem
 
 // FIXME: перенести кеш в реализацию
 abstract class BasicFileExplorer(

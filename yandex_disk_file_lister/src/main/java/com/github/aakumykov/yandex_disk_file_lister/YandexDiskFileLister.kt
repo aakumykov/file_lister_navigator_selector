@@ -1,8 +1,7 @@
 package com.github.aakumykov.yandex_disk_file_lister
 
-import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.file_lister.FileLister
-import com.github.aakumykov.file_lister.ParentDirItem
 
 class YandexDiskFileLister(authToken: String, private val dirSeparator: String = FSItem.DS) : FileLister {
 

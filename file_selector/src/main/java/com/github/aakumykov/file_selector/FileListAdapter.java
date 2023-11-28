@@ -11,7 +11,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
-import com.github.aakumykov.file_lister.FSItem;
+import com.github.aakumykov.fs_item.FSItem;
 
 import org.jetbrains.annotations.NotNull;
 

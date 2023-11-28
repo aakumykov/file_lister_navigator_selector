@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister
+package com.github.aakumykov.fs_item
 
 interface FSItem {
 

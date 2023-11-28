@@ -13,9 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister.FSItem
-import com.github.aakumykov.file_lister.ParentDirItem
-import com.github.aakumykov.file_selector.LayoutProbeDialog
+import com.github.aakumykov.fs_item.FSItem
+import com.github.aakumykov.fs_item.ParentDirItem
 import com.github.aakumykov.kotlin_playground.utils.AndroidVersionHelper
 import com.github.aakumykov.kotlin_playground.common.ListAdapter
 import com.github.aakumykov.kotlin_playground.R

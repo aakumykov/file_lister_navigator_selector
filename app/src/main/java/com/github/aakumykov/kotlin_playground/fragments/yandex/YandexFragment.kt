@@ -5,7 +5,7 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.file_selector.FileSelector
 import com.github.aakumykov.kotlin_playground.common.ListAdapter
 import com.github.aakumykov.kotlin_playground.R

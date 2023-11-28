@@ -1,8 +1,8 @@
 package com.github.aakumykov.local_file_lister
 
-import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.file_lister.FileLister
-import com.github.aakumykov.file_lister.SimpleFSItem
+import com.github.aakumykov.fs_item.SimpleFSItem
 import java.io.File
 
 class LocalFileLister(private val dirSeparator: String = FSItem.DS) : FileLister {

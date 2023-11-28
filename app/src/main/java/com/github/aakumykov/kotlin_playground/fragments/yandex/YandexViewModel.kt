@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.aakumykov.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister.FSItem
+import com.github.aakumykov.fs_item.FSItem
 
 class YandexViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.PathCache {
 
