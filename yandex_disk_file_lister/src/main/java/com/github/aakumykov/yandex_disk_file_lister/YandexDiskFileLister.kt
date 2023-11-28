@@ -4,7 +4,7 @@ import com.github.aakumykov.file_lister.FSItem
 import com.github.aakumykov.file_lister.FileLister
 import com.github.aakumykov.file_lister.ParentDirItem
 
-class YandexDiskFileLister(authToken: String, private val dirSeparator: String = FileLister.DS) : FileLister {
+class YandexDiskFileLister(authToken: String, private val dirSeparator: String = FSItem.DS) : FileLister {
 
     private val yandexDiskClient: FileListerYandexDiskClient by lazy {
         FileListerYandexDiskClient(authToken)

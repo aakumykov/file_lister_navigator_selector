@@ -12,11 +12,4 @@ interface FileLister {
      * Может выбрасывать исключения, если реализации предполагают их.
      */
     fun listDir(path: String): List<FSItem> // TODO: throws NotADirException
-
-
-    companion object {
-        const val DS: String = "/"
-        const val PARENT_DIR_NAME: String = ".."
-        const val PARENT_DIR_PATH: String = ".."
-    }
 }

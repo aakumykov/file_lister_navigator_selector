@@ -5,7 +5,7 @@ import com.github.aakumykov.file_lister.FileLister
 import com.github.aakumykov.file_lister.SimpleFSItem
 import java.io.File
 
-class LocalFileLister(private val dirSeparator: String = FileLister.DS) : FileLister {
+class LocalFileLister(private val dirSeparator: String = FSItem.DS) : FileLister {
 
     override fun listDir(path: String): List<FSItem> {
 

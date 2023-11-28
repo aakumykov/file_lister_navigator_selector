@@ -10,7 +10,7 @@ abstract class BasicFileExplorer(
     private val isDirMode: Boolean,
     private var listCache: FileExplorer.ListCache?,
     private var pathCache: FileExplorer.PathCache?,
-    private val dirSeparator: String = FileLister.DS
+    private val dirSeparator: String = FSItem.DS
 ) : FileExplorer {
 
     private var currentPath: String = initialPath
