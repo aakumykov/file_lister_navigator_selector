@@ -7,7 +7,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
 
     private val list: MutableList<FileListItem> = mutableListOf()
 
-    fun readDir(initialPath: String): List<FileListItem> {
+    fun getRecursiveList(initialPath: String): List<FileListItem> {
 
         list.add(FileListItem(initialPath))
 

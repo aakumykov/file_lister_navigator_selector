@@ -10,9 +10,11 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_explorer.FileExplorer
+import com.github.aakumykov.file_lister.FileLister
 import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.fs_item.ParentDirItem
 import com.github.aakumykov.kotlin_playground.utils.AndroidVersionHelper
@@ -20,6 +22,8 @@ import com.github.aakumykov.kotlin_playground.common.ListAdapter
 import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.FragmentLocalBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
+import com.github.aakumykov.local_file_lister.LocalFileLister
+import com.github.aakumykov.recursive_dir_reader.RecursiveDirReader
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
 import permissions.dispatcher.ktx.PermissionsRequester
@@ -27,7 +31,8 @@ import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
 import java.lang.Exception
 
-class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClickListener {
+class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClickListener,
+    AdapterView.OnItemLongClickListener {
 
     private var _binding: FragmentLocalBinding? = null
     private val binding get() = _binding!!
@@ -75,6 +80,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
         binding.listView.adapter = listAdapter
 
         binding.listView.setOnItemClickListener(this)
+        binding.listView.setOnItemLongClickListener(this)
 
         binding.button.text = fileExplorer.getCurrentPath()
     }
@@ -167,6 +173,31 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
             }
         }
         listCurrentDir()
+    }
+
+    override fun onItemLongClick(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ): Boolean {
+
+        val fsItem = itemsList[position]
+
+        val recursiveDirReader = RecursiveDirReader(LocalFileLister())
+
+        val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
+
+        AlertDialog.Builder(requireContext())
+            .setMessage(recursiveList.joinToString(
+                separator = "\n\n",
+                transform = { fileListItem -> fileListItem.absolutePath })
+            )
+            .setNeutralButton("Закрыть") { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+
+        return true
     }
 
     companion object {
