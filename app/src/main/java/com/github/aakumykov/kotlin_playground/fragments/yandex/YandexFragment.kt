@@ -3,6 +3,7 @@ package com.github.aakumykov.kotlin_playground.fragments.yandex
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.fs_item.FSItem
@@ -13,6 +14,7 @@ import com.github.aakumykov.kotlin_playground.databinding.FragmentYandexBinding
 import com.github.aakumykov.kotlin_playground.extensions.restoreString
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.github.aakumykov.kotlin_playground.extensions.storeString
+import com.github.aakumykov.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.yandex_disk_file_explorer.YandexDiskFileExplorer
 import com.github.aakumykov.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_selector.YandexDiskFileSelector
@@ -84,6 +86,8 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
         binding.listView.adapter = listAdapter
 
         binding.listView.setOnItemClickListener { _, _, position, _ -> onListItemClicked(itemsList[position]) }
+
+        binding.listView.setOnItemLongClickListener { parent, view, position, id -> onListItemLongClicked(itemsList[position])}
     }
 
     private fun onListItemClicked(fsItem: FSItem) {
@@ -91,6 +95,24 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
             viewModel.fileExplorer.changeDir(fsItem)
             listCurrentDir()
         }
+    }
+
+    private fun onListItemLongClicked(fsItem: FSItem): Boolean {
+
+        val recursiveDirReader = RecursiveDirReader(YandexDiskFileLister(yandexAuthToken!!))
+
+        val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
+
+        AlertDialog.Builder(requireContext())
+            .setMessage(recursiveList.joinToString(
+                separator = "\n\n",
+                transform = { fileListItem -> fileListItem.absolutePath })
+            )
+            .setNeutralButton("Закрыть") { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+
+        return true
     }
 
     private fun prepareButtons() {

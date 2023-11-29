@@ -39,7 +39,12 @@ class RecursiveDirReader(private val fileLister: FileLister) {
     }
 
     private fun getUnlistedDir(): FileListItem? {
-        return list.firstOrNull { item -> (item.isDirectory && !item.isListed) }
+        return list.firstOrNull { item ->
+            val isDir = item.isDirectory
+            val isListed = item.isListed
+            isDir && !isListed
+//            (item.isDirectory && !item.isListed)
+        }
     }
 
 
@@ -52,6 +57,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
     )
         : File(absolutePath)
     {
+        constructor(absolutePath: String, isDir: Boolean) : this(absolutePath = absolutePath, )
         constructor(file: File, parentDir: FileListItem) : this(absolutePath = file.absolutePath, parentId = parentDir.id)
 
         val id: String get() = absolutePath
