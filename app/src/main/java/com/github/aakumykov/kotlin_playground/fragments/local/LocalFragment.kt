@@ -18,7 +18,7 @@ import com.github.aakumykov.fs_item.ParentDirItem
 import com.github.aakumykov.kotlin_playground.utils.AndroidVersionHelper
 import com.github.aakumykov.kotlin_playground.common.ListAdapter
 import com.github.aakumykov.kotlin_playground.R
-import com.github.aakumykov.kotlin_playground.databinding.FragmentMainBinding
+import com.github.aakumykov.kotlin_playground.databinding.FragmentLocalBinding
 import com.github.aakumykov.kotlin_playground.extensions.showToast
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
@@ -27,9 +27,9 @@ import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
 import java.lang.Exception
 
-class LocalFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickListener {
+class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClickListener {
 
-    private var _binding: FragmentMainBinding? = null
+    private var _binding: FragmentLocalBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var mLocalViewModel: LocalViewModel
@@ -58,7 +58,7 @@ class LocalFragment : Fragment(R.layout.fragment_main), AdapterView.OnItemClickL
             onPermissionDenied = { showToast("Вы запретили чтение памяти...") }
         )
 
-        _binding = FragmentMainBinding.bind(view)
+        _binding = FragmentLocalBinding.bind(view)
 
         binding.manageAllFilesButton.setOnClickListener { onManageAllFilesButtonClicked() }
         binding.button.setOnClickListener {
