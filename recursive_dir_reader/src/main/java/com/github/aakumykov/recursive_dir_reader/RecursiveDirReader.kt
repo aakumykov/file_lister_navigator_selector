@@ -1,6 +1,8 @@
 package com.github.aakumykov.recursive_dir_reader
 
+import android.net.Uri
 import com.github.aakumykov.file_lister.FileLister
+import com.github.aakumykov.fs_item.FSItem
 import java.io.File
 
 class RecursiveDirReader(private val fileLister: FileLister) {
@@ -9,7 +11,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
 
     fun getRecursiveList(initialPath: String): List<FileListItem> {
 
-        list.add(FileListItem(initialPath))
+        list.add(FileListItem(Uri.parse(initialPath), true))
 
         while(hasUnlistedDirs()) {
 
@@ -18,8 +20,10 @@ class RecursiveDirReader(private val fileLister: FileLister) {
                 fileLister.listDir(currentlyListedDir.absolutePath).forEach { fsItem ->
 
                     val childItem = FileListItem(
-                        file = File(currentlyListedDir, fsItem.name),
-                        parentDir = currentlyListedDir
+                        name = fsItem.name,
+                        absolutePath = fsItem.absolutePath,
+                        isDir = fsItem.isDir,
+                        parentId = currentlyListedDir.id
                     )
 
                     currentlyListedDir.addChildId(childItem.id)
@@ -40,7 +44,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
 
     private fun getUnlistedDir(): FileListItem? {
         return list.firstOrNull { item ->
-            val isDir = item.isDirectory
+            val isDir = item.isDir
             val isListed = item.isListed
             isDir && !isListed
 //            (item.isDirectory && !item.isListed)
@@ -50,15 +54,20 @@ class RecursiveDirReader(private val fileLister: FileLister) {
 
     // TODO: унаследовать FileListItem от FSItem?
     class FileListItem (
-        absolutePath: String,
+        override val name: String,
+        override val absolutePath: String,
+        override val isDir: Boolean,
         val parentId: String? = null,
         val childIds: MutableList<String> = mutableListOf(),
-        var isListed: Boolean = false
+        var isListed: Boolean = false,
     )
-        : File(absolutePath)
+        : FSItem
     {
-        constructor(absolutePath: String, isDir: Boolean) : this(absolutePath = absolutePath, )
-        constructor(file: File, parentDir: FileListItem) : this(absolutePath = file.absolutePath, parentId = parentDir.id)
+        constructor(uri: Uri, isDir: Boolean) : this(
+            name = uri.lastPathSegment!!,
+            absolutePath = uri.path!!,
+            isDir = isDir
+        )
 
         val id: String get() = absolutePath
 
