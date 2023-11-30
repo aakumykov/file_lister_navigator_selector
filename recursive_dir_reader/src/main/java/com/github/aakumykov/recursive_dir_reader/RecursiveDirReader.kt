@@ -4,6 +4,7 @@ import android.net.Uri
 import com.github.aakumykov.file_lister.FileLister
 import com.github.aakumykov.fs_item.FSItem
 import java.io.File
+import java.util.Date
 
 class RecursiveDirReader(private val fileLister: FileLister) {
 
@@ -11,7 +12,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
 
     fun getRecursiveList(initialPath: String): List<FileListItem> {
 
-        list.add(FileListItem(Uri.parse(initialPath), true))
+        list.add(FileListItem(uri = Uri.parse(initialPath), isDir = true, cTime = Date().time))
 
         while(hasUnlistedDirs()) {
 
@@ -23,6 +24,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
                         name = fsItem.name,
                         absolutePath = fsItem.absolutePath,
                         isDir = fsItem.isDir,
+                        cTime = fsItem.cTime,
                         parentId = currentlyListedDir.id
                     )
 
@@ -57,16 +59,18 @@ class RecursiveDirReader(private val fileLister: FileLister) {
         override val name: String,
         override val absolutePath: String,
         override val isDir: Boolean,
+        override val cTime: Long,
         val parentId: String? = null,
         val childIds: MutableList<String> = mutableListOf(),
         var isListed: Boolean = false,
     )
         : FSItem
     {
-        constructor(uri: Uri, isDir: Boolean) : this(
+        constructor(uri: Uri, isDir: Boolean, cTime: Long) : this(
             name = uri.lastPathSegment!!,
             absolutePath = uri.path!!,
-            isDir = isDir
+            isDir = isDir,
+            cTime = cTime
         )
 
         val id: String get() = absolutePath
