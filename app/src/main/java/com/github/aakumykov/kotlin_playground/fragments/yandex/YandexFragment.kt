@@ -101,16 +101,19 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
         val recursiveDirReader = RecursiveDirReader(YandexDiskFileLister(yandexAuthToken!!))
 
-        val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
-
-        AlertDialog.Builder(requireContext())
-            .setMessage(recursiveList.joinToString(
-                separator = "\n\n",
-                transform = { fileListItem -> fileListItem.absolutePath })
-            )
-            .setNeutralButton("Закрыть") { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
+        thread {
+            val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
+            binding.root.post {
+                AlertDialog.Builder(requireContext())
+                    .setMessage(recursiveList.joinToString(
+                        separator = "\n\n",
+                        transform = { fileListItem -> fileListItem.absolutePath })
+                    )
+                    .setNeutralButton("Закрыть") { dialog, _ -> dialog.dismiss() }
+                    .create()
+                    .show()
+            }
+        }
 
         return true
     }
