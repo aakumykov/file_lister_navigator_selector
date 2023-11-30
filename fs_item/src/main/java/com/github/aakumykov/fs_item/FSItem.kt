@@ -5,6 +5,7 @@ interface FSItem {
     val name: String
     val absolutePath: String
     val isDir: Boolean
+    val cTime: Long
 
     companion object {
         const val DS: String = "/"
