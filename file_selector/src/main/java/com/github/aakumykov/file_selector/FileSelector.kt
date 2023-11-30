@@ -14,6 +14,7 @@ import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.fs_item.SimpleFSItem
 import com.github.aakumykov.file_selector.databinding.DialogFileSelectorBinding
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
+import java.util.Date
 import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
@@ -96,7 +97,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         super.onStart()
 
         if (firstRun)
-            openDir(SimpleFSItem(startPath, startPath, true))
+            openDir(SimpleFSItem(startPath, startPath, true, cTime = Date().time))
     }
 
 

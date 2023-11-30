@@ -17,7 +17,8 @@ class LocalFileLister(private val dirSeparator: String = FSItem.DS) : FileLister
             for (name: String in fileNamesArray) {
                 val absolutePath = path + dirSeparator + name
                 val file = File(absolutePath)
-                fileList.add(SimpleFSItem(name, absolutePath, file.isDirectory))
+                val simpleFSItem = SimpleFSItem(file)
+                fileList.add(simpleFSItem)
             }
         }
 

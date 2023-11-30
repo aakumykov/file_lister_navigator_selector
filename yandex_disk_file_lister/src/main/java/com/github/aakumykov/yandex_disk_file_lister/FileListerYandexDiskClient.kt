@@ -21,8 +21,8 @@ internal class FileListerYandexDiskClient(authToken: String)
         val name = resource.name
         val path = resource.path.path
         val isDir = resource.isDir
-
-        return SimpleFSItem(name, path, isDir)
+        val cTime = resource.created.time
+        return SimpleFSItem(name, path, isDir, cTime)
     }
 
     override fun cloudFileToString(resource: Resource): String {
