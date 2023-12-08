@@ -31,7 +31,7 @@ class LocalFileSelector : FileSelector() {
 
         return LocalFileExplorer(
             initialPath = initialPath,
-            localFileLister = LocalFileLister(),
+            localFileLister = LocalFileLister(""),
             listCache = null,
             pathCache = null,
         )
