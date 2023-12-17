@@ -184,7 +184,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
         val fsItem = itemsList[position]
 
-        val recursiveDirReader = RecursiveDirReader(LocalFileLister())
+        val recursiveDirReader = RecursiveDirReader(LocalFileLister(""))
 
         val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
 

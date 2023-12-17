@@ -20,7 +20,7 @@ class LocalViewModel : BasicViewModel() {
         LocalFileExplorer(
             initialPath = initialPath,
             isDirMode = true,
-            localFileLister = LocalFileLister(), 
+            localFileLister = LocalFileLister(""),
             listCache = this,
             pathCache = this)
 
