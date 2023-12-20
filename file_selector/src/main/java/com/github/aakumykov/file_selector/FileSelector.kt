@@ -115,8 +115,16 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val fsItem = itemList[position]
-        openDir(fsItem)
+
+        val clickedItem = itemList[position]
+
+        if (!isMultipleSelectionMode && !clickedItem.isDir) {
+            selectItem(clickedItem)
+            onConfirmSelectionClicked()
+            return
+        }
+
+        openDir(clickedItem)
     }
 
     // FIXME: неверная логика
@@ -126,11 +134,18 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         position: Int,
         id: Long
     ): Boolean {
-        if (isMultipleSelectionMode)
-            viewModel.toggleItemSelection(itemList[position])
-        else
-            viewModel.setSelectedItem(itemList[position])
+        val currentItem = itemList[position]
+        if (isMultipleSelectionMode) toggleItemSelection(currentItem) else selectItem(currentItem)
         return true
+    }
+
+
+    private fun toggleItemSelection(fsItem: FSItem) {
+        viewModel.toggleItemSelection(fsItem)
+    }
+
+    private fun selectItem(fsItem: FSItem) {
+        viewModel.setSelectedItem(fsItem)
     }
 
 
