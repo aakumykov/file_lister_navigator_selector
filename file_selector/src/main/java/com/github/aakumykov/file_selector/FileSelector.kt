@@ -13,6 +13,7 @@ import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.fs_item.SimpleFSItem
 import com.github.aakumykov.file_selector.databinding.DialogFileSelectorBinding
+import com.github.aakumykov.fs_item.ParentDirItem
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import java.util.Date
 import kotlin.concurrent.thread
@@ -135,7 +136,14 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         id: Long
     ): Boolean {
         val currentItem = itemList[position]
-        if (isMultipleSelectionMode) toggleItemSelection(currentItem) else selectItem(currentItem)
+
+        // Игнорирую попытку выбора ссылки на родительский каталог.
+        if (currentItem is ParentDirItem)
+            return true;
+
+        if (isMultipleSelectionMode) toggleItemSelection(currentItem)
+        else selectItem(currentItem)
+
         return true
     }
 
