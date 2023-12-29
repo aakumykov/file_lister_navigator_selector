@@ -7,7 +7,7 @@ import com.github.aakumykov.file_selector.FileSelector
 import com.github.aakumykov.local_file_explorer.LocalFileExplorer
 import com.github.aakumykov.local_file_lister.LocalFileLister
 
-class LocalFileSelector : FileSelector() {
+class LocalFileSelector private constructor(): FileSelector() {
 
     private var _fileExplorer: FileExplorer? = null
 
