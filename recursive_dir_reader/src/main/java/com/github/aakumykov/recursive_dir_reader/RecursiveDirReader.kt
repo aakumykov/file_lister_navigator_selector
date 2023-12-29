@@ -5,11 +5,13 @@ import com.github.aakumykov.file_lister.FileLister
 import com.github.aakumykov.fs_item.FSItem
 import java.io.File
 import java.util.Date
+import kotlin.jvm.Throws
 
 class RecursiveDirReader(private val fileLister: FileLister) {
 
     private val list: MutableList<FileListItem> = mutableListOf()
 
+    @Throws(FileLister.NotADirException::class)
     fun getRecursiveList(initialPath: String): List<FileListItem> {
 
         list.add(FileListItem(uri = Uri.parse(initialPath), isDir = true, cTime = Date().time))
@@ -54,7 +56,6 @@ class RecursiveDirReader(private val fileLister: FileLister) {
     }
 
 
-    // TODO: унаследовать FileListItem от FSItem?
     class FileListItem (
         override val name: String,
         override val absolutePath: String,
