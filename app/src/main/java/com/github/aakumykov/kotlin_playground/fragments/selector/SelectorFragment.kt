@@ -38,9 +38,14 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
 
     private fun showFileSelector() {
-        val fileSelector =
-            LocalFileSelector.create(isMultipleSelectionMode = true).show(childFragmentManager)
+
+        val fileSelector = LocalFileSelector.create(
+                callback = this,
+                isMultipleSelectionMode = true
+            ).show(childFragmentManager)
+
 //                YandexDiskFileSelector.create(yandexAuthToken!!)
+
         fileSelector.setCallback(this)
     }
 
