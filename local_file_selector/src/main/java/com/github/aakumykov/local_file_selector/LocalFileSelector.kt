@@ -40,11 +40,13 @@ class LocalFileSelector private constructor(): FileSelector() {
     companion object {
         val TAG: String = LocalFileSelector::class.java.simpleName
 
-        fun create(startPath: String? = null,
+        fun create(callback: Callback,
+                   startPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
                    isDirMode: Boolean = false) : LocalFileSelector
         {
             return LocalFileSelector().apply {
+                setCallback(callback)
                 arguments = Bundle().apply {
                     putString(START_PATH, startPath)
                     putBoolean(IS_DIR_MODE, isDirMode)
