@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground
+package com.github.aakumykov.file_lister_navigator_selector
 
 import android.content.Intent
 import android.net.Uri
@@ -7,11 +7,10 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.github.aakumykov.file_lister_navigator_selector.fragments.local.LocalFragment
+import com.github.aakumykov.file_lister_navigator_selector.fragments.local.LocalViewModel
+import com.github.aakumykov.kotlin_playground.R
 import com.github.aakumykov.kotlin_playground.databinding.ActivityMainBinding
-import com.github.aakumykov.kotlin_playground.fragments.local.LocalFragment
-import com.github.aakumykov.kotlin_playground.fragments.local.LocalViewModel
-import com.github.aakumykov.kotlin_playground.fragments.selector.SelectorFragment
-import com.github.aakumykov.kotlin_playground.fragments.yandex.YandexFragment
 
 class MainActivity : AppCompatActivity() {
 

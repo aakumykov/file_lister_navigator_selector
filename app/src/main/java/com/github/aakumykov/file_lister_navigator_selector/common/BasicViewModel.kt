@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground.common
+package com.github.aakumykov.file_lister_navigator_selector.common
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

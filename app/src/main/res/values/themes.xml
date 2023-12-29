@@ -1,9 +1,9 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Kotlin_playground" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.File_lister_navigator_selector" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Kotlin_playground" parent="Base.Theme.Kotlin_playground" />
+    <style name="Theme.File_lister_navigator_selector" parent="Base.Theme.File_lister_navigator_selector" />
 </resources>

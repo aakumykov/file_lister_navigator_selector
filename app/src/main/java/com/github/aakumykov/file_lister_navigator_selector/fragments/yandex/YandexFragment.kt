@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground.fragments.yandex
+package com.github.aakumykov.file_lister_navigator_selector.fragments.yandex
 
 import android.os.Bundle
 import android.view.View
@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.file_selector.FileSelector
-import com.github.aakumykov.kotlin_playground.common.ListAdapter
-import com.github.aakumykov.kotlin_playground.R
-import com.github.aakumykov.kotlin_playground.databinding.FragmentYandexBinding
-import com.github.aakumykov.kotlin_playground.extensions.restoreString
-import com.github.aakumykov.kotlin_playground.extensions.showToast
-import com.github.aakumykov.kotlin_playground.extensions.storeString
+import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
+import com.github.aakumykov.file_lister_navigator_selector.R
+import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentYandexBinding
+import com.github.aakumykov.file_lister_navigator_selector.extensions.restoreString
+import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
+import com.github.aakumykov.file_lister_navigator_selector.extensions.storeString
 import com.github.aakumykov.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.yandex_disk_file_explorer.YandexDiskFileExplorer
 import com.github.aakumykov.yandex_disk_file_lister.YandexDiskFileLister

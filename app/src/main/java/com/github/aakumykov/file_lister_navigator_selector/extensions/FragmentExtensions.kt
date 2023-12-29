@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground.extensions
+package com.github.aakumykov.file_lister_navigator_selector.extensions
 
 import android.widget.Toast
 import androidx.annotation.StringRes

@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground.common
+package com.github.aakumykov.file_lister_navigator_selector.common
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.github.aakumykov.fs_item.FSItem
-import com.github.aakumykov.kotlin_playground.R
+import com.github.aakumykov.file_lister_navigator_selector.R
 
 class ListAdapter (
     context: Context,

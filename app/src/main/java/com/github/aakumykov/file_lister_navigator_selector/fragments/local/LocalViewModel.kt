@@ -1,9 +1,9 @@
-package com.github.aakumykov.kotlin_playground.fragments.local
+package com.github.aakumykov.file_lister_navigator_selector.fragments.local
 
 import android.os.Environment
 import com.github.aakumykov.file_explorer.FileExplorer
 import com.github.aakumykov.fs_item.FSItem
-import com.github.aakumykov.kotlin_playground.common.BasicViewModel
+import com.github.aakumykov.file_lister_navigator_selector.common.BasicViewModel
 import com.github.aakumykov.local_file_explorer.LocalFileExplorer
 import com.github.aakumykov.local_file_lister.LocalFileLister
 

@@ -1,4 +1,4 @@
-package com.github.aakumykov.kotlin_playground.utils
+package com.github.aakumykov.file_lister_navigator_selector.utils
 
 import android.os.Build
 
