@@ -11,6 +11,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import java.util.Date
 import kotlin.concurrent.thread
@@ -29,7 +32,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     private var firstRun: Boolean = true
     private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
-    private val itemList: MutableList<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem> = mutableListOf()
+    private val itemList: MutableList<FSItem> = mutableListOf()
     private lateinit var listAdapter: FileListAdapter
 
     private var callback: Callback? = null
@@ -96,7 +99,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
         if (firstRun)
             openDir(
-                com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem(
+                SimpleFSItem(
                     startPath,
                     startPath,
                     true,
@@ -111,7 +114,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         dismiss()
     }
 
-    private fun onSelectionListChanged(selectionList: List<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem>?) {
+    private fun onSelectionListChanged(selectionList: List<FSItem>?) {
         selectionList?.let { list ->
             listAdapter.updateSelections(list)
             binding.confirmSelectionButton.isEnabled = list.isNotEmpty()
@@ -142,8 +145,8 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         val currentItem = itemList[position]
 
         // Игнорирую попытку выбора ссылки на родительский каталог.
-        if (currentItem is com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem)
-            return true;
+        if (currentItem is ParentDirItem)
+            return true
 
         if (isMultipleSelectionMode) toggleItemSelection(currentItem)
         else selectItem(currentItem)
@@ -152,16 +155,16 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
-    private fun toggleItemSelection(fsItem: com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem) {
+    private fun toggleItemSelection(fsItem: FSItem) {
         viewModel.toggleItemSelection(fsItem)
     }
 
-    private fun selectItem(fsItem: com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem) {
+    private fun selectItem(fsItem: FSItem) {
         viewModel.setSelectedItem(fsItem)
     }
 
 
-    private fun openDir(fsItem: com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem) {
+    private fun openDir(fsItem: FSItem) {
 
         if (!fsItem.isDir)
             return
@@ -204,7 +207,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
-    private fun onFileListChanged(list: List<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem>?) {
+    private fun onFileListChanged(list: List<FSItem>?) {
         list?.let {
             hideProgressBar()
             itemList.clear()
@@ -241,7 +244,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     interface Callback {
-        fun onFilesSelected(selectedItemsList: List<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem>)
+        fun onFilesSelected(selectedItemsList: List<FSItem>)
     }
 
 
