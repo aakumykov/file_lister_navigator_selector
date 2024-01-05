@@ -49,7 +49,6 @@ dependencies {
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.github.aakumykov:exception_utils:0.4'
-    implementation project(path: ':lib')
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 
@@ -62,4 +61,5 @@ dependencies {
     implementation "androidx.preference:preference:1.2.1"
 //    implementation "androidx.preference:preference-ktx:1.2.1"
 
+    implementation 'com.github.aakumykov:file_lister_navigator_selector:0.0.1'
 }

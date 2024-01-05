@@ -18,4 +18,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "file_lister_navigator_selector"
 include ':app'
-include ':lib'
