@@ -17,7 +17,7 @@ android {
 
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders = [YANDEX_CLIENT_ID: "7e7ca337ff1042c9b128a5e4825242d7"]
+        manifestPlaceholders = [YANDEX_CLIENT_ID: "bd3713311fde47fe9ff479c7cb66ecae"]
     }
     buildFeatures {
         viewBinding true
