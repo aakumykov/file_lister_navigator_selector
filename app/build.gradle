@@ -49,12 +49,7 @@ dependencies {
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.github.aakumykov:exception_utils:0.4'
-    implementation project(path: ':local_file_explorer')
-    implementation 'com.github.aakumykov:exception_utils:0.4'
-    implementation project(path: ':yandex_disk_file_explorer')
-    implementation project(path: ':local_file_selector')
-    implementation project(path: ':yandex_disk_file_selector')
-    implementation project(path: ':recursive_dir_reader')
+    implementation project(path: ':lib')
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 

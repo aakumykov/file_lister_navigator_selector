@@ -4,12 +4,12 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.github.aakumykov.fs_item.FSItem
-import com.github.aakumykov.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
-import com.github.aakumykov.local_file_selector.LocalFileSelector
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelector
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 

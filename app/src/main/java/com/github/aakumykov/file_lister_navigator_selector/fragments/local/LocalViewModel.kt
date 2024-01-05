@@ -1,11 +1,11 @@
 package com.github.aakumykov.file_lister_navigator_selector.fragments.local
 
 import android.os.Environment
-import com.github.aakumykov.file_explorer.FileExplorer
-import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.common.BasicViewModel
-import com.github.aakumykov.local_file_explorer.LocalFileExplorer
-import com.github.aakumykov.local_file_lister.LocalFileLister
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
+import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
 
 class LocalViewModel : BasicViewModel() {
 

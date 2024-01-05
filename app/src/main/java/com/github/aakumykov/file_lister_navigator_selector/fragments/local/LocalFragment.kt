@@ -13,22 +13,21 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.github.aakumykov.file_explorer.FileExplorer
-import com.github.aakumykov.fs_item.FSItem
-import com.github.aakumykov.fs_item.ParentDirItem
-import com.github.aakumykov.file_lister_navigator_selector.utils.AndroidVersionHelper
-import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
+import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentLocalBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
-import com.github.aakumykov.local_file_lister.LocalFileLister
-import com.github.aakumykov.recursive_dir_reader.RecursiveDirReader
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
+import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
+import com.github.aakumykov.file_lister_navigator_selector.utils.AndroidVersionHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
-import java.lang.Exception
 
 class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClickListener,
     AdapterView.OnItemLongClickListener {

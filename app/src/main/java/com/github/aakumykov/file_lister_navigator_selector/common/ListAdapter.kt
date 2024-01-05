@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.github.aakumykov.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.R
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
 class ListAdapter (
     context: Context,

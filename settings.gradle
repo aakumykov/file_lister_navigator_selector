@@ -18,14 +18,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "file_lister_navigator_selector"
 include ':app'
-include ':file_lister'
-include ':local_file_lister'
-include ':file_explorer'
-include ':local_file_explorer'
-include ':yandex_disk_file_lister'
-include ':yandex_disk_file_explorer'
-include ':file_selector'
-include ':local_file_selector'
-include ':yandex_disk_file_selector'
-include ':fs_item'
-include ':recursive_dir_reader'
+include ':lib'

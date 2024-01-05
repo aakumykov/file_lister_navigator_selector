@@ -3,8 +3,8 @@ package com.github.aakumykov.file_lister_navigator_selector.common
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.aakumykov.file_explorer.FileExplorer
-import com.github.aakumykov.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 
 abstract class BasicViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.PathCache {
 
