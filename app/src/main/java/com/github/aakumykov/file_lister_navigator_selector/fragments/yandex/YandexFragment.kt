@@ -105,6 +105,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
             val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
             binding.root.post {
                 AlertDialog.Builder(requireContext())
+                    .setTitle("Рекурсивный список содержимого")
                     .setMessage(recursiveList.joinToString(
                         separator = "\n\n",
                         transform = { fileListItem -> fileListItem.absolutePath })

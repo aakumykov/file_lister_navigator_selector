@@ -187,6 +187,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
         val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
 
         AlertDialog.Builder(requireContext())
+            .setTitle("Рекурсивный список содержимого")
             .setMessage(recursiveList.joinToString(
                 separator = "\n\n",
                 transform = { fileListItem -> fileListItem.absolutePath })
