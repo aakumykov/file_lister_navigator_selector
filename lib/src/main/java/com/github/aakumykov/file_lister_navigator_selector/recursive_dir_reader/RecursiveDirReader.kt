@@ -2,6 +2,7 @@ package com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader
 
 import android.net.Uri
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import java.util.Date
 
 class RecursiveDirReader(private val fileLister: FileLister) {
@@ -11,7 +12,13 @@ class RecursiveDirReader(private val fileLister: FileLister) {
     @Throws(FileLister.NotADirException::class)
     fun getRecursiveList(initialPath: String): List<FileListItem> {
 
-        list.add(FileListItem(uri = Uri.parse(initialPath), isDir = true, cTime = Date().time))
+        list.add(
+            FileListItem(
+                uri = Uri.parse(initialPath),
+                parentPath = "",
+                isDir = true,
+                cTime = Date().time)
+        )
 
         while(hasUnlistedDirs()) {
 
@@ -22,9 +29,9 @@ class RecursiveDirReader(private val fileLister: FileLister) {
                     val childItem = FileListItem(
                         name = fsItem.name,
                         absolutePath = fsItem.absolutePath,
+                        parentPath = currentlyListedDir.absolutePath,
                         isDir = fsItem.isDir,
                         cTime = fsItem.cTime,
-                        parentId = currentlyListedDir.id
                     )
 
                     currentlyListedDir.addChildId(childItem.id)
@@ -58,15 +65,16 @@ class RecursiveDirReader(private val fileLister: FileLister) {
         override val absolutePath: String,
         override val isDir: Boolean,
         override val cTime: Long,
-        val parentId: String? = null,
+        override val parentPath: String,
         val childIds: MutableList<String> = mutableListOf(),
         var isListed: Boolean = false,
     )
-        : com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+        : FSItem
     {
-        constructor(uri: Uri, isDir: Boolean, cTime: Long) : this(
+        constructor(uri: Uri, parentPath: String, isDir: Boolean, cTime: Long) : this(
             name = uri.lastPathSegment!!,
             absolutePath = uri.path!!,
+            parentPath = parentPath,
             isDir = isDir,
             cTime = cTime
         )

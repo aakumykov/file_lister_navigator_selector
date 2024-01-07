@@ -1,5 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
+
 // FIXME: перенести кеш в реализацию
 abstract class BasicFileExplorer(
     private val initialPath: String,
@@ -19,7 +21,7 @@ abstract class BasicFileExplorer(
         val initialList = listDir(getCurrentPath())
 
         currentList.clear()
-        currentList.add(com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem())
+        currentList.add(ParentDirItem())
 
         if (isDirMode) {
             val filteredList = initialList.filter { fsItem -> fsItem.isDir }
@@ -35,7 +37,7 @@ abstract class BasicFileExplorer(
 
     override fun changeDir(fsItem: com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem) {
         when (fsItem) {
-            is com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem -> goToParentDir()
+            is ParentDirItem -> goToParentDir()
             else -> goToChildDir(fsItem.absolutePath)
         }
     }

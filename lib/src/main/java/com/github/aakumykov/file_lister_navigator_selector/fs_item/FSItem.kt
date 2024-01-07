@@ -4,6 +4,7 @@ interface FSItem {
 
     val name: String
     val absolutePath: String
+    val parentPath: String
     val isDir: Boolean
     val cTime: Long
 
@@ -11,5 +12,6 @@ interface FSItem {
         const val DS: String = "/"
         const val PARENT_DIR_NAME: String = ".."
         const val PARENT_DIR_PATH: String = ".."
+        const val NO_PARENT_PATH: String = ""
     }
 }

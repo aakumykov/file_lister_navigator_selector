@@ -1,5 +1,8 @@
 package com.github.aakumykov.file_lister_navigator_selector.yandex_disk_file_lister
 
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.utils.parentPathFor
 import com.github.aakumykov.yandex_disk_client.YandexDiskClient
 import com.github.aakumykov.yandex_disk_client.YandexDiskSortingMode
 import com.yandex.disk.rest.json.Resource
@@ -14,16 +17,17 @@ internal class FileListerYandexDiskClient(authToken: String)
         }
     }
 
-    override fun cloudItemToLocalItem(resource: Resource): com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem {
-        val name = resource.name
+    override fun cloudItemToLocalItem(resource: Resource): FSItem {
+
         val path = resource.path.path
-        val isDir = resource.isDir
-        val cTime = resource.created.time
-        return com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem(
-            name,
+        val parentPath = parentPathFor(path)
+
+        return SimpleFSItem(
+            resource.name,
             path,
-            isDir,
-            cTime
+            parentPath,
+            resource.isDir,
+            resource.created.time
         )
     }
 

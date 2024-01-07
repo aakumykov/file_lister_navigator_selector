@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.io.File
@@ -19,8 +20,7 @@ class LocalFileLister @AssistedInject constructor(
             for (name: String in fileNamesArray) {
                 val absolutePath = path + com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem.DS + name
                 val file = File(absolutePath)
-                val simpleFSItem =
-                    com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem(file)
+                val simpleFSItem = SimpleFSItem(file)
                 fileList.add(simpleFSItem)
             }
         }

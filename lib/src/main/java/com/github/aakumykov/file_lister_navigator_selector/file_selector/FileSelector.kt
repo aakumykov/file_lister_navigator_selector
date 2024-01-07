@@ -102,6 +102,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
                 SimpleFSItem(
                     startPath,
                     startPath,
+                    "",
                     true,
                     cTime = Date().time
                 )
