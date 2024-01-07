@@ -1,13 +1,14 @@
 package com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader
 
 import android.net.Uri
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import java.util.Date
 
-class RecursiveDirReader(private val fileLister: com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister) {
+class RecursiveDirReader(private val fileLister: FileLister) {
 
     private val list: MutableList<FileListItem> = mutableListOf()
 
-    @Throws(com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister.NotADirException::class)
+    @Throws(FileLister.NotADirException::class)
     fun getRecursiveList(initialPath: String): List<FileListItem> {
 
         list.add(FileListItem(uri = Uri.parse(initialPath), isDir = true, cTime = Date().time))
