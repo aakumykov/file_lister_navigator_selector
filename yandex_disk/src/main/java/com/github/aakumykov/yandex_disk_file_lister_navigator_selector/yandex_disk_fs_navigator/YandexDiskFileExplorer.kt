@@ -1,6 +1,6 @@
-package com.github.aakumykov.file_lister_navigator_selector.yandex_disk_fs_navigator
+package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator
 
-import com.github.aakumykov.file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 
 class YandexDiskFileExplorer(
     yandexDiskFileLister: YandexDiskFileLister,

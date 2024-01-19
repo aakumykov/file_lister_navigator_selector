@@ -1,6 +1,8 @@
-package com.github.aakumykov.file_lister_navigator_selector.yandex_disk_file_selector
+package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
 import android.os.Bundle
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
 class YandexDiskFileSelector : com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector() {
 
@@ -15,8 +17,8 @@ class YandexDiskFileSelector : com.github.aakumykov.file_lister_navigator_select
                 throw IllegalArgumentException("Auth token is null or empty")
             else
                 _fileExplorer =
-                    com.github.aakumykov.file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer(
-                        com.github.aakumykov.file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister(
+                    YandexDiskFileExplorer(
+                        YandexDiskFileLister(
                             authToken
                         ),
                         isDirMode = isDirMode

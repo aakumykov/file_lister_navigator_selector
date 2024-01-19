@@ -15,9 +15,9 @@ import com.github.aakumykov.file_lister_navigator_selector.extensions.storeStrin
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
-import com.github.aakumykov.file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
-import com.github.aakumykov.file_lister_navigator_selector.yandex_disk_file_selector.YandexDiskFileSelector
-import com.github.aakumykov.file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector.YandexDiskFileSelector
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
@@ -76,8 +76,17 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     }
 
     private fun prepareFileExplorer() {
-        val fileLister = YandexDiskFileLister(yandexAuthToken!!)
-        val fileExplorer = YandexDiskFileExplorer(fileLister, isDirMode = true, listCache = viewModel, pathCache = viewModel)
+        val fileLister =
+            YandexDiskFileLister(
+                yandexAuthToken!!
+            )
+        val fileExplorer =
+            YandexDiskFileExplorer(
+                fileLister,
+                isDirMode = true,
+                listCache = viewModel,
+                pathCache = viewModel
+            )
         viewModel.setFileExplorer(fileExplorer)
     }
 
@@ -99,7 +108,11 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
     private fun onListItemLongClicked(fsItem: FSItem): Boolean {
 
-        val recursiveDirReader = RecursiveDirReader(YandexDiskFileLister(yandexAuthToken!!))
+        val recursiveDirReader = RecursiveDirReader(
+            YandexDiskFileLister(
+                yandexAuthToken!!
+            )
+        )
 
         thread {
             val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)

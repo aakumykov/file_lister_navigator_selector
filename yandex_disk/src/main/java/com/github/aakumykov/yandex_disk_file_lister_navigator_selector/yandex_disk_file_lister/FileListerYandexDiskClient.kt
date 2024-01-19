@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister_navigator_selector.yandex_disk_file_lister
+package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister
 
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
