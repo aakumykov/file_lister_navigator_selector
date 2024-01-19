@@ -84,6 +84,10 @@ class RecursiveDirReader(private val fileLister: FileLister) {
         fun addChildId(id: String) {
             childIds.add(id)
         }
+
+        override fun toString(): String {
+            return FileListItem::class.java.simpleName + " { $name, (parentPath: '$parentPath', absolutePath: '$absolutePath') }"
+        }
     }
 
     companion object {
