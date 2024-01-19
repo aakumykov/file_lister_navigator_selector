@@ -1,5 +1,6 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister
 
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.utils.parentPathFor
@@ -8,11 +9,11 @@ import com.github.aakumykov.yandex_disk_client.YandexDiskSortingMode
 import com.yandex.disk.rest.json.Resource
 
 internal class FileListerYandexDiskClient(authToken: String)
-    : YandexDiskClient<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem, com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode>(authToken)
+    : YandexDiskClient<FSItem, FileSortingMode>(authToken)
 {
-    override fun appToDiskSortingMode(appSortingMode: com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode): YandexDiskSortingMode {
+    override fun appToDiskSortingMode(appSortingMode: FileSortingMode): YandexDiskSortingMode {
         return when(appSortingMode) {
-            com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode.NAME_REVERSE -> YandexDiskSortingMode.NAME_REVERSE
+            FileSortingMode.NAME_REVERSE -> YandexDiskSortingMode.NAME_REVERSE
             else -> YandexDiskSortingMode.NAME_DIRECT
         }
     }

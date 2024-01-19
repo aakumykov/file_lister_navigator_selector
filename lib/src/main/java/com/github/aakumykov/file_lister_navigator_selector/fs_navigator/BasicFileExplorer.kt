@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 
 // FIXME: перенести кеш в реализацию
@@ -8,15 +9,15 @@ abstract class BasicFileExplorer(
     private val isDirMode: Boolean,
     private var listCache: FileExplorer.ListCache?,
     private var pathCache: FileExplorer.PathCache?,
-    private val dirSeparator: String = com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem.DS
+    private val dirSeparator: String = FSItem.DS
 ) : FileExplorer {
 
     private var currentPath: String = initialPath
-    private val currentList: MutableList<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem> = mutableListOf()
+    private val currentList: MutableList<FSItem> = mutableListOf()
 
     override fun getCurrentPath(): String = currentPath
 
-    override fun listCurrentPath(): List<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem> {
+    override fun listCurrentPath(): List<FSItem> {
 
         val initialList = listDir(getCurrentPath())
 
@@ -35,7 +36,7 @@ abstract class BasicFileExplorer(
         return currentList
     }
 
-    override fun changeDir(fsItem: com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem) {
+    override fun changeDir(fsItem: FSItem) {
         when (fsItem) {
             is ParentDirItem -> goToParentDir()
             else -> goToChildDir(fsItem.absolutePath)

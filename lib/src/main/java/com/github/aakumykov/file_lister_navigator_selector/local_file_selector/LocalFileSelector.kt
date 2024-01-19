@@ -2,13 +2,17 @@ package com.github.aakumykov.file_lister_navigator_selector.local_file_selector
 
 import android.os.Bundle
 import android.os.Environment
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
+import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
 
-class LocalFileSelector private constructor(): com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector() {
+class LocalFileSelector private constructor(): FileSelector() {
 
-    private var _fileExplorer: com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer? = null
+    private var _fileExplorer: FileExplorer? = null
 
 
-    override fun fileExplorer(): com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer {
+    override fun fileExplorer(): FileExplorer {
 
         if (null == _fileExplorer)
             _fileExplorer = createFileExplorer(arguments)
@@ -21,13 +25,13 @@ class LocalFileSelector private constructor(): com.github.aakumykov.file_lister_
         = Environment.getExternalStorageDirectory().path
 
 
-    private fun createFileExplorer(arguments: Bundle?): com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer {
+    private fun createFileExplorer(arguments: Bundle?): FileExplorer {
 
         val initialPath = arguments?.getString(START_PATH) ?: Environment.getExternalStorageDirectory().path
 
-        return com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer(
+        return LocalFileExplorer(
             initialPath = initialPath,
-            localFileLister = com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister(
+            localFileLister = LocalFileLister(
                 ""
             ),
             listCache = null,

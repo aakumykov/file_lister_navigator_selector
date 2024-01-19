@@ -14,6 +14,7 @@ import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFil
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import java.util.Date
 import kotlin.concurrent.thread
@@ -50,7 +51,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
-    abstract fun fileExplorer(): com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+    abstract fun fileExplorer(): FileExplorer
 
     abstract fun defaultStartPath(): String
 

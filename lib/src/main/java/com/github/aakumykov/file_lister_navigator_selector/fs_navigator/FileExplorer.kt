@@ -1,5 +1,8 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+
 /**
  * Предназначение - осуществлять навигацию по файловой системе.
  * Для этого реализации класса (ожидаемо) хранят состояние: начальный каталог (считающийся корневым)
@@ -8,14 +11,14 @@ package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
  * Интерфефс расширяет интерфейс FileLister, так как навигация в отрыве от получения списка файлов бессмысленна.
  */
 interface FileExplorer :
-    com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister {
+    FileLister {
 
-    fun changeDir(fsItem: com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem) // TODO: выброс исключений...
+    fun changeDir(fsItem: FSItem) // TODO: выброс исключений...
     fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
     fun goToParentDir() // TODO: throws IOException, AccessDeniesException
     fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 
-    fun listCurrentPath(): List<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem> // TODO: throws NotADirException
+    fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
     fun getCurrentPath(): String
 
     fun setPathCache(pathCache: PathCache)
@@ -26,7 +29,7 @@ interface FileExplorer :
     }
 
     interface ListCache {
-        fun cacheList(list: List<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem>)
+        fun cacheList(list: List<FSItem>)
     }
 
 

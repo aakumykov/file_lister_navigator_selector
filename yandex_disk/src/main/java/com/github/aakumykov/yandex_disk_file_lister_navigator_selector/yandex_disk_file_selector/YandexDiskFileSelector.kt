@@ -1,14 +1,16 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
 import android.os.Bundle
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
-class YandexDiskFileSelector : com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector() {
+class YandexDiskFileSelector : FileSelector() {
 
-    private var _fileExplorer: com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer? = null
+    private var _fileExplorer: FileExplorer? = null
 
-    override fun fileExplorer(): com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer {
+    override fun fileExplorer(): FileExplorer {
         if (null == _fileExplorer) {
 
             val authToken = arguments?.getString(AUTH_TOKEN)
