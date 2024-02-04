@@ -11,5 +11,6 @@ open class DirItem(
         absolutePath = absolutePath,
         parentPath = parentPath,
         isDir = true,
-        mTime = mTime
+        mTime = mTime,
+        size = 0L
     )

@@ -105,7 +105,8 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
                     startPath,
                     "",
                     true,
-                    mTime = Date().time
+                    mTime = Date().time,
+                    size = 0L
                 )
             )
     }

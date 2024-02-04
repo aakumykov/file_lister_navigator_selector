@@ -8,7 +8,8 @@ open class SimpleFSItem(
     override val absolutePath: String,
     override val parentPath: String,
     override val isDir: Boolean,
-    override val mTime: Long
+    override val mTime: Long,
+    override val size: Long
 ) : FSItem {
 
     constructor(file: File) : this(
@@ -16,7 +17,8 @@ open class SimpleFSItem(
         file.absolutePath,
         parentPathFor(file.absolutePath),
         file.isDirectory,
-        file.lastModified()
+        file.lastModified(),
+        file.length()
     )
 
     override fun toString(): String {
