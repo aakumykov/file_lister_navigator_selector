@@ -17,7 +17,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
                 uri = Uri.parse(initialPath),
                 parentPath = "",
                 isDir = true,
-                cTime = Date().time)
+                mTime = Date().time)
         )
 
         while(hasUnlistedDirs()) {
@@ -31,7 +31,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
                         absolutePath = fsItem.absolutePath,
                         parentPath = currentlyListedDir.absolutePath,
                         isDir = fsItem.isDir,
-                        cTime = fsItem.cTime,
+                        mTime = fsItem.mTime,
                     )
 
                     currentlyListedDir.addChildId(childItem.id)
@@ -64,19 +64,19 @@ class RecursiveDirReader(private val fileLister: FileLister) {
         override val name: String,
         override val absolutePath: String,
         override val isDir: Boolean,
-        override val cTime: Long,
+        override val mTime: Long,
         override val parentPath: String,
         val childIds: MutableList<String> = mutableListOf(),
         var isListed: Boolean = false,
     )
         : FSItem
     {
-        constructor(uri: Uri, parentPath: String, isDir: Boolean, cTime: Long) : this(
+        constructor(uri: Uri, parentPath: String, isDir: Boolean, mTime: Long) : this(
             name = uri.lastPathSegment!!,
             absolutePath = uri.path!!,
             parentPath = parentPath,
             isDir = isDir,
-            cTime = cTime
+            mTime = mTime
         )
 
         val id: String get() = absolutePath

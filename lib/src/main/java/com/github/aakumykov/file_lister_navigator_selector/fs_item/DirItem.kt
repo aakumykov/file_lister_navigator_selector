@@ -4,12 +4,12 @@ open class DirItem(
     name: String,
     absolutePath: String,
     parentPath: String,
-    cTime: Long
+    mTime: Long
 ) :
     SimpleFSItem(
         name = name,
         absolutePath = absolutePath,
         parentPath = parentPath,
         isDir = true,
-        cTime = cTime
+        mTime = mTime
     )

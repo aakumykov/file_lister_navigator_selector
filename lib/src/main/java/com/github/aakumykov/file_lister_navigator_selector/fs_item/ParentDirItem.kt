@@ -7,5 +7,5 @@ class ParentDirItem () : DirItem(
     name = FSItem.PARENT_DIR_NAME,
     absolutePath = FSItem.PARENT_DIR_PATH,
     parentPath = FSItem.NO_PARENT_PATH,
-    cTime = -1L
+    mTime = -1L
 )
