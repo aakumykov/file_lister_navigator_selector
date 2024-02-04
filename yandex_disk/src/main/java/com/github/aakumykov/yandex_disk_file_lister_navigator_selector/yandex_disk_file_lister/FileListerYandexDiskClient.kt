@@ -28,7 +28,8 @@ internal class FileListerYandexDiskClient(authToken: String)
             path,
             parentPath,
             resource.isDir,
-            resource.created.time
+            resource.created.time,
+            resource.size
         )
     }
 
