@@ -101,10 +101,10 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         if (firstRun)
             openDir(
                 SimpleFSItem(
-                    startPath,
-                    startPath,
-                    "",
-                    true,
+                    name = startPath,
+                    absolutePath = startPath,
+                    parentPath = "",
+                    isDir = true,
                     mTime = Date().time,
                     size = 0L
                 )

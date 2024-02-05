@@ -24,12 +24,12 @@ internal class FileListerYandexDiskClient(authToken: String)
         val parentPath = parentPathFor(path)
 
         return SimpleFSItem(
-            resource.name,
-            path,
-            parentPath,
-            resource.isDir,
-            resource.created.time,
-            resource.size
+            name = resource.name,
+            absolutePath = path,
+            parentPath = parentPath,
+            isDir = resource.isDir,
+            mTime = resource.created.time,
+            size = resource.size
         )
     }
 

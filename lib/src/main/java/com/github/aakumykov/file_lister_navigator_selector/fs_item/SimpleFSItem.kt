@@ -13,12 +13,12 @@ open class SimpleFSItem(
 ) : FSItem {
 
     constructor(file: File) : this(
-        file.name,
-        file.absolutePath,
-        parentPathFor(file.absolutePath),
-        file.isDirectory,
-        file.lastModified(),
-        file.length()
+        name = file.name,
+        absolutePath = file.absolutePath,
+        parentPath = parentPathFor(file.absolutePath),
+        isDir = file.isDirectory,
+        mTime = file.lastModified(),
+        size = file.length()
     )
 
     override fun toString(): String {
