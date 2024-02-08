@@ -10,8 +10,8 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
  *
  * Интерфефс расширяет интерфейс FileLister, так как навигация в отрыве от получения списка файлов бессмысленна.
  */
-interface FileExplorer :
-    FileLister {
+// FIXME: переименовать или класс, или пакет в Navigator или Explorer...
+interface FileExplorer : FileLister {
 
     fun changeDir(fsItem: FSItem) // TODO: выброс исключений...
     fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
