@@ -8,15 +8,16 @@ import android.os.Bundle
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.view.View
 import android.widget.AdapterView
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentLocalBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
@@ -24,7 +25,6 @@ import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.Loc
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.file_lister_navigator_selector.utils.AndroidVersionHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
-import com.yandex.authsdk.YandexAuthLoginOptions
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
@@ -45,8 +45,16 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
     private var isFirstRun: Boolean = true
 
-    private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
-    private var yandexAuthToken: String? = null
+    private val mediatorLiveData: MediatorLiveData<SortableList>
+        = MediatorLiveData(SortableList.empty(FileSortingMode.NAME_DIRECT))
+
+    private class SortableList (var list: List<FSItem>, var sortingMode: FileSortingMode) {
+        constructor(oldSortableList: SortableList, newSortingMode: FileSortingMode) : this(oldSortableList.list, newSortingMode)
+        constructor(oldSortableList: SortableList, newList: List<FSItem>) : this(newList, oldSortableList.sortingMode)
+        companion object {
+            fun empty(sortingMode: FileSortingMode): SortableList = SortableList(emptyList(), sortingMode)
+        }
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,7 +79,20 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
         mLocalViewModel = ViewModelProvider(requireActivity()).get(LocalViewModel::class.java)
 
-        mLocalViewModel.currentList.observe(viewLifecycleOwner, ::onListChanged)
+        mediatorLiveData.addSource(mLocalViewModel.listLiveData) { list ->
+            mediatorLiveData.value?.also { currentSortableList ->
+                mediatorLiveData.value = SortableList(currentSortableList, list)
+            }
+        }
+
+        mediatorLiveData.addSource(mLocalViewModel.sortingModeLiveData) { sortingMode ->
+            mediatorLiveData.value?.also { currentSortableList ->
+                mediatorLiveData.value = SortableList(currentSortableList, sortingMode)
+            }
+        }
+
+        mediatorLiveData.observe(viewLifecycleOwner, ::displaySortableList)
+
         mLocalViewModel.currentPath.observe(viewLifecycleOwner, ::onPathChanged)
 
         listAdapter = ListAdapter(requireActivity(), R.layout.list_item, itemsList)
@@ -81,6 +102,26 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
         binding.listView.setOnItemLongClickListener(this)
 
         binding.button.text = fileExplorer.getCurrentPath()
+    }
+
+    private fun displaySortableList(sortableList: SortableList?) {
+        sortableList?.let { sList ->
+            sList.list
+                .sortedWith(Comparator { o1, o2 ->
+                    when(sList.sortingMode) {
+                        FileSortingMode.NAME_DIRECT -> o1.name.compareTo(o2.name)
+                        FileSortingMode.NAME_REVERSE ->o2.name.compareTo(o1.name)
+                    }
+                })
+                .toList()
+                .let { list ->
+                    itemsList.clear()
+                    itemsList.addAll(list)
+                    listAdapter.notifyDataSetChanged()
+                }
+        }
+
+        // TODO: sortList().displayList()
     }
 
     private fun onManageAllFilesButtonClicked() {
@@ -106,15 +147,24 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
 
     private fun onListChanged(fsItems: List<FSItem>?) {
-        fsItems?.let { list ->
-            itemsList.clear()
-            itemsList.addAll(list)
-            listAdapter.notifyDataSetChanged()
-        }
+        fsItems
+            ?.sortedBy { fsItem ->
+                fsItem.name
+            }
+            ?.toList()
+            .let { list ->
+                itemsList.clear()
+                itemsList.addAll(list ?: emptyList())
+                listAdapter.notifyDataSetChanged()
+            }
     }
 
     private fun onPathChanged(path: String?) {
         path?.let { binding.button.text = it }
+    }
+
+    private fun onSortingModeChanged(fileSortingMode: FileSortingMode?) {
+
     }
 
 
