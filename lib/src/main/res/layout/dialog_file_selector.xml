@@ -18,6 +18,15 @@
             android:src="@drawable/ic_add_dir"
             android:contentDescription="@string/description_dialog_close_button" />
 
+        <ImageView
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            style="@style/dialog_title_button"
+            android:src="@drawable/ic_refresh"
+            android:contentDescription="@string/description_refresh_button" />
+
         <include
             layout="@layout/dialog_header"
             android:id="@+id/dialog_header_include"
@@ -33,13 +42,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ListView
-        android:id="@+id/listView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp"/>
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:divider="@color/list_divider"
+            android:dividerHeight="1dp"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <Button
         android:id="@+id/confirmSelectionButton"

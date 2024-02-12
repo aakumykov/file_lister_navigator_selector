@@ -77,6 +77,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         super.onViewCreated(view, savedInstanceState)
 
         _binding = Layout.bind(view)
+        binding.dialogHeaderInclude.titleView.setText(R.string.select_file_title)
 
         firstRun = (null == savedInstanceState)
 
@@ -86,17 +87,20 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         viewModel.errorMessage.observe(viewLifecycleOwner, ::onErrorChanged)
 
         listAdapter = FileListAdapter(requireContext(), R.layout.file_list_item, R.id.titleView, itemList)
-
-        binding.dialogHeaderInclude.titleView.setText(R.string.select_file_title)
-
         binding.listView.adapter = listAdapter
-
         binding.listView.onItemClickListener = this
         binding.listView.onItemLongClickListener = this
+
+        binding.refreshButton.setOnClickListener { refreshList() }
+        binding.swipeRefreshLayout.setOnRefreshListener { refreshList() }
 
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.dialogHeaderInclude.closeButton.setOnClickListener{ dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
+    }
+
+    private fun refreshList() {
+        openDir(fsItemFromPath(fileExplorer().getCurrentPath()))
     }
 
     private fun onCreateDirClicked() {
@@ -109,18 +113,20 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         super.onStart()
 
         if (firstRun)
-            openDir(
-                SimpleFSItem(
-                    name = startPath,
-                    absolutePath = startPath,
-                    parentPath = "",
-                    isDir = true,
-                    mTime = Date().time,
-                    size = 0L
-                )
-            )
+            openDir(fsItemFromPath(startPath))
     }
 
+
+    private fun fsItemFromPath(path: String): FSItem {
+        return SimpleFSItem(
+            name = path,
+            absolutePath = path,
+            parentPath = "",
+            isDir = true,
+            mTime = Date().time,
+            size = 0L
+        )
+    }
 
     private fun onConfirmSelectionClicked() {
         callback?.onFilesSelected(viewModel.getSelectedList())
@@ -188,6 +194,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         thread {
             try {
                 fileExplorer().changeDir(fsItem)
+
                 val list = fileExplorer().listCurrentPath()
 
                 handler.post {
