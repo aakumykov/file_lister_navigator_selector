@@ -1,7 +1,7 @@
 package com.github.aakumykov.kotlin_playground.cloud_dir_creator
 
-import com.github.aakumykov.kotlin_playground.cloud_dir_creator.CloudDirCreator.Companion.DS
-import com.github.aakumykov.kotlin_playground.extensions.stripExtraSlashes
+import com.github.aakumykov.cloud_writer.stripExtraSlashes
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem.Companion.DS
 import java.io.File
 
 class LocalDirCreator : CloudDirCreator {

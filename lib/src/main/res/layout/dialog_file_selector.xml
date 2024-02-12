@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            style="@style/dialog_title_button"
+            android:src="@drawable/ic_add_dir"
+            android:contentDescription="@string/description_dialog_close_button" />
+
+        <include
+            layout="@layout/dialog_header"
+            android:id="@+id/dialog_header_include"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/dialog_footer_include"
+        layout="@layout/dialog_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:divider="@color/list_divider"
+        android:dividerHeight="1dp"/>
+
+    <Button
+        android:id="@+id/confirmSelectionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:enabled="false"
+        android:text="@string/confirm_selection_button" />
+
+</LinearLayout>

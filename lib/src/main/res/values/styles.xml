@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="dialog_title_button">
+        <item name="android:background">@color/design_default_color_primary</item>
+        <item name="android:tint">@color/design_default_color_on_primary</item>
+        <item name="android:padding">8dp</item>
+    </style>
+</resources>

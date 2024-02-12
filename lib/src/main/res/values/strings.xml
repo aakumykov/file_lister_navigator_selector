@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="selection_dialog_title">Выбор файла</string>
+    <string name="dialog_title">Заголовок</string>
+
     <string name="dir_creation_dialog_title">Новая папка</string>
 
     <string name="confirm_selection_button">Выбрать отмеченное</string>
@@ -10,4 +11,11 @@
 
     <string name="dir_created">Каталог \'%1$s\' создан</string>
     <string name="cannot_be_empty">Не может быть пустым</string>
+
+    <string name="hint_dir_name">Имя каталога</string>
+
+    <string name="BUTTON_cancel">Отмена</string>
+    <string name="BUTTON_create">Создать</string>
+
+
 </resources>

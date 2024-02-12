@@ -8,15 +8,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.github.aakumykov.file_lister_navigator_selector.R
-import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogDirCratorBinding
+import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogDirCreatorBinding
 import com.github.aakumykov.kotlin_playground.cloud_dir_creator.CloudDirCreator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_crator) {
+abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
-    private var _binding: DialogDirCratorBinding? = null
+    private var _binding: DialogDirCreatorBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: DirCreatorViewModel by viewModels {
@@ -28,7 +28,7 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_crator) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = DialogDirCratorBinding.bind(view)
+        _binding = DialogDirCreatorBinding.bind(view)
 
         binding.cancelButton.setOnClickListener { dismiss() }
         binding.confirmButton.setOnClickListener { startCreatingDir() }
@@ -68,7 +68,7 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_crator) {
     private fun showCommonErrorState(state: SimpleOperationState.CommonError) {
         hideProgressBar()
         enableForm()
-        binding.commonErrorView.apply {
+        binding.dialogFooterInclude.errorView.apply {
             text = state.errorMessage
             visibility = View.VISIBLE
         }
@@ -98,15 +98,15 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_crator) {
     }
 
     private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.dialogFooterInclude.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideProgressBar() {
-        binding.progressBar.visibility = View.GONE
+        binding.dialogFooterInclude.progressBar.visibility = View.GONE
     }
 
     private fun hideError() {
-        binding.commonErrorView.apply {
+        binding.dialogFooterInclude.errorView.apply {
             text = ""
             visibility = View.GONE
         }

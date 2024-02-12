@@ -91,7 +91,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         binding.listView.onItemClickListener = this
         binding.listView.onItemLongClickListener = this
 
-        binding.dialogCloseButton.setOnClickListener { dismiss() }
+        binding.dialogHeaderInclude.closeButton.setOnClickListener{ dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
 
@@ -206,7 +206,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     private fun onCurrentPathChanged(path: String?) {
-        binding.pathView.text = path?.let { path } ?: "?"
+        binding.dialogHeaderInclude.titleView.text = path?.let { path } ?: "?"
     }
 
 
@@ -226,10 +226,10 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.dialogFooterInclude.progressBar.visibility = View.VISIBLE
     }
     private fun hideProgressBar() {
-        binding.progressBar.visibility = View.GONE
+        binding.dialogFooterInclude.progressBar.visibility = View.GONE
     }
 
 
@@ -237,12 +237,12 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         showError(ExceptionUtils.getErrorMessage(throwable))
     }
     private fun showError(text: String) {
-        binding.errorView.text = text
-        binding.errorView.visibility = View.VISIBLE
+        binding.dialogFooterInclude.errorView.text = text
+        binding.dialogFooterInclude.errorView.visibility = View.VISIBLE
     }
     private fun hideError() {
-        binding.errorView.text = ""
-        binding.errorView.visibility = View.GONE
+        binding.dialogFooterInclude.errorView.text = ""
+        binding.dialogFooterInclude.errorView.visibility = View.GONE
     }
 
 
