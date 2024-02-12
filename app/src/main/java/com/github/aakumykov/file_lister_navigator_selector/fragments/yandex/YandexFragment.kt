@@ -96,7 +96,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
         binding.listView.setOnItemClickListener { _, _, position, _ -> onListItemClicked(itemsList[position]) }
 
-        binding.listView.setOnItemLongClickListener { parent, view, position, id -> onListItemLongClicked(itemsList[position])}
+        binding.listView.setOnItemLongClickListener { _, _, position, _ -> onListItemLongClicked(itemsList[position])}
     }
 
     private fun onListItemClicked(fsItem: FSItem) {
