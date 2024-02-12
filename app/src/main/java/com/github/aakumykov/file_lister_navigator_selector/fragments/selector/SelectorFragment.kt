@@ -16,11 +16,12 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelectorDialo
 
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
-    private val storageAccessHelper by lazy { StorageAccessHelper.create(requireActivity(), this) }
-
+    private lateinit var storageAccessHelper: StorageAccessHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        storageAccessHelper = StorageAccessHelper.create(requireActivity(), this)
 
         _binding = FragmentSelectorBinding.bind(view)
 
