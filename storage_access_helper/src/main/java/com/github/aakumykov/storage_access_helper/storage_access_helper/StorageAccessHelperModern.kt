@@ -6,12 +6,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 
-class StorageAccessHelperModern(private val activity: FragmentActivity): StorageAccessHelper {
+class StorageAccessHelperModern private constructor(private val activity: FragmentActivity,
+                                                    resultCallback: (isGranted: Boolean) -> Unit): StorageAccessHelper(resultCallback) {
 
     // TODO: лениво
     private val activityResultLauncher: ActivityResultLauncher<Unit>
-    private var onResult: ((isGranted: Boolean) -> Unit)? = null
-
 
     init {
         activityResultLauncher = activity.registerForActivityResult(ManageAllFilesContract(activity.packageName)) { isGranted ->
@@ -21,15 +20,12 @@ class StorageAccessHelperModern(private val activity: FragmentActivity): Storage
 
 
     @RequiresApi(Build.VERSION_CODES.R)
-    override fun requestStorageAccess(resultCallback: (isGranted: Boolean) -> Unit) {
-        this.onResult = resultCallback
-
+    override fun requestStorageAccess() {
         if (hasStorageAccess())
             invokeOnResult(true)
         else
             activityResultLauncher.launch(Unit)
     }
-
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun hasStorageAccess(): Boolean = hasStorageAccessModern()
@@ -50,5 +46,5 @@ class StorageAccessHelperModern(private val activity: FragmentActivity): Storage
     @RequiresApi(Build.VERSION_CODES.R)
     private fun hasStorageAccessModern(): Boolean = Environment.isExternalStorageManager()
 
-    private fun invokeOnResult(isGranted: Boolean) = onResult?.invoke(isGranted)
+    private fun invokeOnResult(isGranted: Boolean) = resultCallback?.invoke(isGranted)
 }
