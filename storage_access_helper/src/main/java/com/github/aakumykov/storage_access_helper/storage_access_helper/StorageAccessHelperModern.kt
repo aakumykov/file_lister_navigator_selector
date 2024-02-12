@@ -18,6 +18,16 @@ class StorageAccessHelperModern internal constructor(private val activity: Fragm
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun requestReadingAccess() {
+        requestStorageAccess()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun requestWritingAccess() {
+        requestStorageAccess()
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun requestStorageAccess() {
@@ -46,5 +56,10 @@ class StorageAccessHelperModern internal constructor(private val activity: Fragm
     @RequiresApi(Build.VERSION_CODES.R)
     private fun hasStorageAccessModern(): Boolean = Environment.isExternalStorageManager()
 
-    private fun invokeOnResult(isGranted: Boolean) = resultCallback.onStorageAccessResult(isGranted)
+    private fun invokeOnResult(isGranted: Boolean) {
+        resultCallback.onStorageAccessResult(
+            if (isGranted) StorageAccessMode.FULL_YES
+            else StorageAccessMode.FULL_NO
+        )
+    }
 }

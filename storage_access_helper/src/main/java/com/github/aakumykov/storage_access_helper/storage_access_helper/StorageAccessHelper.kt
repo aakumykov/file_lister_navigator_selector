@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentActivity
 abstract class StorageAccessHelper (protected var resultCallback: ResultCallback) {
 
     abstract fun requestStorageAccess()
+    abstract fun requestReadingAccess()
+    abstract fun requestWritingAccess()
 
     @Deprecated("Используй hasStorageReadingAccess(), hasStorageWritingAccess")
     abstract fun hasStorageAccess(): Boolean
@@ -31,6 +33,18 @@ abstract class StorageAccessHelper (protected var resultCallback: ResultCallback
     }
 
     interface ResultCallback {
-        fun onStorageAccessResult(isGranted: Boolean)
+        fun onStorageAccessResult(grantedMode: StorageAccessMode)
+    }
+
+    enum class StorageAccessMode {
+        READING_YES,
+        READING_NO,
+        READING_NEVER,
+        WRITING_YES,
+        WRITING_NO,
+        WRITING_NEVER,
+        FULL_YES,
+        FULL_NO,
+        FULL_NEVER
     }
 }
