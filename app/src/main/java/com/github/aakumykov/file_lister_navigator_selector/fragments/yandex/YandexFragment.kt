@@ -76,18 +76,16 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelectorDialog.Ca
     }
 
     private fun prepareFileExplorer() {
-        val fileLister =
-            YandexDiskFileLister(
-                yandexAuthToken!!
-            )
-        val fileExplorer =
+        yandexAuthToken?.also { token ->
             YandexDiskFileExplorer(
-                fileLister,
-                isDirMode = true,
-                listCache = viewModel,
-                pathCache = viewModel
-            )
-        viewModel.setFileExplorer(fileExplorer)
+                    YandexDiskFileLister(token),
+                    isDirMode = true,
+                    listCache = viewModel,
+                    pathCache = viewModel
+            ).also {
+                viewModel.setFileExplorer(it)
+            }
+        }
     }
 
     private fun prepareListAdapter() {
@@ -213,6 +211,11 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelectorDialog.Ca
     private fun onYandexButtonClicked() {
         if (null == yandexAuthToken)
             yandexAuthLauncher.launch(YandexAuthLoginOptions())
+        else {
+            yandexAuthToken = null
+            storeYandexAuthToken()
+            displayYandexAuthStatus()
+        }
     }
 
     override fun onDestroyView() {
