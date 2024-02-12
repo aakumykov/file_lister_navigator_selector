@@ -1,14 +1,17 @@
-package com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator_dialog
+package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator_dialog
 
 import androidx.core.os.bundleOf
-import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator.YandexDirCreator
+import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.kotlin_playground.cloud_dir_creator.CloudDirCreator
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDirCreator
 
 class YandexDirCreatorDialog : DirCreatorDialog() {
 
     override fun cloudDirCreator(): CloudDirCreator {
         // FIXME: решить проблему с null
-        return YandexDirCreator(arguments?.getString(AUTH_TOKEN)!!)
+        return YandexDirCreator(
+            arguments?.getString(AUTH_TOKEN)!!
+        )
     }
 
     override fun basePath(): String = "/"
