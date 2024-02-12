@@ -20,3 +20,4 @@ rootProject.name = "file_lister_navigator_selector"
 include ':app'
 include ':lib'
 include ':yandex_disk'
+include ':storage_access_helper'

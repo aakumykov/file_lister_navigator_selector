@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister_navigator_selector.storage_access_helper
+package com.github.aakumykov.storage_access_helper.storage_access_helper
 
 import android.content.Context
 import android.content.Intent
