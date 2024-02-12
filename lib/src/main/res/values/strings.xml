@@ -20,6 +20,7 @@
     <string name="create_dir_title">Добавление папки</string>
     <string name="select_file_title">Выбор файла/папки</string>
     <string name="description_refresh_button">Обновить</string>
+    <string name="no_write_access">Нет доступа на запись</string>
 
 
 </resources>

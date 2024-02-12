@@ -1,6 +1,5 @@
 package com.github.aakumykov.file_lister_navigator_selector.fragments.selector
 
-import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,15 +9,14 @@ import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorDialog
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelectorDialog
-import permissions.dispatcher.ktx.PermissionsRequester
-import permissions.dispatcher.ktx.constructPermissionsRequest
+import com.github.aakumykov.storage_access_helper.storage_access_helper.StorageAccessHelper
 
-class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelectorDialog.Callback {
+class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelectorDialog.Callback,
+    StorageAccessHelper.ResultCallback {
 
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
-    private lateinit var selectFilePermissionRequest: PermissionsRequester
-
+    private val storageAccessHelper by lazy { StorageAccessHelper.create(requireActivity(), this) }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,16 +24,16 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelectorDialo
 
         _binding = FragmentSelectorBinding.bind(view)
 
-        binding.selectButton.setOnClickListener { selectFilePermissionRequest.launch() }
-
-        selectFilePermissionRequest = constructPermissionsRequest(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            requiresPermission = ::showFileSelector,
-            onNeverAskAgain = { showToast("Нужны разрешение на чтение памяти") },
-            onPermissionDenied = { showToast("Вы запретили чтение памяти...") }
-        )
+        binding.selectButton.setOnClickListener { storageAccessHelper.requestReadingAccess() }
     }
 
+    override fun onStorageAccessResult(grantedMode: StorageAccessHelper.StorageAccessMode) {
+        when(grantedMode) {
+            StorageAccessHelper.StorageAccessMode.READING_YES -> showFileSelector()
+            StorageAccessHelper.StorageAccessMode.FULL_YES -> showFileSelector()
+            else -> showToast(R.string.no_storage_read_access)
+        }
+    }
 
     private fun showFileSelector() {
 

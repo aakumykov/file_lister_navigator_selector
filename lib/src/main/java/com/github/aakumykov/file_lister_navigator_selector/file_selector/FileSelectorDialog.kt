@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -50,10 +51,17 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     // FIXME: утечка this
     private val storageAccessHelper by lazy { StorageAccessHelper.create(requireActivity(), this) }
 
-    override fun onStorageAccessResult(isGranted: Boolean) {
-        createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
+    override fun onStorageAccessResult(grantedMode: StorageAccessHelper.StorageAccessMode) {
+        when(grantedMode) {
+            StorageAccessHelper.StorageAccessMode.WRITING_YES -> showCreateDirDialog()
+            StorageAccessHelper.StorageAccessMode.FULL_YES -> showCreateDirDialog()
+            else -> Toast.makeText(requireContext(), R.string.no_write_access, Toast.LENGTH_SHORT).show()
+        }
     }
 
+    private fun showCreateDirDialog() {
+        createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
+    }
 
     abstract fun fileExplorer(): FileExplorer
 
@@ -131,7 +139,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     }
 
     private fun onCreateDirClicked() {
-        storageAccessHelper.requestStorageAccess()
+        storageAccessHelper.requestWritingAccess()
     }
 
     abstract fun createDirDialog(): CreateDirDialog
