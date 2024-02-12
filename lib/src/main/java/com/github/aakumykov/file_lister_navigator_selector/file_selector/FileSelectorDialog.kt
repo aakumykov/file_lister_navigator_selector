@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
+import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.create_dir_dialog.CreateDirDialog
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
@@ -86,14 +87,23 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
 
         listAdapter = FileListAdapter(requireContext(), R.layout.file_list_item, R.id.titleView, itemList)
 
+        binding.dialogHeaderInclude.titleView.setText(R.string.select_file_title)
+
         binding.listView.adapter = listAdapter
 
         binding.listView.onItemClickListener = this
         binding.listView.onItemLongClickListener = this
 
+        binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.dialogHeaderInclude.closeButton.setOnClickListener{ dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
+
+    private fun onCreateDirClicked() {
+        createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
+    }
+
+    abstract fun createDirDialog(): CreateDirDialog
 
     override fun onStart() {
         super.onStart()

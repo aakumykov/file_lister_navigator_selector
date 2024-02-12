@@ -2,6 +2,8 @@ package com.github.aakumykov.file_lister_navigator_selector.local_file_selector
 
 import android.os.Bundle
 import android.os.Environment
+import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.create_dir_dialog.CreateDirDialog
+import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.create_dir_dialog.LocalCreateDirDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorDialog
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
@@ -23,6 +25,8 @@ class LocalFileSelectorDialog private constructor(): FileSelectorDialog() {
 
     override fun defaultStartPath(): String
         = Environment.getExternalStorageDirectory().path
+
+    override fun createDirDialog(): CreateDirDialog = LocalCreateDirDialog.create()
 
 
     private fun createFileExplorer(arguments: Bundle?): FileExplorer {

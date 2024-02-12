@@ -17,5 +17,8 @@
     <string name="BUTTON_cancel">Отмена</string>
     <string name="BUTTON_create">Создать</string>
 
+    <string name="create_dir_title">Добавление папки</string>
+    <string name="select_file_title">Выбор файла/папки</string>
+
 
 </resources>

@@ -30,6 +30,9 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
         super.onViewCreated(view, savedInstanceState)
         _binding = DialogDirCreatorBinding.bind(view)
 
+        binding.dialogHeaderInclude.titleView.setText(R.string.create_dir_title)
+        binding.dialogHeaderInclude.closeButton.setOnClickListener { dismiss() }
+
         binding.cancelButton.setOnClickListener { dismiss() }
         binding.confirmButton.setOnClickListener { startCreatingDir() }
 

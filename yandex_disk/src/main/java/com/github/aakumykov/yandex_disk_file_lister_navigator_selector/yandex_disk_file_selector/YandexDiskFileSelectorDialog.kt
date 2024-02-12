@@ -1,28 +1,30 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
 import android.os.Bundle
+import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.create_dir_dialog.CreateDirDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorDialog
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator_dialog.YandexCreateDirDialog
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
-class YandexDiskFileSelectorDialog : FileSelectorDialog() {
+class YandexDiskFileSelectorDialog private constructor(): FileSelectorDialog() {
 
     private var _fileExplorer: FileExplorer? = null
+    private var authToken: String? = null
+
 
     override fun fileExplorer(): FileExplorer {
         if (null == _fileExplorer) {
 
-            val authToken = arguments?.getString(AUTH_TOKEN)
+            authToken = arguments?.getString(AUTH_TOKEN)
 
             if (authToken.isNullOrEmpty())
                 throw IllegalArgumentException("Auth token is null or empty")
             else
                 _fileExplorer =
                     YandexDiskFileExplorer(
-                        YandexDiskFileLister(
-                            authToken
-                        ),
+                        YandexDiskFileLister(authToken!!),
                         isDirMode = isDirMode
                     )
         }
@@ -32,7 +34,9 @@ class YandexDiskFileSelectorDialog : FileSelectorDialog() {
 
     override fun defaultStartPath(): String = "/"
 
-    
+    override fun createDirDialog(): CreateDirDialog = YandexCreateDirDialog.create(authToken!!)
+
+
     // TODO: общий метод для создания этих диалогов
     companion object {
         val TAG: String = YandexDiskFileSelectorDialog::class.java.simpleName

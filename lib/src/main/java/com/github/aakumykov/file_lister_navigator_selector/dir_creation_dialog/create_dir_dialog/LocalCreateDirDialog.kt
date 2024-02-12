@@ -4,7 +4,7 @@ import android.os.Environment
 import com.github.aakumykov.kotlin_playground.cloud_dir_creator.CloudDirCreator
 import com.github.aakumykov.kotlin_playground.cloud_dir_creator.LocalDirCreator
 
-class LocalCreateDirDialog : CreateDirDialog() {
+class LocalCreateDirDialog private constructor(): CreateDirDialog() {
 
     companion object {
         val TAG: String = LocalCreateDirDialog::class.java.name
