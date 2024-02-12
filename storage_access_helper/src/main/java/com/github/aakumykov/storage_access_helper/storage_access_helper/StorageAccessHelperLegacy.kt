@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentActivity
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 
-class StorageAccessHelperLegacy private constructor(private val activity: FragmentActivity,
-                                resultCallback: (isGranted: Boolean) -> Unit): StorageAccessHelper(resultCallback) {
+class StorageAccessHelperLegacy internal constructor(private val activity: FragmentActivity,
+                                                     resultCallback: ResultCallback): StorageAccessHelper(resultCallback) {
 
     private val readingStoragePermissionsRequester: PermissionsRequester
 
@@ -14,9 +14,9 @@ class StorageAccessHelperLegacy private constructor(private val activity: Fragme
         readingStoragePermissionsRequester = activity.constructPermissionsRequest(
             android.Manifest.permission.READ_EXTERNAL_STORAGE,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            requiresPermission = { resultCallback.invoke(true) },
-            onPermissionDenied = { resultCallback.invoke(false) },
-            onNeverAskAgain = { resultCallback.invoke(true) }
+            requiresPermission = { resultCallback.onStorageAccessResult(true) },
+            onPermissionDenied = { resultCallback.onStorageAccessResult(false) },
+            onNeverAskAgain = { resultCallback.onStorageAccessResult(false) }
         )
     }
 

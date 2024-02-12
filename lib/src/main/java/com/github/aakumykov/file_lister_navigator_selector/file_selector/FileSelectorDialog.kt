@@ -1,8 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_selector
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -28,15 +26,13 @@ typealias Layout = DialogFileSelectorBinding
 
 abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
-    AdapterView.OnItemClickListener
-{
+    AdapterView.OnItemClickListener, StorageAccessHelper.ResultCallback {
     private var _binding: Layout? = null
     private val binding get() = _binding!!
 
     private val viewModel: FileSelectorViewModel by viewModels()
 
     private var firstRun: Boolean = true
-    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
     private val itemList: MutableList<FSItem> = mutableListOf()
     private lateinit var listAdapter: FileListAdapter
@@ -47,12 +43,15 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         arguments?.getBoolean(IS_MULTIPLE_SELECTION_MODE) ?: false
     }
 
-    private val startPath: String by lazy {
-        arguments?.getString(START_PATH) ?: defaultStartPath()
-    }
-
     protected val isDirMode: Boolean by lazy {
         arguments?.getBoolean(IS_DIR_MODE) ?: false
+    }
+
+    // FIXME: утечка this
+    private val storageAccessHelper by lazy { StorageAccessHelper.create(requireActivity(), this) }
+
+    override fun onStorageAccessResult(isGranted: Boolean) {
+        createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
     }
 
 
@@ -106,6 +105,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     private fun refreshList() {
         lifecycleScope.launch {
 
+            hideError()
             showRefreshIndicator()
 
             val list: MutableList<FSItem> = mutableListOf()
@@ -131,9 +131,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     }
 
     private fun onCreateDirClicked() {
-        StorageAccessHelper.create(requireActivity()).requestStorageAccess {
-            createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
-        }
+        storageAccessHelper.requestStorageAccess()
     }
 
     abstract fun createDirDialog(): CreateDirDialog
@@ -242,7 +240,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         }*/
     }
 
-    private suspend fun openAndListDir(dirItem: DirItem): List<FSItem> {
+    private fun openAndListDir(dirItem: DirItem): List<FSItem> {
         fileExplorer().changeDir(dirItem)
         return fileExplorer().listCurrentPath()
     }
@@ -262,7 +260,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
 
     private fun onFileListChanged(list: List<FSItem>?) {
         list?.let {
-            hideProgressBar()
+            hideRefreshIndicator()
             itemList.clear()
             itemList.addAll(it)
         }
@@ -272,14 +270,6 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-
-    private fun showProgressBar() {
-        binding.dialogFooterInclude.progressBar.visibility = View.VISIBLE
-    }
-    private fun hideProgressBar() {
-        binding.dialogFooterInclude.progressBar.visibility = View.GONE
     }
 
 

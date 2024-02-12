@@ -6,8 +6,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 
-class StorageAccessHelperModern private constructor(private val activity: FragmentActivity,
-                                                    resultCallback: (isGranted: Boolean) -> Unit): StorageAccessHelper(resultCallback) {
+class StorageAccessHelperModern internal constructor(private val activity: FragmentActivity,
+                                                     resultCallback: ResultCallback): StorageAccessHelper(resultCallback) {
 
     // TODO: лениво
     private val activityResultLauncher: ActivityResultLauncher<Unit>
@@ -46,5 +46,5 @@ class StorageAccessHelperModern private constructor(private val activity: Fragme
     @RequiresApi(Build.VERSION_CODES.R)
     private fun hasStorageAccessModern(): Boolean = Environment.isExternalStorageManager()
 
-    private fun invokeOnResult(isGranted: Boolean) = resultCallback?.invoke(isGranted)
+    private fun invokeOnResult(isGranted: Boolean) = resultCallback.onStorageAccessResult(isGranted)
 }
