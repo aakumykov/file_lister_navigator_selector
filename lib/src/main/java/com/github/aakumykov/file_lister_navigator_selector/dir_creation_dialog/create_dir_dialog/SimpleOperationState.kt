@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator_dialog
+package com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.create_dir_dialog
 
 import androidx.annotation.StringRes
 

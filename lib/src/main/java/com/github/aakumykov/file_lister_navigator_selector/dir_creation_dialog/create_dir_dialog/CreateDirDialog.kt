@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator_dialog
+package com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.create_dir_dialog
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
+abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
     private var _binding: DialogDirCreatorBinding? = null
     private val binding get() = _binding!!
@@ -121,6 +121,6 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
     }
 
     companion object {
-        val TAG: String = DirCreatorDialog::class.java.name
+        val TAG: String = CreateDirDialog::class.java.name
     }
 }
