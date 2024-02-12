@@ -2,6 +2,7 @@ package com.github.aakumykov.storage_access_helper.storage_access_helper
 
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
 abstract class StorageAccessHelper (protected var resultCallback: ResultCallback) {
@@ -20,8 +21,15 @@ abstract class StorageAccessHelper (protected var resultCallback: ResultCallback
 
 
     companion object {
-        fun create(componentActivity: FragmentActivity,
-                   resultCallback: ResultCallback): StorageAccessHelper {
+
+        fun create(fragment: Fragment, resultCallback: ResultCallback): StorageAccessHelper {
+            return when {
+                isAndroidROrLater() -> StorageAccessHelperModern(fragment, resultCallback)
+                else -> throw Exception()/*StorageAccessHelperLegacy(fragment, resultCallback)*/
+            }
+        }
+
+        fun create(componentActivity: FragmentActivity, resultCallback: ResultCallback): StorageAccessHelper {
             return when {
                 isAndroidROrLater() -> StorageAccessHelperModern(componentActivity, resultCallback)
                 else -> StorageAccessHelperLegacy(componentActivity, resultCallback)

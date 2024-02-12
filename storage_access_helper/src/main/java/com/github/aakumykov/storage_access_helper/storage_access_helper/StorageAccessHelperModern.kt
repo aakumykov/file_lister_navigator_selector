@@ -1,20 +1,30 @@
 package com.github.aakumykov.storage_access_helper.storage_access_helper
 
+import android.content.Context
 import android.os.Build
 import android.os.Environment
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
-class StorageAccessHelperModern internal constructor(private val activity: FragmentActivity,
+class StorageAccessHelperModern private constructor(private val activity: FragmentActivity? = null,
+                                                     private val fragment: Fragment? = null,
                                                      resultCallback: ResultCallback): StorageAccessHelper(resultCallback) {
+
+    internal constructor(activity: FragmentActivity, resultCallback: ResultCallback): this(activity, null, resultCallback)
+
+    internal constructor(fragment: Fragment, resultCallback: ResultCallback): this(null, fragment, resultCallback)
+
 
     // TODO: лениво
     private val activityResultLauncher: ActivityResultLauncher<Unit>
 
     init {
-        activityResultLauncher = activity.registerForActivityResult(ManageAllFilesContract(activity.packageName)) { isGranted ->
-            invokeOnResult(isGranted)
+        activityResultLauncher = when {
+            null != activity -> activity.registerForActivityResult(ManageAllFilesContract(activity.packageName)) { isGranted -> invokeOnResult(isGranted) }
+            null != fragment -> fragment.registerForActivityResult(ManageAllFilesContract(fragment.requireActivity().packageName)) { isGranted -> invokeOnResult(isGranted) }
+            else -> throw noActivityAndFragmentException()
         }
     }
 
@@ -49,7 +59,12 @@ class StorageAccessHelperModern internal constructor(private val activity: Fragm
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun openStorageAccessSettings() {
-        activity.startActivity(IntentHelper.manageAllFilesIntent(activity))
+        when {
+            null != activity -> activity
+            null != fragment -> fragment.requireActivity()
+            else -> throw noActivityAndFragmentException()
+        }
+            .startActivity(IntentHelper.manageAllFilesIntent(context()))
     }
 
 
@@ -61,5 +76,17 @@ class StorageAccessHelperModern internal constructor(private val activity: Fragm
             if (isGranted) StorageAccessMode.FULL_YES
             else StorageAccessMode.FULL_NO
         )
+    }
+
+    private fun noActivityAndFragmentException(): Exception {
+        return IllegalStateException("Оба поля: activity и fragment равны null, а такого быть не должно!")
+    }
+
+    private fun context(): Context {
+        return when {
+            null != activity -> activity
+            null != fragment -> fragment.requireContext()
+            else -> throw noActivityAndFragmentException()
+        }
     }
 }
