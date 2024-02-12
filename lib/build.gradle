@@ -65,6 +65,8 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.6.2'
 
     api 'com.github.aakumykov:cloud_writer:0.0.1'
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
 
 publishing {
