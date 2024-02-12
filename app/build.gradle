@@ -56,8 +56,6 @@ dependencies {
 
     implementation "com.github.permissions-dispatcher:ktx:1.1.4"
 
-    implementation "com.github.permissions-dispatcher:ktx:1.1.4"
-
     implementation("com.yandex.android:authsdk:3.0.0")
 
     implementation "androidx.preference:preference:1.2.1"
