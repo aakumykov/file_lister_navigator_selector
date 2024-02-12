@@ -21,7 +21,7 @@ import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
 
-abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
+abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
 {
@@ -56,13 +56,13 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     abstract fun defaultStartPath(): String
 
 
-    fun show(fragmentManager: FragmentManager): FileSelector {
+    fun show(fragmentManager: FragmentManager): FileSelectorDialog {
         show(fragmentManager, TAG)
         return this
     }
 
 
-    fun setCallback(callback: Callback): FileSelector {
+    fun setCallback(callback: Callback): FileSelectorDialog {
         this.callback = callback
         return this
     }
@@ -252,16 +252,16 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     companion object {
-        val TAG: String = FileSelector::class.java.simpleName
+        val TAG: String = FileSelectorDialog::class.java.simpleName
 
         const val START_PATH = "INITIAL_PATH"
         const val IS_MULTIPLE_SELECTION_MODE = "IS_MULTIPLE_SELECTION_MODE"
         const val IS_DIR_MODE = "IS_DIR_MODE"
         const val AUTH_TOKEN = "AUTH_TOKEN"
 
-        fun find(tag: String, fragmentManager: FragmentManager): FileSelector? {
+        fun find(tag: String, fragmentManager: FragmentManager): FileSelectorDialog? {
             return when(val fragment = fragmentManager.findFragmentByTag(tag)) {
-                is FileSelector -> fragment
+                is FileSelectorDialog -> fragment
                 else -> null
             }
         }

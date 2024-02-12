@@ -12,11 +12,11 @@ import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentY
 import com.github.aakumykov.file_lister_navigator_selector.extensions.restoreString
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.extensions.storeString
-import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorDialog
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
-import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector.YandexDiskFileSelector
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector.YandexDiskFileSelectorDialog
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
@@ -24,7 +24,7 @@ import com.yandex.authsdk.YandexAuthOptions
 import com.yandex.authsdk.YandexAuthSdkContract
 import kotlin.concurrent.thread
 
-class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback {
+class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelectorDialog.Callback {
 
     private var _binding: FragmentYandexBinding? = null
     private val binding get() = _binding!!
@@ -145,7 +145,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
             return
         }
 
-        val fs = YandexDiskFileSelector.create(
+        val fs = YandexDiskFileSelectorDialog.create(
             authToken = yandexAuthToken!!,
             isMultipleSelectionMode = true,
             isDirMode = true
@@ -216,7 +216,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     }
 
     override fun onDestroyView() {
-        FileSelector.find(YandexDiskFileSelector.TAG, childFragmentManager)?.unsetCallback()
+        FileSelectorDialog.find(YandexDiskFileSelectorDialog.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }

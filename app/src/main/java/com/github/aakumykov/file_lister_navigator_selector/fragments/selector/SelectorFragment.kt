@@ -7,13 +7,13 @@ import androidx.fragment.app.Fragment
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
-import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorDialog
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelector
+import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelectorDialog
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
 
-class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Callback {
+class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelectorDialog.Callback {
 
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
@@ -39,7 +39,7 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
     private fun showFileSelector() {
 
-        val fileSelector = LocalFileSelector.create(
+        val fileSelector = LocalFileSelectorDialog.create(
                 callback = this,
                 isMultipleSelectionMode = true
             ).show(childFragmentManager)
@@ -50,7 +50,7 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
     }
 
     override fun onDestroyView() {
-        FileSelector.find(LocalFileSelector.TAG, childFragmentManager)?.unsetCallback()
+        FileSelectorDialog.find(LocalFileSelectorDialog.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }
