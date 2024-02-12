@@ -17,6 +17,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.storage_access_helper.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -130,7 +131,9 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     }
 
     private fun onCreateDirClicked() {
-        createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
+        StorageAccessHelper.create(requireActivity()).requestStorageAccess {
+            createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
+        }
     }
 
     abstract fun createDirDialog(): CreateDirDialog
