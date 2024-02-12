@@ -9,16 +9,19 @@ import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.create_dir_dialog.CreateDirDialog
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Date
-import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
 
@@ -100,7 +103,30 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     }
 
     private fun refreshList() {
-        openDir(fsItemFromPath(fileExplorer().getCurrentPath()))
+        lifecycleScope.launch {
+
+            showRefreshIndicator()
+
+            val list: MutableList<FSItem> = mutableListOf()
+
+            withContext(Dispatchers.IO) {
+                list.addAll(openAndListDir(dirItemFromPath(fileExplorer().getCurrentPath())))
+            }
+
+            viewModel.clearSelectionList()
+            viewModel.setFileList(list)
+            viewModel.setCurrentPath(fileExplorer().getCurrentPath())
+
+            hideRefreshIndicator()
+        }
+    }
+
+    private fun showRefreshIndicator() {
+        binding.swipeRefreshLayout.isRefreshing = true
+    }
+
+    private fun hideRefreshIndicator() {
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     private fun onCreateDirClicked() {
@@ -113,18 +139,16 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         super.onStart()
 
         if (firstRun)
-            openDir(fsItemFromPath(startPath))
+            refreshList()
     }
 
 
-    private fun fsItemFromPath(path: String): FSItem {
-        return SimpleFSItem(
+    private fun dirItemFromPath(path: String): DirItem {
+        return DirItem(
             name = path,
             absolutePath = path,
             parentPath = "",
-            isDir = true,
             mTime = Date().time,
-            size = 0L
         )
     }
 
@@ -188,31 +212,37 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         if (!fsItem.isDir)
             return
 
-        hideError()
-        showProgressBar()
+        fileExplorer().changeDir(fsItem)
 
-        thread {
-            try {
-                fileExplorer().changeDir(fsItem)
+        refreshList()
 
-                val list = fileExplorer().listCurrentPath()
+        /*try {
+            hideError()
+            showProgressBar()
 
-                handler.post {
-                    hideProgressBar()
-                    viewModel.clearSelectionList()
-                    viewModel.setFileList(list)
-                    viewModel.setCurrentPath(fileExplorer().getCurrentPath())
-                }
-            }
-            catch (throwable: Throwable) {
-                handler.post { viewModel.setError(throwable) }
-            }
-            finally {
-                handler.post { hideProgressBar() }
+            fileExplorer().changeDir(fsItem)
+
+            val list = fileExplorer().listCurrentPath()
+
+            handler.post {
+                hideProgressBar()
+                viewModel.clearSelectionList()
+                viewModel.setFileList(list)
+                viewModel.setCurrentPath(fileExplorer().getCurrentPath())
             }
         }
+        catch (throwable: Throwable) {
+            handler.post { viewModel.setError(throwable) }
+        }
+        finally {
+            handler.post { hideProgressBar() }
+        }*/
     }
 
+    private suspend fun openAndListDir(dirItem: DirItem): List<FSItem> {
+        fileExplorer().changeDir(dirItem)
+        return fileExplorer().listCurrentPath()
+    }
 
     private fun onErrorChanged(throwable: Throwable?) {
         throwable?.let {
