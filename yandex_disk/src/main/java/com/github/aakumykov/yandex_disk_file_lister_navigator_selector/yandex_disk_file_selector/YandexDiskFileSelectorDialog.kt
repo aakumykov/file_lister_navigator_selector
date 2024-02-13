@@ -8,7 +8,7 @@ import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_di
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
-class YandexDiskFileSelectorDialog private constructor(): FileSelectorDialog() {
+class YandexDiskFileSelectorDialog: FileSelectorDialog() {
 
     private var _fileExplorer: FileExplorer? = null
     private var authToken: String? = null
