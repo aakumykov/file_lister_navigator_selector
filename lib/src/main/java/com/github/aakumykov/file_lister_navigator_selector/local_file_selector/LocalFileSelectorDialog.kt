@@ -9,7 +9,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExpl
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
 
-class LocalFileSelectorDialog private constructor(): FileSelectorDialog() {
+class LocalFileSelectorDialog: FileSelectorDialog() {
 
     private var _fileExplorer: FileExplorer? = null
 
