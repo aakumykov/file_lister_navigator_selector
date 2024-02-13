@@ -17,4 +17,5 @@
         android:icon="@drawable/outline_info_24"
         android:title="@string/MENU_app_properties"
         app:showAsAction="always" />
+
 </menu>

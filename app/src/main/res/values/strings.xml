@@ -7,4 +7,5 @@
     <string name="login_to_yandex">Залогиниться в Яндекс</string>
     <string name="logout_from_yandex">Выйти из Яндекса</string>
     <string name="no_storage_read_access">Нет доступа на чтение</string>
+    <string name="MENU_storage_settings">Настройки хранилища</string>
 </resources>

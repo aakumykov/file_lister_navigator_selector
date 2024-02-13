@@ -21,7 +21,7 @@ class IntentHelper private constructor() {
         fun appSettingsIntent(context: Context): Intent {
             return Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                 data = Uri.parse("package:${context.packageName}")
-                resolveActivity(context.packageManager)?.also { context.startActivity(this) }
+                resolveActivity(context.packageManager)
             }
         }
     }

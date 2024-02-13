@@ -42,14 +42,14 @@ class StorageAccessHelperModern private constructor(private val activity: Fragme
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun requestStorageAccess() {
-        if (hasStorageAccess())
+        if (hasStorageFullAccess())
             invokeOnResult(true)
         else
             activityResultLauncher.launch(Unit)
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    override fun hasStorageAccess(): Boolean = hasStorageAccessModern()
+    override fun hasStorageFullAccess(): Boolean = hasStorageAccessModern()
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun hasStorageReadingAccess(): Boolean = hasStorageAccessModern()

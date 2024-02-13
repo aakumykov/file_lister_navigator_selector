@@ -8,13 +8,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.github.aakumykov.file_lister_navigator_selector.databinding.ActivityMainBinding
-import com.github.aakumykov.file_lister_navigator_selector.fragments.local.LocalViewModel
 import com.github.aakumykov.file_lister_navigator_selector.fragments.selector.SelectorFragment
+import com.github.aakumykov.storage_access_helper.storage_access_helper.StorageSettingsHelper
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mLocalViewModel: LocalViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(com.github.aakumykov.file_lister_navigator_selector.R.menu.storage, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -47,6 +48,11 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.actionCloseApp -> {
                 closeApp()
+                true
+            }
+            R.id.actionStorageSettings -> {
+//                storageAccessHelper.openStorageAccessSettings()
+                StorageSettingsHelper.create(this).openStorageAccessSettings()
                 true
             }
             else -> {
