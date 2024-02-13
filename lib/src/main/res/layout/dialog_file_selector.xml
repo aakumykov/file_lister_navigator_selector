@@ -7,7 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_weight="0">
 
         <ImageView
             android:id="@+id/createDirButton"
@@ -40,12 +41,14 @@
         android:id="@+id/dialog_footer_include"
         layout="@layout/dialog_footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="0"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <ListView
             android:id="@+id/listView"
@@ -61,6 +64,7 @@
         android:id="@+id/confirmSelectionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:layout_marginHorizontal="4dp"
         android:enabled="false"
         android:text="@string/confirm_selection_button" />
