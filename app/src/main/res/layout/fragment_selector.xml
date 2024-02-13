@@ -38,4 +38,11 @@
         tools:text="Ошибка"
         tools:visibility="visible" />
 
+    <TextView
+        android:id="@+id/infoView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        tools:text="Информация" />
+
 </LinearLayout>

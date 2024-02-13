@@ -25,7 +25,18 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelectorDialo
 
         _binding = FragmentSelectorBinding.bind(view)
 
-        binding.selectButton.setOnClickListener { storageAccessHelper.requestReadingAccess() }
+        binding.selectButton.setOnClickListener {
+            hideInfo()
+            storageAccessHelper.requestReadingAccess()
+        }
+    }
+
+    private fun showInfo(text: String) {
+        binding.infoView.text = text
+    }
+
+    private fun hideInfo() {
+        binding.infoView.text = ""
     }
 
     override fun onStorageAccessResult(grantedMode: StorageAccessHelper.StorageAccessMode) {
@@ -55,7 +66,10 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelectorDialo
     }
 
     override fun onFilesSelected(selectedItemsList: List<FSItem>) {
-        showToast(selectedItemsList.joinToString(separator = "\n"))
+        selectedItemsList.joinToString(separator = "\n").also {
+            showToast(it)
+            showInfo(it)
+        }
     }
 
     companion object {
