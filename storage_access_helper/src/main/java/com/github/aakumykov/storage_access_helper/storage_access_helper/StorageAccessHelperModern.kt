@@ -1,5 +1,6 @@
 package com.github.aakumykov.storage_access_helper.storage_access_helper
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Environment
@@ -59,12 +60,7 @@ class StorageAccessHelperModern private constructor(private val activity: Fragme
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun openStorageAccessSettings() {
-        when {
-            null != activity -> activity
-            null != fragment -> fragment.requireActivity()
-            else -> throw noActivityAndFragmentException()
-        }
-            .startActivity(IntentHelper.manageAllFilesIntent(context()))
+        activity().startActivity(IntentHelper.manageAllFilesIntent(context()))
     }
 
 
@@ -86,6 +82,14 @@ class StorageAccessHelperModern private constructor(private val activity: Fragme
         return when {
             null != activity -> activity
             null != fragment -> fragment.requireContext()
+            else -> throw noActivityAndFragmentException()
+        }
+    }
+
+    private fun activity(): Activity {
+        return when {
+            null != activity -> activity
+            null != fragment -> fragment.requireActivity()
             else -> throw noActivityAndFragmentException()
         }
     }
