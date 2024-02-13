@@ -271,6 +271,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
             hideRefreshIndicator()
             itemList.clear()
             itemList.addAll(it)
+            listAdapter.notifyDataSetChanged()
         }
     }
 
