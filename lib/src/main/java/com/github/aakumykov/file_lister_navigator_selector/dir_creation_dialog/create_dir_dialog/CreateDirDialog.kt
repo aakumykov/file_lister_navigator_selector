@@ -6,11 +6,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogDirCreatorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator.CloudDirCreator
+import com.github.aakumykov.single_live_event.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,6 +23,8 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
     private var _binding: DialogDirCreatorBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DirCreatorViewModel by viewModels { DirCreatorViewModel.provideFactory(cloudDirCreator()) }
+
+    val dirCreationEvent: LiveData<String> = SingleLiveEvent()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -141,8 +146,18 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
         private var dirCreationCallback: DirCreationCallback? = null
 
+        @Deprecated("Удалить нахой")
         fun setDirCreationCallback(callback: DirCreationCallback) {
             dirCreationCallback = callback
+        }
+
+        fun find(fragmentManager: FragmentManager): CreateDirDialog? {
+            return fragmentManager.findFragmentByTag(TAG).let {
+                when(it) {
+                    is CreateDirDialog -> it
+                    else -> null
+                }
+            }
         }
     }
 

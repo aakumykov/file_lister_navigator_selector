@@ -98,6 +98,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
 
     private fun showCreateDirDialog() {
         createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
+        CreateDirDialog.find(childFragmentManager)?.dirCreationEvent?.observe(viewLifecycleOwner, ::onDirCreated)
     }
 
     abstract fun fileExplorer(): FileExplorer

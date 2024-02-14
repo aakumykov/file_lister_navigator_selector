@@ -69,7 +69,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-//    implementation 'com.github.aakumykov:single_live_event:0.0.1'
+    implementation 'com.github.aakumykov:single_live_event:0.0.1'
 }
 
 publishing {
