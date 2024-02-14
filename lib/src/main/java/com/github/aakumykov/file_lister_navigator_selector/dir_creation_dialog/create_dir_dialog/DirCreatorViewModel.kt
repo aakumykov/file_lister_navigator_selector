@@ -19,6 +19,10 @@ class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewMo
     private val _operationState: MutableLiveData<SimpleOperationState> = MutableLiveData(SimpleOperationState.Idle)
     val operationState: LiveData<SimpleOperationState> = _operationState
 
+    private val _dirCreationEvent: MutableLiveData<String> = MutableLiveData()
+    val dirCreationEventLiveData: LiveData<String> = _dirCreationEvent
+
+
     fun createDir(name: String, basePath: String) {
 
         if (name.isEmpty() || name.isBlank()) {
@@ -31,6 +35,7 @@ class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewMo
                 setOpState(SimpleOperationState.Busy)
                 withContext(Dispatchers.IO) { cloudDirCreator.createDir(name, basePath) }
                 setOpState(SimpleOperationState.Success)
+                sendDirCreationEvent(name)
             }
             catch (t: Throwable) {
                 val errorMessage = ExceptionUtils.getErrorMessage(t)
@@ -43,9 +48,13 @@ class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewMo
         }
     }
 
-
     private fun setOpState(state: SimpleOperationState) {
         _operationState.value = state
+    }
+
+
+    private fun sendDirCreationEvent(dirName: String) {
+        _dirCreationEvent.value = dirName
     }
 
 

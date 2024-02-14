@@ -27,8 +27,9 @@ typealias Layout = DialogFileSelectorBinding
 
 abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
-    AdapterView.OnItemClickListener, StorageAccessHelper.ResultCallback,
-    CreateDirDialog.DirCreationCallback {
+    AdapterView.OnItemClickListener,
+    StorageAccessHelper.ResultCallback
+{
     private var _binding: Layout? = null
     private val binding get() = _binding!!
 
@@ -79,7 +80,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         binding.dialogHeaderInclude.closeButton.setOnClickListener{ dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
 
-        CreateDirDialog.setDirCreationCallback(this)
+        subscribeToDirCreationEvent()
     }
 
     override fun onStorageAccessResult(grantedMode: StorageAccessHelper.StorageAccessMode) {
@@ -91,15 +92,20 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     }
 
 
-    override fun onDirCreated(dirName: String) {
+    private fun showCreateDirDialog() {
+        createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
+        subscribeToDirCreationEvent()
+    }
+
+    private fun subscribeToDirCreationEvent() {
+        CreateDirDialog.find(childFragmentManager)?.dirCreationEventLiveData?.observe(viewLifecycleOwner, ::onDirCreated)
+    }
+
+
+    private fun onDirCreated(dirName: String) {
         refreshList()
     }
 
-
-    private fun showCreateDirDialog() {
-        createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
-        CreateDirDialog.find(childFragmentManager)?.dirCreationEvent?.observe(viewLifecycleOwner, ::onDirCreated)
-    }
 
     abstract fun fileExplorer(): FileExplorer
 

@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogDirCreatorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator.CloudDirCreator
-import com.github.aakumykov.single_live_event.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,7 +23,7 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
     private val binding get() = _binding!!
     private val viewModel: DirCreatorViewModel by viewModels { DirCreatorViewModel.provideFactory(cloudDirCreator()) }
 
-    val dirCreationEvent: LiveData<String> = SingleLiveEvent()
+    val dirCreationEventLiveData: LiveData<String> get() = viewModel.dirCreationEventLiveData
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,7 +95,6 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
     private fun processSuccessState() {
         Toast.makeText(requireContext(), getString(R.string.dir_created, dirName()), Toast.LENGTH_SHORT).show()
-        dirCreationCallback?.onDirCreated(dirName())
         dismiss()
     }
 
@@ -144,13 +142,6 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
     companion object {
         val TAG: String = CreateDirDialog::class.java.name
 
-        private var dirCreationCallback: DirCreationCallback? = null
-
-        @Deprecated("Удалить нахой")
-        fun setDirCreationCallback(callback: DirCreationCallback) {
-            dirCreationCallback = callback
-        }
-
         fun find(fragmentManager: FragmentManager): CreateDirDialog? {
             return fragmentManager.findFragmentByTag(TAG).let {
                 when(it) {
@@ -159,9 +150,5 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
                 }
             }
         }
-    }
-
-    interface DirCreationCallback {
-        fun onDirCreated(dirName: String)
     }
 }
