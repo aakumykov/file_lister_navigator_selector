@@ -38,8 +38,12 @@ class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewMo
                 val errorMessage = ExceptionUtils.getErrorMessage(t)
                 Log.e(TAG, errorMessage)
                 setOpState(when (t) {
-                        is CloudDirCreator.AlreadyExistsException -> SimpleOperationState.AlreadyExistsError(R.string.error_already_exists)
-                        else -> SimpleOperationState.CommonError(errorMessage)
+                        is CloudDirCreator.AlreadyExistsException -> {
+                            SimpleOperationState.AlreadyExistsError(R.string.error_already_exists)
+                        }
+                        else -> {
+                            SimpleOperationState.CommonError(errorMessage)
+                        }
                 })
             }
         }

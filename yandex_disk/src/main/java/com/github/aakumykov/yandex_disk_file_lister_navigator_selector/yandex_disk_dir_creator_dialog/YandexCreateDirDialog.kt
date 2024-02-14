@@ -1,8 +1,8 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator_dialog
 
 import androidx.core.os.bundleOf
+import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator.CloudDirCreator
 import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.create_dir_dialog.CreateDirDialog
-import com.github.aakumykov.kotlin_playground.cloud_dir_creator.CloudDirCreator
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDirCreator
 
 class YandexCreateDirDialog : CreateDirDialog() {
