@@ -16,11 +16,8 @@ import kotlinx.coroutines.withContext
 
 class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewModel() {
 
-    private val _operationState: MutableLiveData<SimpleOperationState> = MutableLiveData(
-        SimpleOperationState.Idle
-    )
+    private val _operationState: MutableLiveData<SimpleOperationState> = MutableLiveData(SimpleOperationState.Idle)
     val operationState: LiveData<SimpleOperationState> = _operationState
-
 
     fun createDir(name: String, basePath: String) {
 

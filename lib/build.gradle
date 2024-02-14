@@ -68,6 +68,8 @@ dependencies {
     api 'com.github.aakumykov:cloud_writer:0.0.2'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+//    implementation 'com.github.aakumykov:single_live_event:0.0.1'
 }
 
 publishing {

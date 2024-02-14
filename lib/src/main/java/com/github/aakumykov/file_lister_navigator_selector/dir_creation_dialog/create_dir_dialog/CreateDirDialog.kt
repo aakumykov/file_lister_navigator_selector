@@ -19,13 +19,7 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
     private var _binding: DialogDirCreatorBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel: DirCreatorViewModel by viewModels {
-        DirCreatorViewModel.provideFactory(cloudDirCreator())
-    }
-
-    abstract fun cloudDirCreator(): CloudDirCreator
-    abstract fun basePath(): String
+    private val viewModel: DirCreatorViewModel by viewModels { DirCreatorViewModel.provideFactory(cloudDirCreator()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,6 +44,11 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
         }
     }
 
+    abstract fun cloudDirCreator(): CloudDirCreator
+
+    abstract fun basePath(): String
+
+
     private fun startCreatingDir() {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -57,6 +56,7 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
             }
         }
     }
+
 
     private fun showIdleState() {
         enableForm()
@@ -91,6 +91,7 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
     private fun processSuccessState() {
         Toast.makeText(requireContext(), getString(R.string.dir_created, dirName()), Toast.LENGTH_SHORT).show()
+        dirCreationCallback?.onDirCreated(dirName())
         dismiss()
     }
 
@@ -137,5 +138,15 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
     companion object {
         val TAG: String = CreateDirDialog::class.java.name
+
+        private var dirCreationCallback: DirCreationCallback? = null
+
+        fun setDirCreationCallback(callback: DirCreationCallback) {
+            dirCreationCallback = callback
+        }
+    }
+
+    interface DirCreationCallback {
+        fun onDirCreated(dirName: String)
     }
 }

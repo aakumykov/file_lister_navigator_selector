@@ -27,7 +27,8 @@ typealias Layout = DialogFileSelectorBinding
 
 abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
-    AdapterView.OnItemClickListener, StorageAccessHelper.ResultCallback {
+    AdapterView.OnItemClickListener, StorageAccessHelper.ResultCallback,
+    CreateDirDialog.DirCreationCallback {
     private var _binding: Layout? = null
     private val binding get() = _binding!!
 
@@ -48,7 +49,6 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         arguments?.getBoolean(IS_DIR_MODE) ?: false
     }
 
-    // FIXME: утечка "this"
     private lateinit var storageAccessHelper: StorageAccessHelper
 
 
@@ -78,6 +78,8 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.dialogHeaderInclude.closeButton.setOnClickListener{ dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
+
+        CreateDirDialog.setDirCreationCallback(this)
     }
 
     override fun onStorageAccessResult(grantedMode: StorageAccessHelper.StorageAccessMode) {
@@ -87,6 +89,12 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
             else -> Toast.makeText(requireContext(), R.string.no_write_access, Toast.LENGTH_SHORT).show()
         }
     }
+
+
+    override fun onDirCreated(dirName: String) {
+        refreshList()
+    }
+
 
     private fun showCreateDirDialog() {
         createDirDialog().show(childFragmentManager, CreateDirDialog.TAG)
@@ -222,35 +230,10 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
 
 
     private fun openDir(fsItem: FSItem) {
-
         if (!fsItem.isDir)
             return
-
         fileExplorer().changeDir(fsItem)
-
         refreshList()
-
-        /*try {
-            hideError()
-            showProgressBar()
-
-            fileExplorer().changeDir(fsItem)
-
-            val list = fileExplorer().listCurrentPath()
-
-            handler.post {
-                hideProgressBar()
-                viewModel.clearSelectionList()
-                viewModel.setFileList(list)
-                viewModel.setCurrentPath(fileExplorer().getCurrentPath())
-            }
-        }
-        catch (throwable: Throwable) {
-            handler.post { viewModel.setError(throwable) }
-        }
-        finally {
-            handler.post { hideProgressBar() }
-        }*/
     }
 
     private fun openAndListDir(dirItem: DirItem): List<FSItem> {
