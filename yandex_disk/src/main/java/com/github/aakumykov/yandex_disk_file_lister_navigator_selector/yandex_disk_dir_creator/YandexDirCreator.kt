@@ -6,14 +6,7 @@ import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.c
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 
-class YandexDirCreator(private val authToken: String) : CloudDirCreator {
+class YandexDirCreator(private val authToken: String) : CloudDirCreator() {
 
-    @Throws(Exception::class, CloudDirCreator.AlreadyExistsException::class)
-    override suspend fun createDir(dirName: String, basePath: String) {
-        cloudWriter().createDir(basePath, dirName)
-    }
-
-    private fun cloudWriter(): CloudWriter {
-        return YandexCloudWriter(OkHttpClient(), Gson(), authToken)
-    }
+    override fun cloudWriter(): CloudWriter = YandexCloudWriter(OkHttpClient(), Gson(), authToken)
 }

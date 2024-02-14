@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.github.aakumykov.cloud_writer.CloudWriter
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator.CloudDirCreator
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
@@ -38,12 +39,8 @@ class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewMo
                 val errorMessage = ExceptionUtils.getErrorMessage(t)
                 Log.e(TAG, errorMessage)
                 setOpState(when (t) {
-                        is CloudDirCreator.AlreadyExistsException -> {
-                            SimpleOperationState.AlreadyExistsError(R.string.error_already_exists)
-                        }
-                        else -> {
-                            SimpleOperationState.CommonError(errorMessage)
-                        }
+                        is CloudWriter.AlreadyExistsException -> SimpleOperationState.AlreadyExistsError(R.string.error_already_exists)
+                        else -> SimpleOperationState.CommonError(errorMessage)
                 })
             }
         }
@@ -58,8 +55,7 @@ class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewMo
     companion object {
         val TAG: String = DirCreatorViewModel::class.java.simpleName
 
-        fun provideFactory(cloudDirCreator: CloudDirCreator): ViewModelProvider.Factory =
-            object: ViewModelProvider.Factory {
+        fun provideFactory(cloudDirCreator: CloudDirCreator): ViewModelProvider.Factory = object: ViewModelProvider.Factory {
                 @Suppress("UNCHECKED_CAST")
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return DirCreatorViewModel(cloudDirCreator) as T
