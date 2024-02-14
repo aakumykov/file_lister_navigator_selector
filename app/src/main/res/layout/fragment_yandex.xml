@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:backgroundTint="#0097A7"
-        android:text="Выбрать файлы" />
+        android:text="Диалог выбора файлов" />
 
     <ProgressBar
         android:id="@+id/progressBar"
