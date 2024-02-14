@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogDirCreatorBinding
-import com.github.aakumykov.kotlin_playground.cloud_dir_creator.CloudDirCreator
+import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator.CloudDirCreator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,7 +42,8 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
                 is SimpleOperationState.Idle -> showIdleState()
                 is SimpleOperationState.Success -> processSuccessState()
                 is SimpleOperationState.Busy -> showBusyState()
-                is SimpleOperationState.NameError -> showNameErrorState(state)
+                is SimpleOperationState.BadNameError -> showNameErrorState(state)
+                is SimpleOperationState.AlreadyExistsError -> showCommonErrorState(state.errorMessageRes)
                 is SimpleOperationState.CommonError -> showCommonErrorState(state)
                 null -> { Log.w(TAG, "Simple operation state is null.") }
             }
@@ -71,13 +73,16 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
     private fun showCommonErrorState(state: SimpleOperationState.CommonError) {
         hideProgressBar()
         enableForm()
-        binding.dialogFooterInclude.errorView.apply {
-            text = state.errorMessage
-            visibility = View.VISIBLE
-        }
+        showError(state.errorMessage)
     }
 
-    private fun showNameErrorState(state: SimpleOperationState.NameError) {
+    private fun showCommonErrorState(@StringRes errorMessageRes: Int) {
+        hideProgressBar()
+        enableForm()
+        showError(getString(errorMessageRes))
+    }
+
+    private fun showNameErrorState(state: SimpleOperationState.BadNameError) {
         hideProgressBar()
         enableForm()
         binding.nameInput.error = getString(state.errorMessageRes)
@@ -106,6 +111,13 @@ abstract class CreateDirDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
     private fun hideProgressBar() {
         binding.dialogFooterInclude.progressBar.visibility = View.GONE
+    }
+
+    private fun showError(errorMessage: String) {
+        binding.dialogFooterInclude.errorView.apply {
+            text = errorMessage
+            visibility = View.VISIBLE
+        }
     }
 
     private fun hideError() {

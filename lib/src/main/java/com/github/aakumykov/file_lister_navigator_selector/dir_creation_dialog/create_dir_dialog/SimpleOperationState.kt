@@ -8,6 +8,9 @@ sealed class SimpleOperationState {
     data object Busy : SimpleOperationState()
     data object Success : SimpleOperationState()
 
+    class BadNameError(@StringRes val errorMessageRes: Int) : SimpleOperationState()
+
+    class AlreadyExistsError(@StringRes val errorMessageRes: Int) : SimpleOperationState()
+
     class CommonError(val errorMessage: String) : SimpleOperationState()
-    class NameError(@StringRes val errorMessageRes: Int) : SimpleOperationState()
 }

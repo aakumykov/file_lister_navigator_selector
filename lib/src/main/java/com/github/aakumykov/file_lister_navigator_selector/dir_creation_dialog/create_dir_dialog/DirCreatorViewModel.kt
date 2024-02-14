@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.github.aakumykov.file_lister_navigator_selector.R
-import com.github.aakumykov.kotlin_playground.cloud_dir_creator.CloudDirCreator
+import com.github.aakumykov.file_lister_navigator_selector.dir_creation_dialog.cloud_dir_creator.CloudDirCreator
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewMo
     fun createDir(name: String, basePath: String) {
 
         if (name.isEmpty() || name.isBlank()) {
-            setOpState(SimpleOperationState.NameError(R.string.cannot_be_empty))
+            setOpState(SimpleOperationState.BadNameError(R.string.error_cannot_be_empty))
             return
         }
 
@@ -37,7 +37,10 @@ class DirCreatorViewModel(private val cloudDirCreator: CloudDirCreator) : ViewMo
             catch (t: Throwable) {
                 val errorMessage = ExceptionUtils.getErrorMessage(t)
                 Log.e(TAG, errorMessage)
-                setOpState(SimpleOperationState.CommonError(errorMessage))
+                setOpState(when (t) {
+                        is CloudDirCreator.AlreadyExistsException -> SimpleOperationState.AlreadyExistsError(R.string.error_already_exists)
+                        else -> SimpleOperationState.CommonError(errorMessage)
+                })
             }
         }
     }

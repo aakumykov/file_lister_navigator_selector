@@ -10,7 +10,6 @@
     <string name="description_dialog_close_button">Закрыть диалог выбора файлов</string>
 
     <string name="dir_created">Каталог \'%1$s\' создан</string>
-    <string name="cannot_be_empty">Не может быть пустым</string>
 
     <string name="hint_dir_name">Имя каталога</string>
 
@@ -21,6 +20,9 @@
     <string name="select_file_title">Выбор файла/папки</string>
     <string name="description_refresh_button">Обновить</string>
     <string name="no_write_access">Нет доступа на запись</string>
+
+    <string name="error_cannot_be_empty">Не может быть пустым</string>
+    <string name="error_already_exists">Такой каталог уже существует</string>
 
 
 </resources>

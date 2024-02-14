@@ -48,8 +48,37 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
         arguments?.getBoolean(IS_DIR_MODE) ?: false
     }
 
-    // FIXME: утечка this
-    private val storageAccessHelper by lazy { StorageAccessHelper.create(requireActivity(), this) }
+    // FIXME: утечка "this"
+    private lateinit var storageAccessHelper: StorageAccessHelper
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        storageAccessHelper = StorageAccessHelper.create(this, this)
+
+        _binding = Layout.bind(view)
+        binding.dialogHeaderInclude.titleView.setText(R.string.select_file_title)
+
+        firstRun = (null == savedInstanceState)
+
+        viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
+        viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)
+        viewModel.currentPath.observe(viewLifecycleOwner, ::onCurrentPathChanged)
+        viewModel.errorMessage.observe(viewLifecycleOwner, ::onErrorChanged)
+
+        listAdapter = FileListAdapter(requireContext(), R.layout.file_list_item, R.id.titleView, itemList)
+        binding.listView.adapter = listAdapter
+        binding.listView.onItemClickListener = this
+        binding.listView.onItemLongClickListener = this
+
+        binding.refreshButton.setOnClickListener { refreshList() }
+        binding.swipeRefreshLayout.setOnRefreshListener { refreshList() }
+
+        binding.createDirButton.setOnClickListener { onCreateDirClicked() }
+        binding.dialogHeaderInclude.closeButton.setOnClickListener{ dismiss() }
+        binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
+    }
 
     override fun onStorageAccessResult(grantedMode: StorageAccessHelper.StorageAccessMode) {
         when(grantedMode) {
@@ -84,31 +113,7 @@ abstract class FileSelectorDialog : DialogFragment(R.layout.dialog_file_selector
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        _binding = Layout.bind(view)
-        binding.dialogHeaderInclude.titleView.setText(R.string.select_file_title)
-
-        firstRun = (null == savedInstanceState)
-
-        viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
-        viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)
-        viewModel.currentPath.observe(viewLifecycleOwner, ::onCurrentPathChanged)
-        viewModel.errorMessage.observe(viewLifecycleOwner, ::onErrorChanged)
-
-        listAdapter = FileListAdapter(requireContext(), R.layout.file_list_item, R.id.titleView, itemList)
-        binding.listView.adapter = listAdapter
-        binding.listView.onItemClickListener = this
-        binding.listView.onItemLongClickListener = this
-
-        binding.refreshButton.setOnClickListener { refreshList() }
-        binding.swipeRefreshLayout.setOnRefreshListener { refreshList() }
-
-        binding.createDirButton.setOnClickListener { onCreateDirClicked() }
-        binding.dialogHeaderInclude.closeButton.setOnClickListener{ dismiss() }
-        binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
-    }
 
     private fun refreshList() {
         lifecycleScope.launch {
