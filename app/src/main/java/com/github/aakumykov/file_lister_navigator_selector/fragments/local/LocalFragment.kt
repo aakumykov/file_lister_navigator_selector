@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.aakumykov.file_lister_navigator_selector.R
@@ -20,13 +19,12 @@ import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
-import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
-import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.file_lister_navigator_selector.utils.AndroidVersionHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
 import permissions.dispatcher.ktx.PermissionsRequester
 import permissions.dispatcher.ktx.constructPermissionsRequest
+import java.io.File
 import java.io.IOException
 
 class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClickListener,
@@ -180,7 +178,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
         id: Long
     ): Boolean {
 
-        val fsItem = itemsList[position]
+        /*val fsItem = itemsList[position]
 
         val recursiveDirReader = RecursiveDirReader(LocalFileLister(""))
 
@@ -196,8 +194,18 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
             .create()
             .show()
 
+        return true*/
+
+        val item: FSItem = itemsList.get(position)
+
+        if (item.isDir) {
+            val dir = File(item.absolutePath)
+            showToast(if (dir.delete()) "Удалено" else "Не удалено")
+        }
+
         return true
     }
+
 
     companion object {
         val TAG: String = LocalFragment::class.java.simpleName
