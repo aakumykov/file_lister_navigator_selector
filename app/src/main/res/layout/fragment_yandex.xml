@@ -33,13 +33,43 @@
         android:layout_weight="0"
         android:text="Список файлов" />
 
-    <Button
-        android:id="@+id/selectFilesButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:backgroundTint="#0097A7"
-        android:text="Выбрать файлы" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/selectFilesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:backgroundTint="#0097A7"
+            android:text="Выбрать файл" />
+
+        <ToggleButton
+            android:id="@+id/fileMultipleModeToggle"
+            style="@style/multiple_mode_toggle" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/selectDirButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:backgroundTint="#FF8A65"
+            android:text="Выбрать каталог" />
+
+        <ToggleButton
+            android:id="@+id/dirMultipleModeToggle"
+            style="@style/multiple_mode_toggle" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

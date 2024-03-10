@@ -6,4 +6,6 @@
     <string name="MENU_close_app">Закрыть программу</string>
     <string name="login_to_yandex">Залогиниться в Яндекс</string>
     <string name="logout_from_yandex">Выйти из Яндекса</string>
+    <string name="multiple_mode_toggle_single">Один</string>
+    <string name="multiple_mode_toggle_multiple">Несколько</string>
 </resources>
