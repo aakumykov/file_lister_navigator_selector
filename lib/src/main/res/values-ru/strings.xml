@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DIALOG_title_common_mode">Выбор файла/каталога</string>
+    <string name="DIALOG_title_dir_mode">Выбор файла</string>
+    <string name="BUTTON_confirm_selection">Выбрать отмеченное</string>
+    <string name="description_dialog_close_button">Закрыть диалог выбора файлов</string>
+</resources>
