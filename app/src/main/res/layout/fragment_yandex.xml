@@ -36,38 +36,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/selectFilesButton"
+            android:id="@+id/selectButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
             android:backgroundTint="#0097A7"
-            android:text="Выбрать файл" />
+            android:text="Выбрать" />
 
         <ToggleButton
-            android:id="@+id/fileMultipleModeToggle"
-            style="@style/multiple_mode_toggle" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/selectDirButton"
+            android:id="@+id/dirModeToggle"
+            style="@style/multiple_mode_toggle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:backgroundTint="#FF8A65"
-            android:text="Выбрать каталог" />
+            android:checked="false"
+            android:textOn="@string/selection_mode_dir"
+            android:textOff="@string/selection_mode_file" />
 
         <ToggleButton
-            android:id="@+id/dirMultipleModeToggle"
-            style="@style/multiple_mode_toggle" />
+            android:id="@+id/multipleSelectionToggle"
+            style="@style/multiple_mode_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:checked="false"
+            android:textOn="@string/multiple_mode_toggle_multiple"
+            android:textOff="@string/multiple_mode_toggle_single" />
 
     </LinearLayout>
 

@@ -135,38 +135,24 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     private fun prepareButtons() {
         binding.yandexButton.setOnClickListener { onYandexButtonClicked() }
         binding.listButton.setOnClickListener { onListButtonClicked() }
-        binding.selectFilesButton.setOnClickListener { onSelectFilesButtonClicked() }
-        binding.selectDirButton.setOnClickListener { onSelectDirButtonClicked() }
+        binding.selectButton.setOnClickListener { onSelectButtonClicked() }
     }
 
-    private fun onSelectFilesButtonClicked() {
+    private fun onSelectButtonClicked() {
 
         if (null == yandexAuthToken) {
             showToast("Сначала авторизуйтесь в Яндекс")
             return
         }
 
-        val fs = YandexDiskFileSelector.create(
-            authToken = yandexAuthToken!!,
-            isMultipleSelectionMode = binding.dirMultipleModeToggle.isChecked,
-            isDirMode = false
-        ).show(childFragmentManager)
-        fs.setCallback(this)
-    }
-
-    private fun onSelectDirButtonClicked() {
-
-        if (null == yandexAuthToken) {
-            showToast("Сначала авторизуйтесь в Яндекс")
-            return
-        }
+        val isDirMode = binding.dirModeToggle.isChecked
+        val isMultipleMode = binding.multipleSelectionToggle.isChecked
 
         val fs = YandexDiskFileSelector.create(
             authToken = yandexAuthToken!!,
-            isMultipleSelectionMode = binding.dirMultipleModeToggle.isChecked,
-            isDirMode = true
+            isMultipleSelectionMode = isMultipleMode,
+            isDirMode = isDirMode
         ).show(childFragmentManager)
-
         fs.setCallback(this)
     }
 

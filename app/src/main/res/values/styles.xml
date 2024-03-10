@@ -6,7 +6,5 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textOff">@string/multiple_mode_toggle_single</item>
-        <item name="android:textOn">@string/multiple_mode_toggle_multiple</item>
     </style>
 </resources>
