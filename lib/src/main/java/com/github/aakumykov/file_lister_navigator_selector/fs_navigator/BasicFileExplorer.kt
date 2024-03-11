@@ -26,21 +26,18 @@ abstract class BasicFileExplorer(
         return listCurrentPathReal(sortingComparator)
     }
 
-    // TODO: применить конвейер?
     private fun listCurrentPathReal(sortingComparator: SortingComparator? = null): List<FSItem> {
 
-        val initialList = listDir(getCurrentPath())
+        val initialList = listDir(getCurrentPath(), sortingComparator)
 
         val filteredList: List<FSItem> =
             if (isDirMode) initialList.filter { fsItem -> fsItem.isDir }
             else initialList
 
-        val sortedList = sortingComparator?.let { filteredList.sortedWith(sortingComparator) } ?: filteredList
-
         currentList.apply {
             clear()
             add(ParentDirItem())
-            addAll(sortedList)
+            addAll(filteredList)
         }.also {
             listCache?.cacheList(it)
         }
