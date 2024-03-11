@@ -17,4 +17,6 @@ interface FileLister {
     fun listDir(path: String): List<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem>
 
     class NotADirException : IOException()
+
+    enum class SortingMode { NAME, DATE, SIZE }
 }

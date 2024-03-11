@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingComparator
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
 /**
@@ -19,6 +20,7 @@ interface FileExplorer :
     fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
+    fun listCurrentPath(sortingComparator: SortingComparator): List<FSItem>
     fun getCurrentPath(): String
 
     fun setPathCache(pathCache: PathCache)

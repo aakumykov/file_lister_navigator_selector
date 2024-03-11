@@ -17,6 +17,9 @@ import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentLocalBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.DateComparator
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.NameComparator
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingComparator
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
@@ -64,10 +67,12 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
         _binding = FragmentLocalBinding.bind(view)
 
         binding.manageAllFilesButton.setOnClickListener { onManageAllFilesButtonClicked() }
-        binding.button.setOnClickListener {
-            listDirPermissionRequest.launch()
-//            LayoutProbeDialog().show(childFragmentManager, LayoutProbeDialog.TAG)
-        }
+
+        binding.listButton.setOnClickListener { onListButtonClicked() }
+
+        binding.sortTypeToggle.setOnCheckedChangeListener { _, _ -> onListButtonClicked() }
+        binding.sortDirectionToggle.setOnCheckedChangeListener { _, _ -> onListButtonClicked() }
+
 
         mLocalViewModel = ViewModelProvider(requireActivity()).get(LocalViewModel::class.java)
 
@@ -80,7 +85,11 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
         binding.listView.setOnItemClickListener(this)
         binding.listView.setOnItemLongClickListener(this)
 
-        binding.button.text = fileExplorer.getCurrentPath()
+        binding.listButton.text = fileExplorer.getCurrentPath()
+    }
+
+    private fun onListButtonClicked() {
+        listDirPermissionRequest.launch()
     }
 
     private fun onManageAllFilesButtonClicked() {
@@ -101,7 +110,24 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
     override fun onStart() {
         super.onStart()
-        mLocalViewModel.startWork()
+        mLocalViewModel.startWork(sortingComparator())
+    }
+
+    private fun sortingComparator(): SortingComparator {
+
+        val isNameSorting = binding.sortTypeToggle.isChecked
+        val isDirectSorting = binding.sortDirectionToggle.isChecked
+        val isDirsFirst = false
+
+        /*val sortingMode: FileLister.SortingMode = when(isNameSorting) {
+            true -> FileLister.SortingMode.NAME
+            else -> FileLister.SortingMode.DATE
+        }*/
+
+        return when(isNameSorting) {
+            true -> NameComparator(isDirectSorting, isDirsFirst)
+            false -> DateComparator(isDirectSorting, isDirsFirst)
+        }
     }
 
 
@@ -114,7 +140,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
     }
 
     private fun onPathChanged(path: String?) {
-        path?.let { binding.button.text = it }
+        path?.let { binding.listButton.text = it }
     }
 
 
@@ -131,8 +157,8 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
         try {
             hideProgressBar()
-            fileExplorer.listCurrentPath()
-            binding.button.text = getString(R.string.list_of_files_in, fileExplorer.getCurrentPath())
+            fileExplorer.listCurrentPath(sortingComparator())
+            binding.listButton.text = getString(R.string.list_of_files_in, fileExplorer.getCurrentPath())
         }
         catch (e: IOException) {
             showError(e)

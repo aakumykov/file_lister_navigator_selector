@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingComparator
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 
@@ -18,20 +19,31 @@ abstract class BasicFileExplorer(
     override fun getCurrentPath(): String = currentPath
 
     override fun listCurrentPath(): List<FSItem> {
+        return listCurrentPathReal(null)
+    }
+
+    override fun listCurrentPath(sortingComparator: SortingComparator): List<FSItem> {
+        return listCurrentPathReal(sortingComparator)
+    }
+
+    // TODO: применить конвейер?
+    private fun listCurrentPathReal(sortingComparator: SortingComparator? = null): List<FSItem> {
 
         val initialList = listDir(getCurrentPath())
 
-        currentList.clear()
-        currentList.add(ParentDirItem())
+        val filteredList: List<FSItem> =
+            if (isDirMode) initialList.filter { fsItem -> fsItem.isDir }
+            else initialList
 
-        if (isDirMode) {
-            val filteredList = initialList.filter { fsItem -> fsItem.isDir }
-            currentList.addAll(filteredList)
-        } else {
-            currentList.addAll(initialList)
+        val sortedList = sortingComparator?.let { filteredList.sortedWith(sortingComparator) } ?: filteredList
+
+        currentList.apply {
+            clear()
+            add(ParentDirItem())
+            addAll(sortedList)
+        }.also {
+            listCache?.cacheList(it)
         }
-
-        listCache?.cacheList(currentList)
 
         return currentList
     }
