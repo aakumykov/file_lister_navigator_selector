@@ -3,6 +3,7 @@ package com.github.aakumykov.file_lister_navigator_selector.fs_item
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.utils.parentPathFor
 import java.io.File
 
+@Deprecated("Переименовать в BasicFSItem")
 open class SimpleFSItem(
     override val name: String,
     override val absolutePath: String,

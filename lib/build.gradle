@@ -63,6 +63,8 @@ dependencies {
     implementation 'com.github.aakumykov:exception_utils:0.4'
 
     implementation 'androidx.fragment:fragment-ktx:1.6.2'
+
+    api 'com.google.code.gson:gson:2.10.1'
 }
 
 publishing {

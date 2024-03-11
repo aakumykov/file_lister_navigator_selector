@@ -16,8 +16,12 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import java.util.Date
 import kotlin.concurrent.thread
+
 
 typealias Layout = DialogFileSelectorBinding
 
@@ -115,7 +119,20 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     private fun onConfirmSelectionClicked() {
-        callback?.onFilesSelected(viewModel.getSelectedList())
+
+        val selectedList = viewModel.getSelectedList()
+
+        with(Gson()) {
+            try {
+                val j: String = toJson(selectedList)
+                val l = fromJson<List<SimpleFSItem>>(j, object : TypeToken<List<SimpleFSItem>>() {}.type)
+                Log.d(TAG, "1")
+            } catch (e: Exception) {
+                Log.e(TAG, ExceptionUtils.getErrorMessage(e), e)
+            }
+        }
+
+        callback?.onFilesSelected(selectedList)
         dismiss()
     }
 

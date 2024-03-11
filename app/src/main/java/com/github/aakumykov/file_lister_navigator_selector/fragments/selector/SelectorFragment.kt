@@ -36,6 +36,10 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
         )
     }
 
+    override fun onStart() {
+        super.onStart()
+        showFileSelector()
+    }
 
     private fun showFileSelector() {
 
