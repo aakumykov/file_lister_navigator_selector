@@ -19,6 +19,4 @@ interface FileLister {
 
 
     class NotADirException : IOException()
-
-    enum class SortingMode { NAME, DATE, SIZE }
 }
