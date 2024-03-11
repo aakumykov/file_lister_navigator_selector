@@ -18,9 +18,6 @@ abstract class BasicFileExplorer(
 
     override fun getCurrentPath(): String = currentPath
 
-    override fun listCurrentPath(): List<FSItem> {
-        return listCurrentPathReal(null)
-    }
 
     override fun listCurrentPath(sortingComparator: SortingComparator): List<FSItem> {
         return listCurrentPathReal(sortingComparator)

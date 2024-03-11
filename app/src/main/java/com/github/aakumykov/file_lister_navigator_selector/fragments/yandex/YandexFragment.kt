@@ -182,7 +182,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
         thread {
             try {
-                viewModel.fileExplorer.listCurrentPath(sortingComparator())
+                viewModel.fileExplorer.listCurrentPath()
             } catch (t: Throwable) {
                 uiRun { showError(t) }
             } finally {
