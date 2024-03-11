@@ -19,6 +19,7 @@ interface FileExplorer :
     fun goToParentDir() // TODO: throws IOException, AccessDeniesException
     fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 
+    @Deprecated("Удалить")
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
     fun listCurrentPath(sortingComparator: SortingComparator): List<FSItem>
     fun getCurrentPath(): String

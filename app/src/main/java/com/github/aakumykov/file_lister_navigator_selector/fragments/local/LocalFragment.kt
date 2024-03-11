@@ -70,8 +70,8 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
         binding.listButton.setOnClickListener { onListButtonClicked() }
 
-        binding.sortTypeToggle.setOnCheckedChangeListener { _, _ -> onListButtonClicked() }
-        binding.sortDirectionToggle.setOnCheckedChangeListener { _, _ -> onListButtonClicked() }
+        binding.sortingSwitchesInclude.sortTypeToggle.setOnCheckedChangeListener { _, _ -> onListButtonClicked() }
+        binding.sortingSwitchesInclude.sortDirectionToggle.setOnCheckedChangeListener { _, _ -> onListButtonClicked() }
 
 
         mLocalViewModel = ViewModelProvider(requireActivity()).get(LocalViewModel::class.java)
@@ -115,14 +115,9 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
     private fun sortingComparator(): SortingComparator {
 
-        val isNameSorting = binding.sortTypeToggle.isChecked
-        val isDirectSorting = binding.sortDirectionToggle.isChecked
+        val isNameSorting = binding.sortingSwitchesInclude.sortTypeToggle.isChecked
+        val isDirectSorting = binding.sortingSwitchesInclude.sortDirectionToggle.isChecked
         val isDirsFirst = false
-
-        /*val sortingMode: FileLister.SortingMode = when(isNameSorting) {
-            true -> FileLister.SortingMode.NAME
-            else -> FileLister.SortingMode.DATE
-        }*/
 
         return when(isNameSorting) {
             true -> NameComparator(isDirectSorting, isDirsFirst)

@@ -12,6 +12,9 @@ import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentY
 import com.github.aakumykov.file_lister_navigator_selector.extensions.restoreString
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.extensions.storeString
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.DateComparator
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.NameComparator
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingComparator
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
@@ -136,6 +139,9 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
         binding.yandexButton.setOnClickListener { onYandexButtonClicked() }
         binding.listButton.setOnClickListener { onListButtonClicked() }
         binding.selectButton.setOnClickListener { onSelectButtonClicked() }
+
+        binding.sortingSwitchesInclude.sortTypeToggle.setOnClickListener { onListButtonClicked() }
+        binding.sortingSwitchesInclude.sortDirectionToggle.setOnClickListener { onListButtonClicked() }
     }
 
     private fun onSelectButtonClicked() {
@@ -176,12 +182,24 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
         thread {
             try {
-                viewModel.fileExplorer.listCurrentPath()
+                viewModel.fileExplorer.listCurrentPath(sortingComparator())
             } catch (t: Throwable) {
                 uiRun { showError(t) }
             } finally {
                 uiRun { hideProgressBar() }
             }
+        }
+    }
+
+    private fun sortingComparator(): SortingComparator {
+
+        val isNameSorting = binding.sortingSwitchesInclude.sortTypeToggle.isChecked
+        val isDirectSorting = binding.sortingSwitchesInclude.sortDirectionToggle.isChecked
+        val isDirsFirst = false
+
+        return when(isNameSorting) {
+            true -> NameComparator(isDirectSorting, isDirsFirst)
+            false -> DateComparator(isDirectSorting, isDirsFirst)
         }
     }
 

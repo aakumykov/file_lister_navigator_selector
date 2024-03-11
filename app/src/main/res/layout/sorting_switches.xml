@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_weight="0"
+android:orientation="horizontal">
+
+<ToggleButton
+    android:id="@+id/sortTypeToggle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:checked="true"
+    android:textOn="по имени"
+    android:textOff="по дате"/>
+
+<ToggleButton
+    android:id="@+id/sortDirectionToggle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:checked="true"
+    android:textOff="по убыванию"
+    android:textOn="по возрастанию" />
+</LinearLayout>
