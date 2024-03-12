@@ -5,4 +5,5 @@
     <string name="BUTTON_confirm_selection">Confirm selection</string>
     <string name="description_dialog_close_button">Close file selection dialog</string>
     <string name="description_sort_button">Сортировка списка</string>
+    <string name="description_create_dir_button">Создать каталог</string>
 </resources>

@@ -5,6 +5,18 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/createDirButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/design_default_color_primary"
+        android:padding="8dp"
+        android:src="@drawable/ic_mkdir"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@id/pathView"
+        android:contentDescription="@string/description_create_dir_button"/>
+
+    <ImageView
         android:id="@+id/dialogSortButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,7 +24,7 @@
         android:padding="8dp"
         android:src="@drawable/ic_sort"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+        android:layout_toEndOf="@id/createDirButton"
         android:layout_alignBottom="@id/pathView"
         android:contentDescription="@string/description_sort_button"/>
 
