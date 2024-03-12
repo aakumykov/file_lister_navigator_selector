@@ -56,7 +56,7 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.48.1'
     kapt 'com.google.dagger:dagger-compiler:2.48.1'
 
-    implementation 'com.github.aakumykov:yandex_disk_client:0.0.12'
+    api 'com.github.aakumykov:yandex_disk_client:0.0.12'
 }
 
 publishing {

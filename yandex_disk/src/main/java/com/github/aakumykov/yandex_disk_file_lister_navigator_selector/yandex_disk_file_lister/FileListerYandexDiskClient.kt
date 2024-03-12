@@ -8,7 +8,7 @@ import com.github.aakumykov.yandex_disk_client.YandexDiskClient
 import com.github.aakumykov.yandex_disk_client.YandexDiskSortingMode
 import com.yandex.disk.rest.json.Resource
 
-internal class FileListerYandexDiskClient(authToken: String)
+class FileListerYandexDiskClient(authToken: String)
     : YandexDiskClient<FSItem, FileSortingMode>(authToken)
 {
     override fun appToDiskSortingMode(appSortingMode: FileSortingMode): YandexDiskSortingMode {

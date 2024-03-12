@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 
@@ -10,7 +11,7 @@ abstract class BasicFileExplorer(
     private var listCache: FileExplorer.ListCache?,
     private var pathCache: FileExplorer.PathCache?,
     private val dirSeparator: String = FSItem.DS
-) : FileExplorer {
+) : FileExplorer, DirCreator {
 
     private var currentPath: String = initialPath
     private val currentList: MutableList<FSItem> = mutableListOf()

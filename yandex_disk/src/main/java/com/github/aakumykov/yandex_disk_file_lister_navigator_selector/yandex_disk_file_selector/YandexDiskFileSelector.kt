@@ -3,6 +3,8 @@ package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_d
 import android.os.Bundle
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.FileListerYandexDiskClient
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
@@ -17,14 +19,14 @@ class YandexDiskFileSelector : FileSelector() {
 
             if (authToken.isNullOrEmpty())
                 throw IllegalArgumentException("Auth token is null or empty")
-            else
-                _fileExplorer =
-                    YandexDiskFileExplorer(
-                        YandexDiskFileLister(
-                            authToken
-                        ),
+            else {
+                val yandexDiskClient = FileListerYandexDiskClient(authToken)
+                _fileExplorer = YandexDiskFileExplorer(
+                        yandexDiskFileLister = YandexDiskFileLister(authToken),
+                        yandexDiskDirCreator = YandexDiskDirCreator(yandexDiskClient),
                         isDirMode = isDirMode
-                    )
+                )
+            }
         }
 
         return _fileExplorer!!

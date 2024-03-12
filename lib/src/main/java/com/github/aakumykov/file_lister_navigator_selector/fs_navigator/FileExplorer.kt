@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
@@ -10,8 +11,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
  *
  * Интерфефс расширяет интерфейс FileLister, так как навигация в отрыве от получения списка файлов бессмысленна.
  */
-interface FileExplorer :
-    FileLister {
+interface FileExplorer : FileLister, DirCreator {
 
     fun changeDir(fsItem: FSItem) // TODO: выброс исключений...
     fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
