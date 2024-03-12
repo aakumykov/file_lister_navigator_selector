@@ -25,34 +25,51 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
 {
+    //
+    // Разметка
+    //
     private var _binding: Layout? = null
     private val binding get() = _binding!!
 
+    //
+    // Handler для асинхронных операций
+    //
+    private val handler: Handler = Handler(Looper.getMainLooper())
+
+    //
+    // Адаптер списка и список, который он отображает (можно без него?)
+    //
+    private lateinit var listAdapter: FileListAdapter
+    private val itemList: MutableList<FSItem> = mutableListOf()
+
+    //
+    // ViewModel хранит текущее состояние интерфейса
+    //
     private val viewModel: FileSelectorViewModel by viewModels()
 
+    //
+    // Флаг перваго запуску
+    //
     private var firstRun: Boolean = true
-    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
-    private val itemList: MutableList<FSItem> = mutableListOf()
-    private lateinit var listAdapter: FileListAdapter
-
+    //
+    // Колбек подтверждения выбора.
+    //
     private var callback: Callback? = null
 
-    private val isMultipleSelectionMode: Boolean by lazy {
-        arguments?.getBoolean(IS_MULTIPLE_SELECTION_MODE) ?: false
-    }
 
-    private val startPath: String by lazy {
-        arguments?.getString(START_PATH) ?: defaultStartPath()
-    }
-
-    protected val isDirMode: Boolean by lazy {
-        arguments?.getBoolean(IS_DIR_MODE) ?: false
-    }
+    //
+    // Свойства, получаемые из аргументов фрагмента.
+    //
+    private val isMultipleSelectionMode: Boolean by lazy { arguments?.getBoolean(IS_MULTIPLE_SELECTION_MODE) ?: false }
+    private val startPath: String by lazy { arguments?.getString(START_PATH) ?: defaultStartPath() }
+    protected val isDirMode: Boolean by lazy { arguments?.getBoolean(IS_DIR_MODE) ?: false }
 
 
+    //
+    // Компоненты, реализуемые наследниками.
+    //
     abstract fun fileExplorer(): FileExplorer
-
     abstract fun defaultStartPath(): String
 
 
@@ -93,6 +110,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         binding.listView.onItemClickListener = this
         binding.listView.onItemLongClickListener = this
 
+        binding.dialogSortButton.setOnClickListener { onSortButtonClicked() }
         binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
@@ -113,6 +131,9 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
             )
     }
 
+    private fun onSortButtonClicked() {
+
+    }
 
     private fun onConfirmSelectionClicked() {
         callback?.onFilesSelected(viewModel.getSelectedList())
