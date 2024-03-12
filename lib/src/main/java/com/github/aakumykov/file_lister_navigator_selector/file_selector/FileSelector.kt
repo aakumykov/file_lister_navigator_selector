@@ -6,6 +6,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -110,6 +111,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         binding.listView.onItemClickListener = this
         binding.listView.onItemLongClickListener = this
 
+        binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.dialogSortButton.setOnClickListener { onSortButtonClicked() }
         binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
@@ -131,8 +133,12 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
             )
     }
 
-    private fun onSortButtonClicked() {
+    private fun onCreateDirClicked() {
 
+    }
+
+    private fun onSortButtonClicked() {
+        Toast.makeText(requireContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show()
     }
 
     private fun onConfirmSelectionClicked() {

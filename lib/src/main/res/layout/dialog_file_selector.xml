@@ -38,6 +38,8 @@
         android:background="@color/design_default_color_primary"
         android:padding="12dp"
         android:text="@string/DIALOG_title_common_mode"
+        android:singleLine="true"
+        android:ellipsize="start"
         android:gravity="center_horizontal"
         android:textColor="@color/design_default_color_on_primary"
         android:textStyle="bold" />
