@@ -12,10 +12,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import java.util.Date
 import kotlin.concurrent.thread
@@ -72,6 +74,13 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     //
     abstract fun fileExplorer(): FileExplorer
     abstract fun defaultStartPath(): String
+    abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
+
+
+    //
+    // StorageAccessHelper
+    //
+    private lateinit var storageAccessHelper: StorageAccessHelper
 
 
     fun show(fragmentManager: FragmentManager): FileSelector {
@@ -96,6 +105,8 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         _binding = Layout.bind(view)
 
         firstRun = (null == savedInstanceState)
+
+        storageAccessHelper = StorageAccessHelper.create(requireActivity())
 
         viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
         viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)
@@ -134,7 +145,9 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
     private fun onCreateDirClicked() {
-
+        storageAccessHelper.requestWriteAccess {
+            dirCreatorDialog(fileExplorer().getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
+        }
     }
 
     private fun onSortButtonClicked() {

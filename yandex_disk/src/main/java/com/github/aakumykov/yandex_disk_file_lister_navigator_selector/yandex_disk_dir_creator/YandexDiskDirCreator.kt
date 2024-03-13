@@ -7,8 +7,7 @@ import com.github.aakumykov.yandex_disk_client.YandexDiskClient
 
 class YandexDiskDirCreator(private val yandexDiskClient: YandexDiskClient<FSItem, FileSortingMode>) : DirCreator {
 
-    override fun makeDir(path: String): Boolean {
-        yandexDiskClient.createDir(path)
-        return true
+    override fun makeDir(absoluteDirPath: String) {
+        TODO("Ещё не реализовано")
     }
 }

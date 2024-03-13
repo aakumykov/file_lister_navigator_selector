@@ -6,8 +6,15 @@ import java.io.IOException
 
 class LocalDirCreator : DirCreator {
 
-    @Throws(IOException::class)
-    override fun makeDir(path: String): Boolean {
-        return File(path).mkdir()
+    @Throws(IOException::class, DirCreator.UnsuccessfulOperationException::class)
+    override fun makeDir(absoluteDirPath: String) {
+
+        val dir = File(absoluteDirPath)
+
+        if (dir.exists())
+            throw DirCreator.UnsuccessfulOperationException("Dir '$absoluteDirPath' already exists.")
+
+        if (!dir.mkdir())
+            throw DirCreator.UnsuccessfulOperationException("Dir '$absoluteDirPath' is not created.")
     }
 }

@@ -1,6 +1,7 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
 import android.os.Bundle
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
@@ -9,6 +10,10 @@ import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_di
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
 class YandexDiskFileSelector : FileSelector() {
+
+    override fun dirCreatorDialog(basePath: String): DirCreatorDialog {
+        TODO("Not yet implemented")
+    }
 
     private var _fileExplorer: FileExplorer? = null
 

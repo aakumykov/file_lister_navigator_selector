@@ -4,6 +4,8 @@ import java.io.IOException
 
 interface DirCreator {
 
-    @Throws(IOException::class)
-    fun makeDir(path: String): Boolean
+    @Throws(IOException::class, UnsuccessfulOperationException::class)
+    fun makeDir(absoluteDirPath: String)
+
+    class UnsuccessfulOperationException(message: String) : Exception(message)
 }
