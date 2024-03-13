@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogDirCreatorBinding
@@ -43,11 +44,19 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
 
     private fun onOperationSuccessChanged(isSuccess: Boolean?) {
-        if (null != isSuccess) {
-            if (isSuccess) dismiss()
-            else hideProgressBar()
+
+        if (null == isSuccess)
+            return
+
+        if (isSuccess) {
+            setFragmentResult(DIR_NAME, bundleOf(DIR_NAME to dirName()))
+            dismiss()
         }
+        else
+            hideProgressBar()
     }
+
+    private fun dirName(): String = binding.dirNameInput.text.toString()
 
     private fun onErrorMessageChanged(e: Exception?) {
         hideProgressBar()
@@ -57,28 +66,37 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
 
 
     private fun onCreateButtonClicked() {
+
         showProgressBar()
         disableForm()
         hideError()
 
-        val basePath = arguments?.getString(BASE_PATH)
-        val dirName = binding.dirNameInput.text.toString()
+        val  dirPath = basePath() + FSItem.DS + dirName()
 
-        viewModel.createDir(basePath + FSItem.DS + dirName, Handler(Looper.getMainLooper()))
+        viewModel.createDir(dirPath, Handler(Looper.getMainLooper()))
     }
+
+
+    private fun basePath(): String? = arguments?.getString(BASE_PATH)
 
 
     private fun showError(e: Exception?) {
         if (null != e) {
             ExceptionUtils.getErrorMessage(e).also {
-                binding.dirNameInput.error = it
+                binding.errorView.apply {
+                    text = it
+                    visibility = View.VISIBLE
+                }
                 Log.e(TAG, it, e)
             }
         }
     }
     
     private fun hideError() {
-        binding.dirNameInput.error = null
+        binding.errorView.apply {
+            text = ""
+            visibility = View.GONE
+        }
     }
     
     private fun showProgressBar() {
@@ -100,7 +118,8 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
     
     companion object {
         val TAG: String = DirCreatorDialog::class.java.simpleName
+
         const val BASE_PATH = "BASE_PATH"
-        fun argumentsWithBasePath(basePath: String) = bundleOf(BASE_PATH to basePath)
+        const val DIR_NAME = "DIR_NAME"
     }
 }

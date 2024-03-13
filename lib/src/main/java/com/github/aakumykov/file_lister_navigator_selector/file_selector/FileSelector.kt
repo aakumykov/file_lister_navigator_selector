@@ -13,13 +13,12 @@ import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
-import java.util.Date
 import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
@@ -106,6 +105,8 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
         firstRun = (null == savedInstanceState)
 
+        childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
+
         storageAccessHelper = StorageAccessHelper.create(requireActivity())
 
         viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
@@ -130,18 +131,8 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
     override fun onStart() {
         super.onStart()
-
         if (firstRun)
-            openDir(
-                SimpleFSItem(
-                    name = startPath,
-                    absolutePath = startPath,
-                    parentPath = "",
-                    isDir = true,
-                    mTime = Date().time,
-                    size = 0L
-                )
-            )
+            openDir(DirItem.fromPath(startPath))
     }
 
     private fun onCreateDirClicked() {
@@ -167,6 +158,10 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
+    private fun onDirCreationResult(requestKey: String, resultBundle: Bundle) {
+        openDir(fileExplorer().getCurrentDir())
+    }
+
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
         val clickedItem = itemList[position]
@@ -177,7 +172,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
             return
         }
 
-        openDir(clickedItem)
+        openDir(DirItem(clickedItem))
     }
 
     // FIXME: неверная логика
@@ -209,9 +204,9 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
-    private fun openDir(fsItem: FSItem) {
+    private fun openDir(dirItem: DirItem) {
 
-        if (!fsItem.isDir)
+        if (!dirItem.isDir)
             return
 
         hideError()
@@ -219,7 +214,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
         thread {
             try {
-                fileExplorer().changeDir(fsItem)
+                fileExplorer().changeDir(dirItem)
                 val list = fileExplorer().listCurrentPath()
 
                 handler.post {

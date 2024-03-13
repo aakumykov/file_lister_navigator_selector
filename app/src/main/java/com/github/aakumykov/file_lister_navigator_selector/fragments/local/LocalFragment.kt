@@ -17,6 +17,7 @@ import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentLocalBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
@@ -164,7 +165,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
         val fsItem = itemsList[position]
         when {
             fsItem is ParentDirItem -> fileExplorer.goToParentDir()
-            fsItem.isDir -> fileExplorer.changeDir(fsItem)
+            fsItem.isDir -> fileExplorer.changeDir(DirItem(fsItem))
             else -> {
                 showToast(R.string.it_is_not_a_dir)
                 return

@@ -13,6 +13,7 @@ import com.github.aakumykov.file_lister_navigator_selector.extensions.restoreStr
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.extensions.storeString
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
@@ -105,7 +106,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
     private fun onListItemClicked(fsItem: FSItem) {
         if (fsItem.isDir) {
-            viewModel.fileExplorer.changeDir(fsItem)
+            viewModel.fileExplorer.changeDir(DirItem(fsItem))
             listCurrentDir()
         }
     }

@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 
@@ -14,9 +15,13 @@ abstract class BasicFileExplorer(
 ) : FileExplorer, DirCreator {
 
     private var currentPath: String = initialPath
+    private var currentDir: DirItem = DirItem.fromPath(initialPath)
     private val currentList: MutableList<FSItem> = mutableListOf()
 
     override fun getCurrentPath(): String = currentPath
+
+    override fun getCurrentDir(): DirItem = currentDir
+
 
     override fun listCurrentPath(): List<FSItem> {
 
@@ -37,15 +42,15 @@ abstract class BasicFileExplorer(
         return currentList
     }
 
-    override fun changeDir(fsItem: FSItem) {
-        when (fsItem) {
+    override fun changeDir(dirItem: DirItem) {
+        when (dirItem) {
             is ParentDirItem -> goToParentDir()
-            else -> goToChildDir(fsItem.absolutePath)
+            else -> goToChildDir(dirItem.absolutePath)
         }
     }
 
     override fun goToRootDir() {
-        changePath(FileExplorer.ROOT_DIR_PATH)
+        changeCurrentPath(FileExplorer.ROOT_DIR_PATH)
     }
 
     override fun goToParentDir() {
@@ -54,11 +59,12 @@ abstract class BasicFileExplorer(
         var parentPath = parentPathParts.joinToString(separator = dirSeparator)
         if (parentPath.isEmpty())
             parentPath = initialPath
-        changePath(parentPath)
+
+        changeCurrentPath(parentPath)
     }
 
     override fun goToChildDir(dirPath: String) {
-        changePath(dirPath)
+        changeCurrentPath(dirPath)
     }
 
     override fun setPathCache(pathCache: FileExplorer.PathCache) {
@@ -70,8 +76,10 @@ abstract class BasicFileExplorer(
     }
 
 
-    private fun changePath(path: String) {
+    private fun changeCurrentPath(path: String) {
         currentPath = path
         pathCache?.cachePath(currentPath)
+
+        currentDir = DirItem.fromPath(path)
     }
 }

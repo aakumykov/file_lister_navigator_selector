@@ -10,22 +10,19 @@ import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator_dia
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
 
-class LocalFileSelector private constructor(): FileSelector() {
+class LocalFileSelector: FileSelector() {
 
     private var _fileExplorer: FileExplorer? = null
 
 
     override fun fileExplorer(): FileExplorer {
-
         if (null == _fileExplorer)
             _fileExplorer = createFileExplorer(arguments)
-
         return _fileExplorer!!
     }
 
 
-    override fun defaultStartPath(): String
-        = Environment.getExternalStorageDirectory().path
+    override fun defaultStartPath(): String = Environment.getExternalStorageDirectory().path
 
 
     private fun createFileExplorer(arguments: Bundle?): FileExplorer {
