@@ -26,13 +26,6 @@
         android:text="Управлять всеми файлами"
         android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/listButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="Список файлов" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,6 +62,67 @@
             android:textOff="@string/multiple_mode_toggle_single" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/listButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="Список файлов" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:paddingHorizontal="8dp"
+        android:text="Сортировать по:"/>
+    
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/sortingMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sortByName"
+            android:checkable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="имени"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sortBySize"
+            android:checkable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="размеру"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sortByCTime"
+            android:checkable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cTime"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sortByMTime"
+            android:checkable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mTime"/>
+        
+    </com.google.android.material.chip.ChipGroup>
+
+    <ToggleButton
+        android:id="@+id/sortingDirection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:checked="true"
+        android:textOn="прямой порядок"
+        android:textOff="обратный порядок" />
 
     <ProgressBar
         android:id="@+id/progressBar"

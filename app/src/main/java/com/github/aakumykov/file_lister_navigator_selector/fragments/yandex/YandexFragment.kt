@@ -12,6 +12,7 @@ import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentY
 import com.github.aakumykov.file_lister_navigator_selector.extensions.restoreString
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.extensions.storeString
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
@@ -59,8 +60,8 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
         displayYandexAuthStatus()
 
-        if (null == savedInstanceState)
-            listCurrentDir()
+        /*if (null == savedInstanceState)
+            listCurrentDir()*/
     }
 
     private fun prepareViewModel() {
@@ -141,6 +142,9 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
         binding.yandexButton.setOnClickListener { onYandexButtonClicked() }
         binding.listButton.setOnClickListener { onListButtonClicked() }
         binding.selectButton.setOnClickListener { onSelectButtonClicked() }
+
+        binding.sortingMode.setOnCheckedStateChangeListener { group, checkedIds -> listCurrentDir() }
+        binding.sortingDirection.setOnCheckedChangeListener { buttonView, isChecked -> listCurrentDir() }
     }
 
     private fun onSelectButtonClicked() {
@@ -181,12 +185,25 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
         thread {
             try {
-                viewModel.fileExplorer.listCurrentPath()
-            } catch (t: Throwable) {
+//                viewModel.fileExplorer.listCurrentPath()
+                val sortingMode = sortingMode()
+                viewModel.fileExplorer.listCurrentPath(sortingMode)
+            }
+            catch (t: Throwable) {
                 uiRun { showError(t) }
             } finally {
                 uiRun { hideProgressBar() }
             }
+        }
+    }
+
+    private fun sortingMode(): FileSortingMode {
+        val isDirect = binding.sortingDirection.isChecked
+        return when(binding.sortingMode.checkedChipId) {
+            R.id.sortBySize -> if (isDirect) FileSortingMode.SIZE_DIRECT else FileSortingMode.SIZE_REVERSE
+            R.id.sortByMTime -> if (isDirect) FileSortingMode.M_TIME_DIRECT else FileSortingMode.M_TIME_REVERSE
+            R.id.sortByCTime -> if (isDirect) FileSortingMode.C_TIME_DIRECT else FileSortingMode.C_TIME_REVERSE
+            else -> if (isDirect) FileSortingMode.NAME_DIRECT else FileSortingMode.NAME_REVERSE
         }
     }
 

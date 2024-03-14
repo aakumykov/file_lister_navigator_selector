@@ -40,7 +40,11 @@ abstract class BasicFileExplorer(
         limit: Int
     ): List<FSItem> {
 
-        val initialList = listDir(getCurrentPath())
+        currentSortingMode = sortingMode
+        currentOffset = offset
+        currentLimit = limit
+
+        val initialList = listDir(getCurrentPath(), currentSortingMode, currentOffset, currentLimit)
 
         currentList.clear()
         currentList.add(ParentDirItem())
