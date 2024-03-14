@@ -18,8 +18,14 @@ interface FileLister {
     fun listDir(path: String): List<FSItem>
 
 
+    /**
+     * Этот метод актуален для облачных хранилищ. Для локального подходит простой #listDir(path)
+     */
     @Throws(NotADirException::class)
-    fun listDir(path: String, )
+    fun listDir(path: String,
+                sortingMode: FileSortingMode = FileSortingMode.NAME_DIRECT,
+                offset: Int = 0,
+                limit: Int = -1): List<FSItem>
 
 
     class NotADirException : IOException()

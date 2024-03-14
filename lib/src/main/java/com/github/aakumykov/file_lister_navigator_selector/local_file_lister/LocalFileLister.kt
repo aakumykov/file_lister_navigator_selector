@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import dagger.assisted.Assisted
@@ -28,5 +29,9 @@ class LocalFileLister @AssistedInject constructor(
         }
 
         return fileList
+    }
+
+    override fun listDir(path: String, sortingMode: FileSortingMode, offset: Int, limit: Int) {
+        listDir(path)
     }
 }
