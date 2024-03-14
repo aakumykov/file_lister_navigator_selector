@@ -13,8 +13,17 @@ class FileListerYandexDiskClient(authToken: String)
 {
     override fun appToDiskSortingMode(appSortingMode: FileSortingMode): YandexDiskSortingMode {
         return when(appSortingMode) {
+            FileSortingMode.NAME_DIRECT -> YandexDiskSortingMode.NAME_DIRECT
             FileSortingMode.NAME_REVERSE -> YandexDiskSortingMode.NAME_REVERSE
-            else -> YandexDiskSortingMode.NAME_DIRECT
+
+            FileSortingMode.C_TIME_DIRECT -> YandexDiskSortingMode.C_TIME_FROM_OLD_TO_NEW
+            FileSortingMode.C_TIME_REVERSE -> YandexDiskSortingMode.C_TIME_FROM_NEW_TO_OLD
+
+            FileSortingMode.M_TIME_DIRECT -> YandexDiskSortingMode.M_TIME_FROM_OLD_TO_NEW
+            FileSortingMode.M_TIME_REVERSE -> YandexDiskSortingMode.M_TIME_FROM_NEW_TO_OLD
+
+            FileSortingMode.SIZE_DIRECT -> YandexDiskSortingMode.SIZE_FROM_SMALL_TO_BIG
+            FileSortingMode.SIZE_REVERSE -> YandexDiskSortingMode.SIZE_FROM_BIG_TO_SMALL
         }
     }
 

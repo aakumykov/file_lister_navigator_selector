@@ -17,5 +17,10 @@ interface FileLister {
     @Throws(NotADirException::class)
     fun listDir(path: String): List<FSItem>
 
+
+    @Throws(NotADirException::class)
+    fun listDir(path: String, )
+
+
     class NotADirException : IOException()
 }
