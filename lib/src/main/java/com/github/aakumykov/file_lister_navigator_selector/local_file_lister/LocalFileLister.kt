@@ -31,7 +31,7 @@ class LocalFileLister @AssistedInject constructor(
         return fileList
     }
 
-    override fun listDir(path: String, sortingMode: FileSortingMode, offset: Int, limit: Int) {
-        listDir(path)
+    override fun listDir(path: String, sortingMode: FileSortingMode, offset: Int, limit: Int): List<FSItem> {
+        return listDir(path)
     }
 }
