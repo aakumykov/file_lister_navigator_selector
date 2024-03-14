@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_lister
 
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import java.io.IOException
 
 /**
@@ -14,7 +15,7 @@ interface FileLister {
      * Может выбрасывать исключения, если реализации предполагают их.
      */
     @Throws(NotADirException::class)
-    fun listDir(path: String): List<com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem>
+    fun listDir(path: String): List<FSItem>
 
     class NotADirException : IOException()
 }
