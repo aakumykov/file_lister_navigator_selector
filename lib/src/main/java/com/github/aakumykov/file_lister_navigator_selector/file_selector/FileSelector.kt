@@ -23,7 +23,7 @@ import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
 
-abstract class FileSelectorFragment : DialogFragment(R.layout.dialog_file_selector),
+abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
 {
@@ -82,13 +82,13 @@ abstract class FileSelectorFragment : DialogFragment(R.layout.dialog_file_select
     private lateinit var storageAccessHelper: StorageAccessHelper
 
 
-    fun show(fragmentManager: FragmentManager): FileSelectorFragment {
+    fun show(fragmentManager: FragmentManager): FileSelector {
         show(fragmentManager, TAG)
         return this
     }
 
 
-    fun setCallback(callback: Callback): FileSelectorFragment {
+    fun setCallback(callback: Callback): FileSelector {
         this.callback = callback
         return this
     }
@@ -292,7 +292,7 @@ abstract class FileSelectorFragment : DialogFragment(R.layout.dialog_file_select
 
 
     companion object {
-        val TAG: String = FileSelectorFragment::class.java.simpleName
+        val TAG: String = FileSelector::class.java.simpleName
 
         const val START_PATH = "INITIAL_PATH"
         const val IS_MULTIPLE_SELECTION_MODE = "IS_MULTIPLE_SELECTION_MODE"
@@ -301,9 +301,9 @@ abstract class FileSelectorFragment : DialogFragment(R.layout.dialog_file_select
         @Deprecated("Здесь ему не место")
         const val AUTH_TOKEN = "AUTH_TOKEN"
 
-        fun find(tag: String, fragmentManager: FragmentManager): FileSelectorFragment? {
+        fun find(tag: String, fragmentManager: FragmentManager): FileSelector? {
             return when(val fragment = fragmentManager.findFragmentByTag(tag)) {
-                is FileSelectorFragment -> fragment
+                is FileSelector -> fragment
                 else -> null
             }
         }
