@@ -23,7 +23,7 @@ import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
 
-abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
+abstract class FileSelectorFragment : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
 {
@@ -82,13 +82,13 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     private lateinit var storageAccessHelper: StorageAccessHelper
 
 
-    fun show(fragmentManager: FragmentManager): FileSelector {
+    fun show(fragmentManager: FragmentManager): FileSelectorFragment {
         show(fragmentManager, TAG)
         return this
     }
 
 
-    fun setCallback(callback: Callback): FileSelector {
+    fun setCallback(callback: Callback): FileSelectorFragment {
         this.callback = callback
         return this
     }
@@ -159,6 +159,9 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     private fun onDirCreationResult(requestKey: String, resultBundle: Bundle) {
+        resultBundle.getString(DirCreatorDialog.DIR_NAME)?.also {
+            Toast.makeText(requireContext(), getString(R.string.dir_was_created, it), Toast.LENGTH_SHORT).show()
+        }
         openDir(fileExplorer().getCurrentDir())
     }
 
@@ -289,7 +292,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     companion object {
-        val TAG: String = FileSelector::class.java.simpleName
+        val TAG: String = FileSelectorFragment::class.java.simpleName
 
         const val START_PATH = "INITIAL_PATH"
         const val IS_MULTIPLE_SELECTION_MODE = "IS_MULTIPLE_SELECTION_MODE"
@@ -298,9 +301,9 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         @Deprecated("Здесь ему не место")
         const val AUTH_TOKEN = "AUTH_TOKEN"
 
-        fun find(tag: String, fragmentManager: FragmentManager): FileSelector? {
+        fun find(tag: String, fragmentManager: FragmentManager): FileSelectorFragment? {
             return when(val fragment = fragmentManager.findFragmentByTag(tag)) {
-                is FileSelector -> fragment
+                is FileSelectorFragment -> fragment
                 else -> null
             }
         }

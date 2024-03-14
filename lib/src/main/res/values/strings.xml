@@ -4,10 +4,13 @@
     <string name="DIALOG_title_dir_mode">Dir selection</string>
     <string name="BUTTON_confirm_selection">Confirm selection</string>
     <string name="description_dialog_close_button">Close file selection dialog</string>
-    <string name="description_sort_button">Сортировка списка</string>
-    <string name="description_create_dir_button">Создать каталог</string>
-    <string name="not_implemented_yet">Ещё не реализовано</string>
-    <string name="dir_creator_dialog_create_button">Создать</string>
-    <string name="dir_creator_dialog_text_input_hint">Имя каталога</string>
-    <string name="dir_creator_dialog_title">Новый каталог</string>
+    <string name="description_sort_button">List sorting</string>
+    <string name="description_create_dir_button">Create dir</string>
+    <string name="not_implemented_yet">Not implemented yet</string>
+    <string name="dir_creator_dialog_create_button">Create</string>
+    <string name="dir_creator_dialog_text_input_hint">Dir name</string>
+    <string name="dir_creator_dialog_title">New dir</string>
+    <string name="dir_was_created">Dir «%1$s» was created</string>
 </resources>
+
+<!-- «» -->

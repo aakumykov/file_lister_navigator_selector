@@ -3,14 +3,14 @@ package com.github.aakumykov.file_lister_navigator_selector.local_file_selector
 import android.os.Bundle
 import android.os.Environment
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
-import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator.LocalDirCreator
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator_dialog.LocalDirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
 
-class LocalFileSelector: FileSelector() {
+class LocalFileSelectorFragment: FileSelectorFragment() {
 
     private var _fileExplorer: FileExplorer? = null
 
@@ -43,14 +43,14 @@ class LocalFileSelector: FileSelector() {
     }
 
     companion object {
-        val TAG: String = LocalFileSelector::class.java.simpleName
+        val TAG: String = LocalFileSelectorFragment::class.java.simpleName
 
         fun create(callback: Callback,
                    startPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
-                   isDirMode: Boolean = false) : LocalFileSelector
+                   isDirMode: Boolean = false) : LocalFileSelectorFragment
         {
-            return LocalFileSelector().apply {
+            return LocalFileSelectorFragment().apply {
                 setCallback(callback)
                 arguments = Bundle().apply {
                     putString(START_PATH, startPath)

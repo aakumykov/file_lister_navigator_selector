@@ -2,7 +2,7 @@ package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_d
 
 import android.os.Bundle
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
-import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.dir_creator_dialog.YandexDiskDirCreatorDialog
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
@@ -10,7 +10,7 @@ import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_di
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
-class YandexDiskFileSelector : FileSelector() {
+class YandexDiskFileSelectorFragment : FileSelectorFragment() {
 
     override fun dirCreatorDialog(basePath: String): DirCreatorDialog {
         // TODO: как быть с "!!" ?
@@ -47,15 +47,15 @@ class YandexDiskFileSelector : FileSelector() {
 
     // TODO: общий метод для создания этих диалогов
     companion object {
-        val TAG: String = YandexDiskFileSelector::class.java.simpleName
+        val TAG: String = YandexDiskFileSelectorFragment::class.java.simpleName
 
         fun create(authToken: String,
                    startPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
                    isDirMode: Boolean = false
-        ) : YandexDiskFileSelector
+        ) : YandexDiskFileSelectorFragment
         {
-            return YandexDiskFileSelector().apply {
+            return YandexDiskFileSelectorFragment().apply {
                 arguments = Bundle().apply {
                     putString(AUTH_TOKEN, authToken)
                     putString(START_PATH, startPath)
