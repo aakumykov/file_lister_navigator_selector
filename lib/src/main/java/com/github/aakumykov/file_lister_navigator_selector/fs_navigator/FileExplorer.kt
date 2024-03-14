@@ -2,6 +2,7 @@ package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
@@ -20,6 +21,7 @@ interface FileExplorer : FileLister, DirCreator {
     fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
+    fun listCurrentPath(sortingMode: FileSortingMode, offset: Int = 0, limit: Int = -1): List<FSItem>
 
     fun getCurrentPath(): String
     fun getCurrentDir(): DirItem
