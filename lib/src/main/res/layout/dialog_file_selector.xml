@@ -4,17 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/createDirButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/design_default_color_primary"
+        android:padding="8dp"
+        android:src="@drawable/ic_mkdir"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@id/pathView"
+        android:contentDescription="@string/description_create_dir_button"/>
+
+    <ImageView
+        android:id="@+id/dialogSortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/design_default_color_primary"
+        android:padding="8dp"
+        android:src="@drawable/ic_sort"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/createDirButton"
+        android:layout_alignBottom="@id/pathView"
+        android:contentDescription="@string/description_sort_button"/>
+
     <TextView
         android:id="@+id/pathView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/dialogSortButton"
+        android:layout_toStartOf="@id/dialogCloseButton"
         android:background="@color/design_default_color_primary"
         android:padding="12dp"
         android:text="@string/DIALOG_title_common_mode"
-        android:textAlignment="center"
+        android:singleLine="true"
+        android:ellipsize="start"
+        android:gravity="center_horizontal"
         android:textColor="@color/design_default_color_on_primary"
         android:textStyle="bold" />
 
@@ -22,10 +48,11 @@
         android:id="@+id/dialogCloseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/design_default_color_primary"
         android:padding="8dp"
         android:src="@drawable/ic_close"
-        android:layout_alignEnd="@id/pathView"
-        android:layout_alignTop="@id/pathView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignBottom="@id/pathView"
         android:contentDescription="@string/description_dialog_close_button"/>
 

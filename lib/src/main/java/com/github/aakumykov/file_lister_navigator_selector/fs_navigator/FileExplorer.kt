@@ -1,6 +1,8 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
 /**
@@ -10,16 +12,17 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
  *
  * Интерфефс расширяет интерфейс FileLister, так как навигация в отрыве от получения списка файлов бессмысленна.
  */
-interface FileExplorer :
-    FileLister {
+interface FileExplorer : FileLister, DirCreator {
 
-    fun changeDir(fsItem: FSItem) // TODO: выброс исключений...
+    fun changeDir(dirItem: DirItem) // TODO: выброс исключений...
     fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
     fun goToParentDir() // TODO: throws IOException, AccessDeniesException
     fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
+
     fun getCurrentPath(): String
+    fun getCurrentDir(): DirItem
 
     fun setPathCache(pathCache: PathCache)
     fun setListCache(listCache: ListCache)

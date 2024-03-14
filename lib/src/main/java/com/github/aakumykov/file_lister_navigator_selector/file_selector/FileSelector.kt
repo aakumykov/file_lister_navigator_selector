@@ -6,17 +6,19 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
-import java.util.Date
 import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
@@ -25,35 +27,59 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
 {
+    //
+    // Разметка
+    //
     private var _binding: Layout? = null
     private val binding get() = _binding!!
 
+    //
+    // Handler для асинхронных операций
+    //
+    private val handler: Handler = Handler(Looper.getMainLooper())
+
+    //
+    // Адаптер списка и список, который он отображает (можно без него?)
+    //
+    private lateinit var listAdapter: FileListAdapter
+    private val itemList: MutableList<FSItem> = mutableListOf()
+
+    //
+    // ViewModel хранит текущее состояние интерфейса
+    //
     private val viewModel: FileSelectorViewModel by viewModels()
 
+    //
+    // Флаг перваго запуску
+    //
     private var firstRun: Boolean = true
-    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
-    private val itemList: MutableList<FSItem> = mutableListOf()
-    private lateinit var listAdapter: FileListAdapter
-
+    //
+    // Колбек подтверждения выбора.
+    //
     private var callback: Callback? = null
 
-    private val isMultipleSelectionMode: Boolean by lazy {
-        arguments?.getBoolean(IS_MULTIPLE_SELECTION_MODE) ?: false
-    }
 
-    private val startPath: String by lazy {
-        arguments?.getString(START_PATH) ?: defaultStartPath()
-    }
-
-    protected val isDirMode: Boolean by lazy {
-        arguments?.getBoolean(IS_DIR_MODE) ?: false
-    }
+    //
+    // Свойства, получаемые из аргументов фрагмента.
+    //
+    private val isMultipleSelectionMode: Boolean by lazy { arguments?.getBoolean(IS_MULTIPLE_SELECTION_MODE) ?: false }
+    private val startPath: String by lazy { arguments?.getString(START_PATH) ?: defaultStartPath() }
+    protected val isDirMode: Boolean by lazy { arguments?.getBoolean(IS_DIR_MODE) ?: false }
 
 
+    //
+    // Компоненты, реализуемые наследниками.
+    //
     abstract fun fileExplorer(): FileExplorer
-
     abstract fun defaultStartPath(): String
+    abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
+
+
+    //
+    // StorageAccessHelper
+    //
+    private lateinit var storageAccessHelper: StorageAccessHelper
 
 
     fun show(fragmentManager: FragmentManager): FileSelector {
@@ -79,6 +105,10 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
         firstRun = (null == savedInstanceState)
 
+        childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
+
+        storageAccessHelper = StorageAccessHelper.create(requireActivity())
+
         viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
         viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)
         viewModel.currentPath.observe(viewLifecycleOwner, ::onCurrentPathChanged)
@@ -93,26 +123,27 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         binding.listView.onItemClickListener = this
         binding.listView.onItemLongClickListener = this
 
+        binding.createDirButton.setOnClickListener { onCreateDirClicked() }
+        binding.dialogSortButton.setOnClickListener { onSortButtonClicked() }
         binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
 
     override fun onStart() {
         super.onStart()
-
         if (firstRun)
-            openDir(
-                SimpleFSItem(
-                    name = startPath,
-                    absolutePath = startPath,
-                    parentPath = "",
-                    isDir = true,
-                    mTime = Date().time,
-                    size = 0L
-                )
-            )
+            openDir(DirItem.fromPath(startPath))
     }
 
+    private fun onCreateDirClicked() {
+        storageAccessHelper.requestWriteAccess {
+            dirCreatorDialog(fileExplorer().getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
+        }
+    }
+
+    private fun onSortButtonClicked() {
+        Toast.makeText(requireContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show()
+    }
 
     private fun onConfirmSelectionClicked() {
         callback?.onFilesSelected(viewModel.getSelectedList())
@@ -127,6 +158,13 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
+    private fun onDirCreationResult(requestKey: String, resultBundle: Bundle) {
+        resultBundle.getString(DirCreatorDialog.DIR_NAME)?.also {
+            Toast.makeText(requireContext(), getString(R.string.dir_was_created, it), Toast.LENGTH_SHORT).show()
+        }
+        openDir(fileExplorer().getCurrentDir())
+    }
+
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
         val clickedItem = itemList[position]
@@ -137,7 +175,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
             return
         }
 
-        openDir(clickedItem)
+        openDir(DirItem(clickedItem))
     }
 
     // FIXME: неверная логика
@@ -169,9 +207,9 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
-    private fun openDir(fsItem: FSItem) {
+    private fun openDir(dirItem: DirItem) {
 
-        if (!fsItem.isDir)
+        if (!dirItem.isDir)
             return
 
         hideError()
@@ -179,7 +217,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
         thread {
             try {
-                fileExplorer().changeDir(fsItem)
+                fileExplorer().changeDir(dirItem)
                 val list = fileExplorer().listCurrentPath()
 
                 handler.post {
@@ -259,6 +297,8 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         const val START_PATH = "INITIAL_PATH"
         const val IS_MULTIPLE_SELECTION_MODE = "IS_MULTIPLE_SELECTION_MODE"
         const val IS_DIR_MODE = "IS_DIR_MODE"
+
+        @Deprecated("Здесь ему не место")
         const val AUTH_TOKEN = "AUTH_TOKEN"
 
         fun find(tag: String, fragmentManager: FragmentManager): FileSelector? {

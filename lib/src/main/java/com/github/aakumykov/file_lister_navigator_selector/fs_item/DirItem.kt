@@ -13,4 +13,20 @@ open class DirItem(
         isDir = true,
         mTime = mTime,
         size = 0L
-    )
+    ) {
+
+    constructor(fsItem: FSItem) : this(fsItem.name, fsItem.absolutePath, fsItem.parentPath, fsItem.mTime)
+
+    companion object {
+        fun fromPath(path: String): DirItem {
+            return path.split(FSItem.DS).let { pathParts ->
+                DirItem(
+                    pathParts.last(),
+                    path,
+                    pathParts.subList(0, pathParts.size-1).joinToString(FSItem.DS),
+                    0L
+                )
+            }
+        }
+    }
+}

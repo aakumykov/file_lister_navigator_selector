@@ -1,30 +1,39 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
 import android.os.Bundle
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator_dialog.YandexDiskDirCreatorDialog
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.FileListerYandexDiskClient
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
 class YandexDiskFileSelector : FileSelector() {
+
+    override fun dirCreatorDialog(basePath: String): DirCreatorDialog {
+        // TODO: как быть с "!!" ?
+        return YandexDiskDirCreatorDialog.create(basePath, authToken()!!)
+    }
 
     private var _fileExplorer: FileExplorer? = null
 
     override fun fileExplorer(): FileExplorer {
         if (null == _fileExplorer) {
 
-            val authToken = arguments?.getString(AUTH_TOKEN)
+            val authToken = authToken()
 
             if (authToken.isNullOrEmpty())
                 throw IllegalArgumentException("Auth token is null or empty")
-            else
-                _fileExplorer =
-                    YandexDiskFileExplorer(
-                        YandexDiskFileLister(
-                            authToken
-                        ),
+            else {
+                val yandexDiskClient = FileListerYandexDiskClient(authToken)
+                _fileExplorer = YandexDiskFileExplorer(
+                        yandexDiskFileLister = YandexDiskFileLister(authToken),
+                        yandexDiskDirCreator = YandexDiskDirCreator(yandexDiskClient),
                         isDirMode = isDirMode
-                    )
+                )
+            }
         }
 
         return _fileExplorer!!
@@ -32,7 +41,10 @@ class YandexDiskFileSelector : FileSelector() {
 
     override fun defaultStartPath(): String = "/"
 
-    
+
+    private fun authToken(): String? = arguments?.getString(AUTH_TOKEN)
+
+
     // TODO: общий метод для создания этих диалогов
     companion object {
         val TAG: String = YandexDiskFileSelector::class.java.simpleName
