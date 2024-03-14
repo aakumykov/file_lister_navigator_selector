@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogDirCreatorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 
 abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
@@ -71,7 +70,7 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
         disableForm()
         hideError()
 
-        val  dirPath = basePath() + FSItem.DS + dirName()
+        val  dirPath = basePath() + dirName()
 
         viewModel.createDir(dirPath, Handler(Looper.getMainLooper()))
     }

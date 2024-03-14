@@ -294,6 +294,8 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         const val START_PATH = "INITIAL_PATH"
         const val IS_MULTIPLE_SELECTION_MODE = "IS_MULTIPLE_SELECTION_MODE"
         const val IS_DIR_MODE = "IS_DIR_MODE"
+
+        @Deprecated("Здесь ему не место")
         const val AUTH_TOKEN = "AUTH_TOKEN"
 
         fun find(tag: String, fragmentManager: FragmentManager): FileSelector? {
