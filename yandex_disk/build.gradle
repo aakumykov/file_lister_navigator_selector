@@ -8,7 +8,7 @@ plugins {
 project.ext {
     artifactId = 'yandex_disk_file_lister_navigator_selector'
     groupId = 'com.github.aakumykov'
-    versionCode = 10
+    versionCode = 11
     versionName = "0.0." + versionCode
 }
 
@@ -56,7 +56,7 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.48.1'
     kapt 'com.google.dagger:dagger-compiler:2.48.1'
 
-    api 'com.github.aakumykov:yandex_disk_client:0.0.12'
+    api 'com.github.aakumykov:yandex_disk_client:0.0.15'
 }
 
 publishing {

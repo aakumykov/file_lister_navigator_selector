@@ -3,8 +3,8 @@ package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_d
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.yandex_disk_client.CloudClient.OperationFailedException
 import com.github.aakumykov.yandex_disk_client.YandexDiskClient
+import com.github.aakumykov.yandex_disk_client.exceptions.OperationFailedException
 
 class YandexDiskDirCreator(private val yandexDiskClient: YandexDiskClient<FSItem, FileSortingMode>) : DirCreator {
 
