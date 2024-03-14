@@ -1,4 +1,4 @@
-package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.dir_creator_dialog
+package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator_dialog
 
 import androidx.core.os.bundleOf
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
