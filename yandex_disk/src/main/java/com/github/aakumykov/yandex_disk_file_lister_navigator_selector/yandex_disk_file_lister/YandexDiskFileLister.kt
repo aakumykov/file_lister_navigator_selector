@@ -15,11 +15,6 @@ class YandexDiskFileLister @AssistedInject constructor(
         FileListerYandexDiskClient(authToken)
     }
 
-    @Deprecated("Используй метод с параметром сортировки")
-    override fun listDir(path: String): List<FSItem> {
-        return yandexDiskClient.listDir(path)
-    }
-
     override fun listDir(path: String, sortingMode: FileSortingMode, offset: Int, limit: Int): List<FSItem> {
         return categorizeFSItems(
             yandexDiskClient.listDir(path, sortingMode, offset, limit)
