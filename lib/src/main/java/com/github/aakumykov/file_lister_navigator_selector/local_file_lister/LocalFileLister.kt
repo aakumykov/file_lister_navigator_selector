@@ -2,7 +2,6 @@ package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import dagger.assisted.Assisted
@@ -24,17 +23,11 @@ class LocalFileLister @AssistedInject constructor(
             for (name: String in fileNamesArray) {
                 val absolutePath = path + FSItem.DS + name
                 val file = File(absolutePath)
-
-                var fsItem = SimpleFSItem(file)
-
-                if (fsItem.isDir)
-                    fsItem = DirItem(fsItem)
-
-                fileList.add(fsItem)
+                fileList.add(SimpleFSItem(file))
             }
         }
 
-        return fileList
+        return categorizeFSItems(fileList.toList())
     }
 
     override fun listDir(path: String, sortingMode: FileSortingMode, offset: Int, limit: Int): List<FSItem> {
