@@ -2,7 +2,7 @@ package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_d
 
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.FileItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.utils.parentPathFor
 import com.github.aakumykov.yandex_disk_client.YandexDiskClient
 import com.github.aakumykov.yandex_disk_client.YandexDiskSortingMode
@@ -32,7 +32,7 @@ class FileListerYandexDiskClient(authToken: String)
         val path = resource.path.path
         val parentPath = parentPathFor(path)
 
-        return FileItem(
+        return SimpleFSItem(
             name = resource.name,
             absolutePath = path,
             parentPath = parentPath,

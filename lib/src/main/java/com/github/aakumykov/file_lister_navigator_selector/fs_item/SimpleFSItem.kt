@@ -3,7 +3,7 @@ package com.github.aakumykov.file_lister_navigator_selector.fs_item
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.utils.parentPathFor
 import java.io.File
 
-sealed class SimpleFSItem(
+open class SimpleFSItem(
     override val name: String,
     override val absolutePath: String,
     override val parentPath: String,
@@ -21,7 +21,11 @@ sealed class SimpleFSItem(
         size = file.length()
     )
 
-    override fun toString(): String = thisClassName() + " { name: $name (absolutePath: $absolutePath) }"
+    override fun toString(): String = TAG + " { ${nameAndPath()} }"
 
-    abstract fun thisClassName(): String
+    protected fun nameAndPath(): String = "name: $name (absolutePath: $absolutePath)"
+
+    companion object {
+        val TAG: String = SimpleFSItem::class.java.simpleName
+    }
 }

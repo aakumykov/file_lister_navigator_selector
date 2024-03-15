@@ -4,7 +4,7 @@ import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileListe
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.FileItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.io.File
@@ -25,7 +25,7 @@ class LocalFileLister @AssistedInject constructor(
                 val absolutePath = path + FSItem.DS + name
                 val file = File(absolutePath)
 
-                var fsItem: FSItem = FileItem(file)
+                var fsItem = SimpleFSItem(file)
 
                 if (fsItem.isDir)
                     fsItem = DirItem(fsItem)
