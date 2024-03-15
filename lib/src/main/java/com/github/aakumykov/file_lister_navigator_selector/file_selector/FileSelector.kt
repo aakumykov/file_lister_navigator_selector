@@ -168,13 +168,13 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         itemList[position].also { clickedItem ->
             when {
-                clickedItem is ParentDirItem -> fileExplorer().goToParentDir()
                 clickedItem is DirItem -> openDir(clickedItem)
                 isMultipleSelectionMode -> onItemClickedInSingleSelectionMode(clickedItem)
                 else -> onItemClickedInMultipleSelectionMode(clickedItem)
             }
         }
     }
+
 
     private fun onItemClickedInSingleSelectionMode(clickedItem: FSItem) {
         selectItem(clickedItem)
