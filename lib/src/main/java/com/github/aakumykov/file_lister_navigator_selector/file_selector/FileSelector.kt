@@ -166,33 +166,40 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-        val clickedItem = itemList[position]
-
-        if (!isMultipleSelectionMode && !clickedItem.isDir) {
-            selectItem(clickedItem)
-            onConfirmSelectionClicked()
-            return
+        itemList[position].also { clickedItem ->
+            when {
+                clickedItem is ParentDirItem -> fileExplorer().goToParentDir()
+                clickedItem is DirItem -> openDir(clickedItem)
+                isMultipleSelectionMode -> onItemClickedInSingleSelectionMode(clickedItem)
+                else -> onItemClickedInMultipleSelectionMode(clickedItem)
+            }
         }
-
-        openDir(DirItem(clickedItem))
     }
 
-    // FIXME: неверная логика
+    private fun onItemClickedInSingleSelectionMode(clickedItem: FSItem) {
+        selectItem(clickedItem)
+        onConfirmSelectionClicked()
+    }
+
+    private fun onItemClickedInMultipleSelectionMode(clickedItem: FSItem) {
+        selectItem(clickedItem)
+    }
+
     override fun onItemLongClick(
         parent: AdapterView<*>?,
         view: View?,
         position: Int,
         id: Long
     ): Boolean {
-        val currentItem = itemList[position]
 
-        // Игнорирую попытку выбора ссылки на родительский каталог.
-        if (currentItem is ParentDirItem)
+        val longClickedItem = itemList[position]
+
+        // Игнорирую попытку выбора родительского каталога.
+        if (longClickedItem is ParentDirItem)
             return true
 
-        if (isMultipleSelectionMode) toggleItemSelection(currentItem)
-        else selectItem(currentItem)
+        if (isMultipleSelectionMode) toggleItemSelection(longClickedItem)
+        else selectItem(longClickedItem)
 
         return true
     }
@@ -208,9 +215,6 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     private fun openDir(dirItem: DirItem) {
-
-        if (!dirItem.isDir)
-            return
 
         hideError()
         showProgressBar()

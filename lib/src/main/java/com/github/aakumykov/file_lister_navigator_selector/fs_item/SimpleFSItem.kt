@@ -21,7 +21,11 @@ open class SimpleFSItem(
         size = file.length()
     )
 
-    override fun toString(): String {
-        return "$name ($absolutePath)"
+    override fun toString(): String = TAG + " { ${nameAndPath()} }"
+
+    protected fun nameAndPath(): String = "name: $name (absolutePath: $absolutePath)"
+
+    companion object {
+        val TAG: String = SimpleFSItem::class.java.simpleName
     }
 }
