@@ -3,25 +3,27 @@ package com.github.aakumykov.file_lister_navigator_selector.fs_item
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.utils.parentPathFor
 import java.io.File
 
-sealed class SimpleFSItem(
+class FileItem(
     override val name: String,
     override val absolutePath: String,
     override val parentPath: String,
-    override val isDir: Boolean,
     override val mTime: Long,
     override val size: Long
-) : FSItem {
-
+) : SimpleFSItem(
+    name,
+    absolutePath,
+    parentPath,
+    false,
+    mTime,
+    size
+) {
     constructor(file: File) : this(
         name = file.name,
         absolutePath = file.absolutePath,
         parentPath = parentPathFor(file.absolutePath),
-        isDir = file.isDirectory,
         mTime = file.lastModified(),
         size = file.length()
     )
 
-    override fun toString(): String = thisClassName() + " { name: $name (absolutePath: $absolutePath) }"
-
-    abstract fun thisClassName(): String
+    override fun thisClassName(): String = FileItem::class.java.simpleName
 }

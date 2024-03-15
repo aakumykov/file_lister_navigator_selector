@@ -9,9 +9,5 @@ class ParentDirItem () : DirItem(
     parentPath = FSItem.NO_PARENT_PATH,
     mTime = -1L
 ) {
-    override fun toString(): String = TAG + " { ${nameAndPath()} }"
-
-    companion object {
-        val TAG: String = ParentDirItem::class.java.simpleName
-    }
+    override fun thisClassName(): String = ParentDirItem::class.java.simpleName
 }
