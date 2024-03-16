@@ -21,7 +21,7 @@ interface FileExplorer : FileLister, DirCreator {
     fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
-    fun listCurrentPath(sortingMode: FileSortingMode, offset: Int = 0, limit: Int = -1): List<FSItem>
+    fun listCurrentPath(sortingMode: FileSortingMode): List<FSItem>
 
     fun getCurrentPath(): String
     fun getCurrentDir(): DirItem

@@ -18,33 +18,23 @@ abstract class BasicFileExplorer(
 
     private var currentPath: String = initialPath
     private var currentDir: DirItem = DirItem.fromPath(initialPath)
-
     private var currentSortingMode: FileSortingMode = initialSortingMode
-    private var currentOffset: Int = 0
-    private var currentLimit: Int = -1
 
     private val currentList: MutableList<FSItem> = mutableListOf()
 
     override fun getCurrentPath(): String = currentPath
-
     override fun getCurrentDir(): DirItem = currentDir
 
 
     override fun listCurrentPath(): List<FSItem> {
-        return listCurrentPath(currentSortingMode, currentOffset, currentLimit)
+        return listCurrentPath(currentSortingMode)
     }
 
-    override fun listCurrentPath(
-        sortingMode: FileSortingMode,
-        offset: Int,
-        limit: Int
-    ): List<FSItem> {
+    override fun listCurrentPath(sortingMode: FileSortingMode): List<FSItem> {
 
         currentSortingMode = sortingMode
-        currentOffset = offset
-        currentLimit = limit
 
-        val initialList = listDir(getCurrentPath(), currentSortingMode, currentOffset, currentLimit)
+        val initialList = listDir(getCurrentPath(), currentSortingMode)
 
         currentList.clear()
         currentList.add(ParentDirItem())

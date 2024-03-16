@@ -105,9 +105,9 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
         firstRun = (null == savedInstanceState)
 
-        childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
-
         storageAccessHelper = StorageAccessHelper.create(requireActivity())
+
+        childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
 
         viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
         viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)

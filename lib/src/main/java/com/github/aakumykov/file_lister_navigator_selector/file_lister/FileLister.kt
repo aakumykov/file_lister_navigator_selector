@@ -16,10 +16,7 @@ interface FileLister {
      * Может выбрасывать исключения, если реализации предполагают их.
      */
     @Throws(NotADirException::class)
-    fun listDir(path: String,
-                sortingMode: FileSortingMode = FileSortingMode.NAME_DIRECT,
-                offset: Int = 0,
-                limit: Int = -1): List<FSItem>
+    fun listDir(path: String, sortingMode: FileSortingMode = FileSortingMode.NAME_DIRECT): List<FSItem>
 
 
     class NotADirException : IOException()
