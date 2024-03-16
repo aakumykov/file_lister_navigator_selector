@@ -26,6 +26,7 @@ import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
 import com.yandex.authsdk.YandexAuthSdkContract
+import com.yandex.authsdk.internal.strategy.LoginType
 import kotlin.concurrent.thread
 
 class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback {
@@ -237,7 +238,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
     private fun onYandexButtonClicked() {
         if (null == yandexAuthToken)
-            yandexAuthLauncher.launch(YandexAuthLoginOptions())
+            yandexAuthLauncher.launch(YandexAuthLoginOptions(LoginType.WEBVIEW))
     }
 
     override fun onDestroyView() {
