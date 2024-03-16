@@ -1,6 +1,5 @@
 package com.github.aakumykov.file_lister_navigator_selector.fragments.local
 
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -24,10 +23,9 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExpl
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.file_lister_navigator_selector.utils.AndroidVersionHelper
+import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
-import permissions.dispatcher.ktx.PermissionsRequester
-import permissions.dispatcher.ktx.constructPermissionsRequest
 import java.io.IOException
 
 class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClickListener,
@@ -37,7 +35,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
     private val binding get() = _binding!!
 
     private lateinit var mLocalViewModel: LocalViewModel
-    private lateinit var listDirPermissionRequest: PermissionsRequester
+    private lateinit var storageAccessHelper: StorageAccessHelper
 
     private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
@@ -55,19 +53,16 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
         isFirstRun = null == savedInstanceState
 
-        listDirPermissionRequest = constructPermissionsRequest(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            requiresPermission = ::listCurrentDir,
-            onNeverAskAgain = { showToast("Нужны разрешение на чтение памяти") },
-            onPermissionDenied = { showToast("Вы запретили чтение памяти...") }
-        )
+        storageAccessHelper = StorageAccessHelper.create(this)
 
         _binding = FragmentLocalBinding.bind(view)
 
         binding.manageAllFilesButton.setOnClickListener { onManageAllFilesButtonClicked() }
+
         binding.button.setOnClickListener {
-            listDirPermissionRequest.launch()
-//            LayoutProbeDialog().show(childFragmentManager, LayoutProbeDialog.TAG)
+            storageAccessHelper.requestReadAccess {
+                listCurrentDir()
+            }
         }
 
         mLocalViewModel = ViewModelProvider(requireActivity()).get(LocalViewModel::class.java)

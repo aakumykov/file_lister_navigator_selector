@@ -64,7 +64,7 @@ dependencies {
 
     implementation 'androidx.fragment:fragment-ktx:1.6.2'
 
-    api 'com.github.aakumykov:storage_access_helper:0.0.3'
+    api 'com.github.aakumykov:storage_access_helper:0.0.4'
 }
 
 publishing {

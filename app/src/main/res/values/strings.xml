@@ -10,4 +10,5 @@
     <string name="multiple_mode_toggle_multiple">Несколько</string>
     <string name="selection_mode_dir">Каталог</string>
     <string name="selection_mode_file">Файл</string>
+    <string name="MENU_storage_access">Доступ к хранилищу</string>
 </resources>
