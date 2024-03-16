@@ -105,7 +105,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
         firstRun = (null == savedInstanceState)
 
-        storageAccessHelper = StorageAccessHelper.create(requireActivity())
+        storageAccessHelper = StorageAccessHelper.create(this)
 
         childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
 
