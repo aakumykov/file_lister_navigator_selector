@@ -1,7 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
@@ -10,7 +10,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 abstract class BasicFileExplorer(
     private val initialPath: String,
     private val isDirMode: Boolean,
-    private val initialSortingMode: FileSortingMode = FileSortingMode.NAME_DIRECT,
+    private val initialSortingMode: SortingMode = SortingMode.NAME_DIRECT,
     private var listCache: FileExplorer.ListCache?, // TODO: сделать val
     private var pathCache: FileExplorer.PathCache?, // TODO: сделать val
     private val dirSeparator: String = FSItem.DS
@@ -18,7 +18,7 @@ abstract class BasicFileExplorer(
 
     private var currentPath: String = initialPath
     private var currentDir: DirItem = DirItem.fromPath(initialPath)
-    private var currentSortingMode: FileSortingMode = initialSortingMode
+    private var currentSortingMode: SortingMode = initialSortingMode
 
     private val currentList: MutableList<FSItem> = mutableListOf()
 
@@ -30,7 +30,7 @@ abstract class BasicFileExplorer(
         return listCurrentPath(currentSortingMode)
     }
 
-    override fun listCurrentPath(sortingMode: FileSortingMode): List<FSItem> {
+    override fun listCurrentPath(sortingMode: SortingMode): List<FSItem> {
 
         currentSortingMode = sortingMode
 

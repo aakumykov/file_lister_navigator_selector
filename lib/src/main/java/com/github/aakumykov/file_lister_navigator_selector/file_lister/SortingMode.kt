@@ -1,7 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_lister
 
-@Deprecated("Переименовать в SortingMode")
-enum class FileSortingMode {
+enum class SortingMode {
     NAME_DIRECT,
     NAME_REVERSE,
 

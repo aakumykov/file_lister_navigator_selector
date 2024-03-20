@@ -12,7 +12,7 @@ import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentY
 import com.github.aakumykov.file_lister_navigator_selector.extensions.restoreString
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.extensions.storeString
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileSortingMode
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
@@ -198,13 +198,13 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
         }
     }
 
-    private fun sortingMode(): FileSortingMode {
+    private fun sortingMode(): SortingMode {
         val isDirect = binding.sortingDirection.isChecked
         return when(binding.sortingMode.checkedChipId) {
-            R.id.sortBySize -> if (isDirect) FileSortingMode.SIZE_DIRECT else FileSortingMode.SIZE_REVERSE
-            R.id.sortByMTime -> if (isDirect) FileSortingMode.M_TIME_DIRECT else FileSortingMode.M_TIME_REVERSE
-            R.id.sortByCTime -> if (isDirect) FileSortingMode.C_TIME_DIRECT else FileSortingMode.C_TIME_REVERSE
-            else -> if (isDirect) FileSortingMode.NAME_DIRECT else FileSortingMode.NAME_REVERSE
+            R.id.sortBySize -> if (isDirect) SortingMode.SIZE_DIRECT else SortingMode.SIZE_REVERSE
+            R.id.sortByMTime -> if (isDirect) SortingMode.M_TIME_DIRECT else SortingMode.M_TIME_REVERSE
+            R.id.sortByCTime -> if (isDirect) SortingMode.C_TIME_DIRECT else SortingMode.C_TIME_REVERSE
+            else -> if (isDirect) SortingMode.NAME_DIRECT else SortingMode.NAME_REVERSE
         }
     }
 
