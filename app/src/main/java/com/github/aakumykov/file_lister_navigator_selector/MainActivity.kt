@@ -8,8 +8,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.github.aakumykov.file_lister_navigator_selector.databinding.ActivityMainBinding
-import com.github.aakumykov.file_lister_navigator_selector.fragments.local.LocalFragment
 import com.github.aakumykov.file_lister_navigator_selector.fragments.local.LocalViewModel
+import com.github.aakumykov.file_lister_navigator_selector.fragments.selector.SelectorFragment
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 
 class MainActivity : AppCompatActivity() {
@@ -26,9 +26,9 @@ class MainActivity : AppCompatActivity() {
         if (null == savedInstanceState) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragmentContainerView, LocalFragment.create(), LocalFragment.TAG)
+//                .replace(R.id.fragmentContainerView, LocalFragment.create(), LocalFragment.TAG)
 //                .replace(R.id.fragmentContainerView, YandexFragment.create(), YandexFragment.TAG)
-//                .replace(R.id.fragmentContainerView, SelectorFragment.create(), SelectorFragment.TAG)
+                .replace(R.id.fragmentContainerView, SelectorFragment.create(), SelectorFragment.TAG)
                 .commit()
         }
 
