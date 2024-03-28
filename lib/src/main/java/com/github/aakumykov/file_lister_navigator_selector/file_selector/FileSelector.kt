@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
@@ -22,7 +23,6 @@ import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
-
 abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
@@ -113,6 +113,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)
         viewModel.currentPath.observe(viewLifecycleOwner, ::onCurrentPathChanged)
         viewModel.errorMessage.observe(viewLifecycleOwner, ::onErrorChanged)
+        viewModel.sortingMode.observe(viewLifecycleOwner, ::onSortingModeChanged)
 
         listAdapter = FileListAdapter(requireContext(), R.layout.file_list_item, R.id.titleView, itemList)
 
@@ -142,8 +143,14 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
     private fun onSortButtonClicked() {
-        Toast.makeText(requireContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show()
+        viewModel.toggleSortingMode()
     }
+
+
+    private fun onSortingModeChanged(sortingMode: SortingMode?) {
+        sortingMode?.also { reopenCurrentDir(sortingMode) } ?: reopenCurrentDir()
+    }
+
 
     private fun onConfirmSelectionClicked() {
         callback?.onFilesSelected(viewModel.getSelectedList())
@@ -162,8 +169,18 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         resultBundle.getString(DirCreatorDialog.DIR_NAME)?.also {
             Toast.makeText(requireContext(), getString(R.string.dir_was_created, it), Toast.LENGTH_SHORT).show()
         }
+        reopenCurrentDir()
+    }
+
+
+    private fun reopenCurrentDir() {
         openDir(fileExplorer().getCurrentDir())
     }
+
+    private fun reopenCurrentDir(sortingMode: SortingMode) {
+        openDir(fileExplorer().getCurrentDir(), sortingMode)
+    }
+
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         itemList[position].also { clickedItem ->
@@ -214,7 +231,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
-    private fun openDir(dirItem: DirItem) {
+    private fun openDir(dirItem: DirItem, sortingMode: SortingMode = SortingMode.NAME_DIRECT) {
 
         hideError()
         showProgressBar()
@@ -222,7 +239,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         thread {
             try {
                 fileExplorer().changeDir(dirItem)
-                val list = fileExplorer().listCurrentPath()
+                val list = fileExplorer().listCurrentPath(sortingMode)
 
                 handler.post {
                     hideProgressBar()
@@ -313,3 +330,4 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         }
     }
 }
+

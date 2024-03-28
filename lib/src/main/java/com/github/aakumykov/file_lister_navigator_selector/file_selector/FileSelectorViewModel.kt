@@ -3,9 +3,14 @@ package com.github.aakumykov.file_lister_navigator_selector.file_selector
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
-class FileSelectorViewModel : ViewModel() {
+class FileSelectorViewModel(initialSortingMode: SortingMode = SortingMode.NAME_DIRECT) : ViewModel() {
+
+    private var currentSortingMode: SortingMode = initialSortingMode
+    private val _sortingModeMutableLiveData: MutableLiveData<SortingMode> = MutableLiveData(initialSortingMode)
+    val sortingMode: LiveData<SortingMode> = _sortingModeMutableLiveData
 
     private val _currentPathMutableLiveData: MutableLiveData<String> = MutableLiveData()
     val currentPath get(): LiveData<String> = _currentPathMutableLiveData
@@ -55,5 +60,14 @@ class FileSelectorViewModel : ViewModel() {
 
     fun getSelectedList(): List<FSItem> {
         return _selectedList
+    }
+
+    fun toggleSortingMode() {
+        currentSortingMode = when(currentSortingMode) {
+            SortingMode.NAME_DIRECT -> SortingMode.NAME_REVERSE
+            else -> SortingMode.NAME_DIRECT
+        }
+
+        _sortingModeMutableLiveData.value = currentSortingMode
     }
 }
