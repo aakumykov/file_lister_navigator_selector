@@ -124,7 +124,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         binding.listView.onItemLongClickListener = this
 
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
-        binding.dialogSortButton.setOnClickListener { onSortButtonClicked() }
+        binding.sortButton.setOnClickListener { onSortButtonClicked() }
         binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
