@@ -17,7 +17,7 @@
         android:contentDescription="@string/description_create_dir_button"/>
 
     <ImageView
-        android:id="@+id/dialogSortButton"
+        android:id="@+id/sortButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/design_default_color_primary"
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@id/dialogSortButton"
+        android:layout_toEndOf="@id/sortButton"
         android:layout_toStartOf="@id/dialogCloseButton"
         android:background="@color/design_default_color_primary"
         android:padding="12dp"

@@ -1,6 +1,5 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
-import com.github.aakumykov.file_lister_navigator_selector.comparators2.FSItemSortingComparator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
@@ -29,6 +28,6 @@ class LocalFileLister @AssistedInject constructor(
         }
 
         return categorizeFSItems(fileList.toList())
-            .sortedWith(FSItemSortingComparator.create(sortingMode))
+//            .sortedWith(FSItemSortingComparator.create(sortingMode))
     }
 }
