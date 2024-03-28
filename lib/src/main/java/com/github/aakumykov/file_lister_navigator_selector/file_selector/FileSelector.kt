@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
@@ -110,7 +109,10 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
         childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
 
-        prepareViewModel()
+        viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
+        viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)
+        viewModel.currentPath.observe(viewLifecycleOwner, ::onCurrentPathChanged)
+        viewModel.errorMessage.observe(viewLifecycleOwner, ::onErrorChanged)
 
         listAdapter = FileListAdapter(requireContext(), R.layout.file_list_item, R.id.titleView, itemList)
 
@@ -122,20 +124,10 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         binding.listView.onItemLongClickListener = this
 
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
-        binding.sortButton.setOnClickListener { onSortButtonClicked() }
+        binding.dialogSortButton.setOnClickListener { onSortButtonClicked() }
         binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
-
-
-    private fun prepareViewModel() {
-        viewModel.sortingMode.observe(viewLifecycleOwner, ::onSortingModeChanged)
-        viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
-        viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)
-        viewModel.currentPath.observe(viewLifecycleOwner, ::onCurrentPathChanged)
-        viewModel.errorMessage.observe(viewLifecycleOwner, ::onErrorChanged)
-    }
-
 
     override fun onStart() {
         super.onStart()
@@ -150,7 +142,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
     private fun onSortButtonClicked() {
-        viewModel.toggleSortingMode()
+        Toast.makeText(requireContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show()
     }
 
     private fun onConfirmSelectionClicked() {
@@ -262,12 +254,6 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
-    // TODO: убрать как неиспользуемое...
-    private fun onSortingModeChanged(sortingMode: SortingMode?) {
-
-    }
-
-
     private fun onFileListChanged(list: List<FSItem>?) {
         list?.let {
             hideProgressBar()
@@ -275,6 +261,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
             itemList.addAll(it)
         }
     }
+
 
     override fun onDestroyView() {
         _binding = null
