@@ -2,6 +2,7 @@ package com.github.aakumykov.file_lister_navigator_selector.file_selector2
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
@@ -13,7 +14,8 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 
-abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
+abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
+    AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private var _binding: DialogFileSelectorBinding? = null
     private val binding get() = _binding!!
@@ -42,6 +44,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
     private fun prepareViewModel() {
         viewModel.path.observe(viewLifecycleOwner, ::onPathChanged)
         viewModel.list.observe(viewLifecycleOwner, ::onListChanged)
+        viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectedListChanged)
         viewModel.errorMsg.observe(viewLifecycleOwner, ::onNewError)
         viewModel.isBusy.observe(viewLifecycleOwner, ::onIsBusyChanged)
     }
@@ -52,6 +55,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
     }
 
     private fun prepareListAdapter() {
+
         listAdapter = FileListAdapter(
             requireContext(),
             R.layout.file_list_item,
@@ -60,8 +64,9 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
         )
 
         binding.listView.adapter = listAdapter
-//        binding.listView.onItemClickListener = this
-//        binding.listView.onItemLongClickListener = this
+
+        binding.listView.onItemClickListener = this
+        binding.listView.onItemLongClickListener = this
     }
 
 
@@ -78,6 +83,13 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
                 binding.emptyListLabel.visibility = View.VISIBLE
             else
                 binding.emptyListLabel.visibility = View.GONE
+        }
+    }
+
+    private fun onSelectedListChanged(selectedItemsList: List<FSItem>?) {
+        selectedItemsList?.also {
+            listAdapter.updateSelections(selectedItemsList)
+            binding.confirmSelectionButton.isEnabled = (selectedItemsList.size > 0)
         }
     }
 
@@ -103,5 +115,19 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
     companion object {
         const val SELECTED_ITEMS = "SELECTED_ITEMS"
         const val FS_ITEM = "FS_ITEM"
+    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        viewModel.onItemClick(position)
+    }
+
+    override fun onItemLongClick(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ): Boolean {
+        viewModel.onItemLongClick(position)
+        return true
     }
 }
