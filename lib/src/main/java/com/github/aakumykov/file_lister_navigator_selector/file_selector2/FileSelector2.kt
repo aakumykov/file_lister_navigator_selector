@@ -55,6 +55,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     private fun prepareButtons() {
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
         binding.dialogCloseButton.setOnClickListener { dismiss() }
+        binding.sortButton.setOnClickListener { onSortButtonClicked() }
     }
 
     private fun prepareListAdapter() {
@@ -101,6 +102,11 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
         b?.also {
             binding.progressBar.visibility = if (b) View.VISIBLE else View.GONE
         }
+    }
+
+
+    private fun onSortButtonClicked() {
+
     }
 
 

@@ -63,6 +63,7 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
                             return@map gson.fromJson(jsonFSItem, SimpleFSItem::class.java)
                         }
                         Log.d(TAG, fsItemList.toString())
+                        showToast("Выбрано:\n${fsItemList.map { it.name }.joinToString("\n")}")
                     }
                 }
             }
