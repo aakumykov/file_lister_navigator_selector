@@ -34,16 +34,16 @@ abstract class BasicFileExplorer(
 
         currentSortingMode = sortingMode
 
-        val initialList = listDir(getCurrentPath(), currentSortingMode)
+        val rawDirList = listDir(getCurrentPath(), currentSortingMode)
 
         currentList.clear()
         currentList.add(ParentDirItem())
 
         if (isDirMode) {
-            val filteredList = initialList.filter { fsItem -> fsItem.isDir }
+            val filteredList = rawDirList.filter { fsItem -> fsItem.isDir }
             currentList.addAll(filteredList)
         } else {
-            currentList.addAll(initialList)
+            currentList.addAll(rawDirList)
         }
 
         listCache?.cacheList(currentList)

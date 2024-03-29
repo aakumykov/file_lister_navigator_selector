@@ -43,7 +43,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
         prepareViewModel()
 
         if (null == savedInstanceState)
-            viewModel.listInitialDir()
+            viewModel.startWork()
     }
 
     private fun prepareViewModel() {
@@ -83,6 +83,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
         list?.also {
             itemsList.clear()
             itemsList.addAll(list)
+            listAdapter.notifyDataSetChanged()
         }.also {
             if (0 == list?.size)
                 binding.emptyListLabel.visibility = View.VISIBLE

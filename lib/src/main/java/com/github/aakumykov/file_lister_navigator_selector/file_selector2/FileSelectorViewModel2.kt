@@ -27,7 +27,7 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
     val isBusy: LiveData<Boolean> = _isBusy
 
 
-    fun listInitialDir() {
+    fun startWork() {
         processCurrentPath()
     }
 
@@ -56,6 +56,9 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
     }
 
     private fun processCurrentPath() {
+
+        _currentPath.value = fileExplorer.getCurrentPath()
+
         viewModelScope.launch {
             _isBusy.value = true
             try {
