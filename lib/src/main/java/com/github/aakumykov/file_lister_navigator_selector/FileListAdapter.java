@@ -24,16 +24,13 @@ public class FileListAdapter extends ArrayAdapter<FSItem> {
     private final LayoutInflater inflater;
     private final int layout;
     private final int titleViewId;
-    private final List<FSItem> list;
     private final List<FSItem> selectionsList = new ArrayList<>();
 
     public FileListAdapter(Context context,
                            @LayoutRes int resource,
-                           @IdRes int titleViewId,
-                           List<FSItem> list
+                           @IdRes int titleViewId
     ) {
-        super(context, resource, list);
-        this.list = list;
+        super(context, resource, new ArrayList<>());
         this.layout = resource;
         this.titleViewId = titleViewId;
         this.inflater = LayoutInflater.from(context);
@@ -52,7 +49,7 @@ public class FileListAdapter extends ArrayAdapter<FSItem> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        FSItem fsItem = list.get(position);
+        FSItem fsItem = super.getItem(position);
 
         String title = (fsItem.isDir()) ? "["+fsItem.getName()+"]" : fsItem.getName();
 
@@ -62,6 +59,12 @@ public class FileListAdapter extends ArrayAdapter<FSItem> {
         viewHolder.nameView.setText(title);
 
         return convertView;
+    }
+
+    public void setList(List<FSItem> list) {
+        super.clear();
+        super.addAll(list);
+        notifyDataSetChanged();
     }
 
     public void updateSelections(@NotNull List<FSItem> list) {

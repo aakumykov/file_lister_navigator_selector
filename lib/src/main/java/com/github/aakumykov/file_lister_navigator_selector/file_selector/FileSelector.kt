@@ -120,8 +120,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
             FileListAdapter(
                 requireContext(),
                 R.layout.file_list_item,
-                R.id.titleView,
-                itemList
+                R.id.titleView
             )
 
         binding.pathView.setText(if (isDirMode) R.string.DIALOG_title_dir_mode else R.string.DIALOG_title_common_mode)
@@ -189,7 +188,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
 
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        itemList[position].also { clickedItem ->
+        listAdapter.getItem(position)?.also { clickedItem ->
             when {
                 clickedItem is DirItem -> openDir(clickedItem)
                 isMultipleSelectionMode -> onItemClickedInSingleSelectionMode(clickedItem)
@@ -215,14 +214,14 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         id: Long
     ): Boolean {
 
-        val longClickedItem = itemList[position]
+        listAdapter.getItem(position)?.also { longClickedItem ->
+            // Игнорирую попытку выбора родительского каталога.
+            if (longClickedItem is ParentDirItem)
+                return true
 
-        // Игнорирую попытку выбора родительского каталога.
-        if (longClickedItem is ParentDirItem)
-            return true
-
-        if (isMultipleSelectionMode) toggleItemSelection(longClickedItem)
-        else selectItem(longClickedItem)
+            if (isMultipleSelectionMode) toggleItemSelection(longClickedItem)
+            else selectItem(longClickedItem)
+        }
 
         return true
     }
@@ -280,8 +279,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     private fun onFileListChanged(list: List<FSItem>?) {
         list?.let {
             hideProgressBar()
-            itemList.clear()
-            itemList.addAll(it)
+            listAdapter.setList(list)
         }
     }
 

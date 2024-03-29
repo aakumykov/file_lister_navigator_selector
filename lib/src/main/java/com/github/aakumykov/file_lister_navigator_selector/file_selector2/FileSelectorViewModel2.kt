@@ -58,6 +58,7 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
     private fun processCurrentPath() {
 
         _currentPath.value = fileExplorer.getCurrentPath()
+        _selectedList.value = emptyList()
 
         viewModelScope.launch {
             _isBusy.value = true

@@ -23,8 +23,6 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     private val binding get() = _binding!!
 
     private lateinit var listAdapter: FileListAdapter
-    private val itemsList: MutableList<FSItem> = mutableListOf()
-
     private val viewModel: FileSelectorViewModel2 by viewModels { FileSelectorViewModel2.Factory(fileExplorer()) }
 
     private val gson by lazy { Gson() }
@@ -64,9 +62,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
         listAdapter = FileListAdapter(
             requireContext(),
             R.layout.file_list_item,
-            R.id.titleView,
-            itemsList
-        )
+            R.id.titleView)
 
         binding.listView.adapter = listAdapter
 
@@ -81,9 +77,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 
     private fun onListChanged(list: List<FSItem>?) {
         list?.also {
-            itemsList.clear()
-            itemsList.addAll(list)
-            listAdapter.notifyDataSetChanged()
+            listAdapter.setList(it)
         }.also {
             if (0 == list?.size)
                 binding.emptyListLabel.visibility = View.VISIBLE
