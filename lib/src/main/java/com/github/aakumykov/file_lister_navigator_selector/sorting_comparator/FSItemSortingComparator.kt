@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister_navigator_selector.comparators2
+package com.github.aakumykov.file_lister_navigator_selector.sorting_comparator
 
 import com.github.aakumykov.extensible_sorting_comparator.ExtensibleSortingComparator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
