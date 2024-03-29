@@ -11,8 +11,10 @@ import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
+import com.google.gson.Gson
 
 abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -24,6 +26,9 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     private val itemsList: MutableList<FSItem> = mutableListOf()
 
     private val viewModel: FileSelectorViewModel2 by viewModels { FileSelectorViewModel2.Factory(fileExplorer()) }
+
+    private val gson by lazy { Gson() }
+
 
     protected abstract fun fileExplorer(): FileExplorer
 
@@ -105,16 +110,20 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 
 
     private fun onConfirmSelectionClicked() {
-        setFragmentResult(SELECTED_ITEMS, selectedItemsToBundle())
+        setFragmentResult(ITEMS_SELECTION, selectedItemsToBundle())
+        dismiss()
     }
 
     private fun selectedItemsToBundle(): Bundle {
-        return bundleOf()
+        val listOfJSON = viewModel.selectedList.value?.map {
+            gson.toJson(it, SimpleFSItem::class.java)
+        }
+        return bundleOf(SELECTED_ITEMS_LIST to listOfJSON)
     }
 
     companion object {
-        const val SELECTED_ITEMS = "SELECTED_ITEMS"
-        const val FS_ITEM = "FS_ITEM"
+        const val ITEMS_SELECTION = "ITEMS_SELECTION"
+        const val SELECTED_ITEMS_LIST = "FS_ITEM"
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
