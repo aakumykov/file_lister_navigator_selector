@@ -15,8 +15,6 @@ import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 
 abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
 
-    private var isFirstRun: Boolean = true
-
     private var _binding: DialogFileSelectorBinding? = null
     private val binding get() = _binding!!
 
@@ -31,10 +29,29 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        isFirstRun = (null == savedInstanceState)
-
         _binding = DialogFileSelectorBinding.bind(view)
 
+        prepareListAdapter()
+        prepareButtons()
+        prepareViewModel()
+
+        if (null == savedInstanceState)
+            viewModel.listInitialDir()
+    }
+
+    private fun prepareViewModel() {
+        viewModel.path.observe(viewLifecycleOwner, ::onPathChanged)
+        viewModel.list.observe(viewLifecycleOwner, ::onListChanged)
+        viewModel.errorMsg.observe(viewLifecycleOwner, ::onNewError)
+        viewModel.isBusy.observe(viewLifecycleOwner, ::onIsBusyChanged)
+    }
+
+    private fun prepareButtons() {
+        binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
+        binding.dialogCloseButton.setOnClickListener { dismiss() }
+    }
+
+    private fun prepareListAdapter() {
         listAdapter = FileListAdapter(
             requireContext(),
             R.layout.file_list_item,
@@ -45,16 +62,6 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector) {
         binding.listView.adapter = listAdapter
 //        binding.listView.onItemClickListener = this
 //        binding.listView.onItemLongClickListener = this
-
-        viewModel.path.observe(viewLifecycleOwner, ::onPathChanged)
-        viewModel.list.observe(viewLifecycleOwner, ::onListChanged)
-        viewModel.errorMsg.observe(viewLifecycleOwner, ::onNewError)
-        viewModel.isBusy.observe(viewLifecycleOwner, ::onIsBusyChanged)
-
-        binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
-
-        if (isFirstRun)
-            viewModel.listInitialDir()
     }
 
 
