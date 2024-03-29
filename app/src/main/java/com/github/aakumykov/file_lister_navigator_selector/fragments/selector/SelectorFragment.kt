@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.github.aakumykov.file_lister_navigator_selector.LocalFileSelector2.LocalFileSelector2
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
@@ -39,14 +40,18 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
     private fun showFileSelector() {
 
-        val fileSelector = LocalFileSelector.create(
+        /*LocalFileSelector.create(
                 callback = this,
                 isMultipleSelectionMode = true
-            ).show(childFragmentManager)
+            )
+            .apply {
+                setCallback(this@SelectorFragment)
+            }
+            .show(childFragmentManager)*/
 
 //                YandexDiskFileSelector.create(yandexAuthToken!!)
 
-        fileSelector.setCallback(this)
+        LocalFileSelector2().show(childFragmentManager, LocalFileSelector2.TAG)
     }
 
     override fun onDestroyView() {

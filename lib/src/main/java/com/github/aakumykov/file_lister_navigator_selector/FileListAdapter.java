@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister_navigator_selector.file_selector;
+package com.github.aakumykov.file_lister_navigator_selector;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // FIXME: зависимость от внешнего класса FSItem вызывает у меня сомнения (инкапсуляция)
-class FileListAdapter extends ArrayAdapter<FSItem> {
+public class FileListAdapter extends ArrayAdapter<FSItem> {
 
     private final LayoutInflater inflater;
     private final int layout;
