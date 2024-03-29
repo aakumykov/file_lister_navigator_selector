@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel() {
@@ -30,7 +29,6 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
         viewModelScope.launch {
             _isBusy.value = true
             try {
-                delay(1000)
                 _currentList.value = fileExplorer.listCurrentPath()
             } catch (e: Exception) {
                 _currentError.value = e
