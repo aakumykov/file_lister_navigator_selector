@@ -106,7 +106,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 
 
     private fun onSortButtonClicked() {
-
+        viewModel.toggleSortingMode()
     }
 
 

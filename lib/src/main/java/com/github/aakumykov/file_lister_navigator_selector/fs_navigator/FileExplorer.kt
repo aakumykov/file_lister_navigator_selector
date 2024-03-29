@@ -26,6 +26,9 @@ interface FileExplorer : FileLister, DirCreator {
     fun getCurrentPath(): String
     fun getCurrentDir(): DirItem
 
+    fun setSortingMode(sortingMode: SortingMode)
+    fun getSortingMode(): SortingMode
+
     fun setPathCache(pathCache: PathCache)
     fun setListCache(listCache: ListCache)
 

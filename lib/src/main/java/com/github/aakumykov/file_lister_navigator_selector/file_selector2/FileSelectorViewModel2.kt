@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
@@ -70,6 +71,16 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
                 _isBusy.value = false
             }
         }
+    }
+
+    fun toggleSortingMode() {
+        fileExplorer.setSortingMode(
+            when(fileExplorer.getSortingMode()) {
+                SortingMode.NAME_DIRECT -> SortingMode.NAME_REVERSE
+                else -> SortingMode.NAME_DIRECT
+            }
+        )
+        processCurrentPath()
     }
 
 

@@ -26,6 +26,15 @@ abstract class BasicFileExplorer(
     override fun getCurrentDir(): DirItem = currentDir
 
 
+    override fun setSortingMode(sortingMode: SortingMode) {
+        currentSortingMode = sortingMode
+    }
+
+    override fun getSortingMode(): SortingMode {
+        return currentSortingMode
+    }
+
+
     override fun listCurrentPath(): List<FSItem> {
         return listCurrentPath(currentSortingMode)
     }
