@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.BasicFileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FSItemSortingComparator
@@ -11,11 +12,11 @@ import java.io.File
 class LocalFileLister @AssistedInject constructor(
     @Assisted private val dummyAuthToken: String
 )
-    : FileLister
+    : BasicFileLister()
 {
     override fun listDir(
         path: String,
-        fsItemSortingComparator: FSItemSortingComparator
+        sortingMode: SortingMode
     )
         : List<FSItem>
     {
@@ -31,6 +32,11 @@ class LocalFileLister @AssistedInject constructor(
             }
         }
 
-        return categorizeFSItems(fileList.toList()).sortedWith(fsItemSortingComparator)
+        return categorizeFSItems(fileList.toList())
+            .sortedWith(sortingComparator(sortingMode))
+    }
+
+    override fun sortingComparator(externalSortingMode: SortingMode): FSItemSortingComparator {
+        return FSItemSortingComparator.create(externalSortingMode)
     }
 }

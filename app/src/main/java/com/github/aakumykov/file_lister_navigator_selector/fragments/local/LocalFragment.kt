@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.view.View
 import android.widget.AdapterView
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -16,6 +15,7 @@ import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentLocalBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
@@ -25,7 +25,6 @@ import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.
 import com.github.aakumykov.file_lister_navigator_selector.utils.AndroidVersionHelper
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
-import com.yandex.authsdk.YandexAuthLoginOptions
 import java.io.IOException
 
 class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClickListener,
@@ -44,8 +43,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
     private var isFirstRun: Boolean = true
 
-    private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
-    private var yandexAuthToken: String? = null
+    private var currentSortingMode: SortingMode = SortingMode.NAME_DIRECT
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -180,7 +178,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
         val recursiveDirReader = RecursiveDirReader(LocalFileLister(""))
 
-        val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
+        val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath, currentSortingMode)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Рекурсивный список содержимого")

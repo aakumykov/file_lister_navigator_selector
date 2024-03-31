@@ -2,9 +2,9 @@ package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FSItemSortingComparator
 
 /**
  * Предназначение - осуществлять навигацию по файловой системе.
@@ -13,7 +13,7 @@ import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FS
  *
  * Интерфефс расширяет интерфейс FileLister, так как навигация в отрыве от получения списка файлов бессмысленна.
  */
-interface FileExplorer : FileLister, DirCreator {
+interface FileExplorer : FileLister<SortingMode>, DirCreator {
 
     fun changeDir(dirItem: DirItem) // TODO: выброс исключений...
     fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
@@ -25,7 +25,7 @@ interface FileExplorer : FileLister, DirCreator {
     fun getCurrentPath(): String
     fun getCurrentDir(): DirItem
 
-    fun setSortingComparator(fsItemSortingComparator: FSItemSortingComparator)
+    fun setSortingMode(sortingMode: SortingMode)
 
     fun setPathCache(pathCache: PathCache)
     fun setListCache(listCache: ListCache)

@@ -2,6 +2,7 @@ package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_d
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.BasicFileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
@@ -20,4 +21,4 @@ class YandexDiskFileExplorer(
         isDirMode = isDirMode,
         listCache = listCache,
         pathCache = pathCache
-    ), FileLister by yandexDiskFileLister, DirCreator by yandexDiskDirCreator
+    ), FileLister<SortingMode> by yandexDiskFileLister, DirCreator by yandexDiskDirCreator

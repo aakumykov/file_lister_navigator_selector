@@ -244,7 +244,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         thread {
             try {
                 fileExplorer().changeDir(dirItem)
-                val list = fileExplorer().listCurrentPath(sortingMode)
+                val list = fileExplorer().listCurrentPath()
 
                 handler.post {
                     hideProgressBar()

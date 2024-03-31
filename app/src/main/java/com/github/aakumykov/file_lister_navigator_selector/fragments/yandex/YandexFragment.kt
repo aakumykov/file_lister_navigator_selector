@@ -42,6 +42,8 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
 
+    private var currentSortingMode: SortingMode = SortingMode.NAME_DIRECT
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -122,7 +124,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
         )
 
         thread {
-            val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath)
+            val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath, currentSortingMode)
             binding.root.post {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Рекурсивный список содержимого")
@@ -186,9 +188,8 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
         thread {
             try {
-//                viewModel.fileExplorer.listCurrentPath()
                 val sortingMode = sortingMode()
-                viewModel.fileExplorer.listCurrentPath(sortingMode)
+                viewModel.fileExplorer.listCurrentPath()
             }
             catch (t: Throwable) {
                 uiRun { showError(t) }

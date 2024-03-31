@@ -1,20 +1,22 @@
 package com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader
 
 import android.net.Uri
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.BasicFileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import java.util.Date
 
-class RecursiveDirReader(private val fileLister: FileLister) {
+class RecursiveDirReader(private val fileLister: BasicFileLister) {
 
     private val list: MutableList<FileListItem> = mutableListOf()
 
     @Throws(FileLister.NotADirException::class)
-    fun getRecursiveList(initialPath: String): List<FileListItem> {
+    fun getRecursiveList(path: String, sortingMode: SortingMode): List<FileListItem> {
 
         list.add(
             FileListItem(
-                uri = Uri.parse(initialPath),
+                uri = Uri.parse(path),
                 parentPath = "",
                 isDir = true,
                 mTime = Date().time,
@@ -26,7 +28,7 @@ class RecursiveDirReader(private val fileLister: FileLister) {
 
             getUnlistedDir()?.let { currentlyListedDir: FileListItem ->
 
-                fileLister.listDir(currentlyListedDir.absolutePath).forEach { fsItem ->
+                fileLister.listDir(currentlyListedDir.absolutePath, sortingMode).forEach { fsItem ->
 
                     val childItem = FileListItem(
                         name = fsItem.name,
