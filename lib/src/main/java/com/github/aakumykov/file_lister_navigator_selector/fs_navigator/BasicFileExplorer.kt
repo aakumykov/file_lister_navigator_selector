@@ -1,49 +1,38 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
+import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FSItemSortingComparator
 
 // FIXME: перенести кеш в реализацию
-abstract class BasicFileExplorer(
+abstract class BasicFileExplorer<R: Comparable<R>> (
     private val initialPath: String,
     private val isDirMode: Boolean,
-    private val initialSortingMode: SortingMode = SortingMode.NAME_DIRECT,
     private var listCache: FileExplorer.ListCache?, // TODO: сделать val
     private var pathCache: FileExplorer.PathCache?, // TODO: сделать val
     private val dirSeparator: String = FSItem.DS
-) : FileExplorer, DirCreator {
-
+)
+    : FileExplorer, DirCreator
+{
     private var currentPath: String = initialPath
     private var currentDir: DirItem = DirItem.fromPath(initialPath)
-    private var currentSortingMode: SortingMode = initialSortingMode
+
+    private var currentSortingComparator: FSItemSortingComparator? = null
 
     private val currentList: MutableList<FSItem> = mutableListOf()
 
     override fun getCurrentPath(): String = currentPath
     override fun getCurrentDir(): DirItem = currentDir
 
-
-    override fun setSortingMode(sortingMode: SortingMode) {
-        currentSortingMode = sortingMode
+    override fun setSortingComparator(fsItemSortingComparator: FSItemSortingComparator) {
+        currentSortingComparator = fsItemSortingComparator
     }
-
-    override fun getSortingMode(): SortingMode {
-        return currentSortingMode
-    }
-
 
     override fun listCurrentPath(): List<FSItem> {
-        return listCurrentPath(currentSortingMode)
-    }
 
-    override fun listCurrentPath(sortingMode: SortingMode): List<FSItem> {
-
-        currentSortingMode = sortingMode
-
-        val rawDirList = listDir(getCurrentPath(), currentSortingMode)
+        val rawDirList = listDir(getCurrentPath(), currentSortingComparator)
 
         currentList.clear()
         currentList.add(ParentDirItem())

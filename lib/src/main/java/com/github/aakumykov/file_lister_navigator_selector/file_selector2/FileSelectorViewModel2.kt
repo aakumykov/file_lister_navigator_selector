@@ -74,7 +74,7 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
     }
 
     fun toggleSortingMode() {
-        fileExplorer.setSortingMode(
+        fileExplorer.setSortingComparator(
             when(fileExplorer.getSortingMode()) {
                 SortingMode.NAME_DIRECT -> SortingMode.NAME_REVERSE
                 else -> SortingMode.NAME_DIRECT

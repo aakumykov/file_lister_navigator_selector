@@ -1,10 +1,9 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_selector2
 
+import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.SimpleAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
@@ -108,10 +107,15 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
+    abstract fun sortingModeDialog(): AlertDialog
+    abstract fun sortingModeSelectionListener(): DialogInterface.OnClickListener
+
     private fun onSortButtonClicked() {
 //        viewModel.toggleSortingMode()
 
-        val key = "sorting_mode_name"
+        sortingModeDialog()
+
+        /*val key = "sorting_mode_name"
 
         AlertDialog.Builder(requireContext())
             .setTitle("Сортировать по...")
@@ -128,7 +132,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
                 Log.d(TAG, "")
             }
             .create()
-            .show()
+            .show()*/
     }
 
 

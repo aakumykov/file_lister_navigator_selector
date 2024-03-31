@@ -49,7 +49,7 @@ class SizeSortingComparator(reverseOrder: Boolean, foldersFirst: Boolean) : FSIt
 }
 
 
-class DummySortingComparator() : FSItemSortingComparator(true, true) {
+class DummySortingComparator : FSItemSortingComparator(true, true) {
     override fun compareItems(item1: FSItem, item2: FSItem): Int {
         return 0
     }

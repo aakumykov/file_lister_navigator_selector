@@ -1,7 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FSItemSortingComparator
@@ -14,8 +13,12 @@ class LocalFileLister @AssistedInject constructor(
 )
     : FileLister
 {
-    override fun listDir(path: String, sortingMode: SortingMode): List<FSItem> {
-
+    override fun listDir(
+        path: String,
+        fsItemSortingComparator: FSItemSortingComparator
+    )
+        : List<FSItem>
+    {
         val fileNamesArray = File(path).list()
 
         val fileList = mutableListOf<FSItem>()
@@ -28,7 +31,6 @@ class LocalFileLister @AssistedInject constructor(
             }
         }
 
-        return categorizeFSItems(fileList.toList())
-            .sortedWith(FSItemSortingComparator.create(sortingMode))
+        return categorizeFSItems(fileList.toList()).sortedWith(fsItemSortingComparator)
     }
 }
