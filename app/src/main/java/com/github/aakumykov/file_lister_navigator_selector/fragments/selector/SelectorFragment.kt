@@ -1,6 +1,5 @@
 package com.github.aakumykov.file_lister_navigator_selector.fragments.selector
 
-import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,9 +13,9 @@ import com.github.aakumykov.file_lister_navigator_selector.file_selector2.FileSe
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelector
+import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.google.gson.Gson
 import permissions.dispatcher.ktx.PermissionsRequester
-import permissions.dispatcher.ktx.constructPermissionsRequest
 
 class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Callback {
 
@@ -24,7 +23,7 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
     private val binding: FragmentSelectorBinding get() = _binding!!
     private lateinit var selectFilePermissionRequest: PermissionsRequester
     private val gson by lazy { Gson() }
-
+    private lateinit var storageAccessHelper: StorageAccessHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,27 +32,20 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
         binding.selectButton.setOnClickListener { selectFilePermissionRequest.launch() }
 
-        selectFilePermissionRequest = constructPermissionsRequest(
+        /*selectFilePermissionRequest = constructPermissionsRequest(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             requiresPermission = ::showFileSelector,
             onNeverAskAgain = { showToast("Нужны разрешение на чтение памяти") },
             onPermissionDenied = { showToast("Вы запретили чтение памяти...") }
-        )
+        )*/
+
+        storageAccessHelper = StorageAccessHelper.create(this)
+
+        storageAccessHelper.requestReadAccess { showFileSelector() }
     }
 
 
     private fun showFileSelector() {
-
-        /*LocalFileSelector.create(
-                callback = this,
-                isMultipleSelectionMode = true
-            )
-            .apply {
-                setCallback(this@SelectorFragment)
-            }
-            .show(childFragmentManager)*/
-
-//                YandexDiskFileSelector.create(yandexAuthToken!!)
 
         childFragmentManager.setFragmentResultListener(FileSelector2.ITEMS_SELECTION, viewLifecycleOwner)
             { requestKey, result ->
