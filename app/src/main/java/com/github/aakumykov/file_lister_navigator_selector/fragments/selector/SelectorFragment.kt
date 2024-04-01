@@ -20,7 +20,6 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
-//    private lateinit var selectFilePermissionRequest: PermissionsRequester
     private lateinit var storageAccessHelper: StorageAccessHelper
     private val gson by lazy { Gson() }
 
@@ -29,21 +28,12 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
         _binding = FragmentSelectorBinding.bind(view)
 
-        binding.selectButton.setOnClickListener {
-//            selectFilePermissionRequest.launch()
-            onSelectButtonClicked()
-        }
-
-        /*selectFilePermissionRequest = constructPermissionsRequest(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            requiresPermission = ::showFileSelector,
-            onNeverAskAgain = { showToast("Нужны разрешение на чтение памяти") },
-            onPermissionDenied = { showToast("Вы запретили чтение памяти...") }
-        )*/
-
         storageAccessHelper = StorageAccessHelper.create(this)
 
-        onSelectButtonClicked()
+        binding.selectButton.setOnClickListener { onSelectButtonClicked() }
+
+        if (null == savedInstanceState)
+            onSelectButtonClicked()
     }
 
     private fun onSelectButtonClicked() {
