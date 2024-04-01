@@ -1,5 +1,8 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_item
 
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.utils.parentPathFor
+import java.io.File
+
 open class DirItem(
     name: String,
     absolutePath: String,
@@ -14,6 +17,13 @@ open class DirItem(
         mTime = mTime,
         size = 0L
     ) {
+
+    constructor(file: File) : this(
+        name = file.name,
+        absolutePath = file.absolutePath,
+        parentPath = parentPathFor(file.absolutePath),
+        mTime = file.lastModified(),
+    )
 
     constructor(fsItem: FSItem) : this(fsItem.name, fsItem.absolutePath, fsItem.parentPath, fsItem.mTime)
 

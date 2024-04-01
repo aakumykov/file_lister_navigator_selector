@@ -1,13 +1,12 @@
 package com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader
 
 import android.net.Uri
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.BasicFileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import java.util.Date
 
-class RecursiveDirReader(private val fileLister: BasicFileLister) {
+class RecursiveDirReader(private val fileLister: FileLister<SortingMode>) {
 
     private val list: MutableList<FileListItem> = mutableListOf()
 

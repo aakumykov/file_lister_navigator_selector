@@ -1,7 +1,8 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.BasicFileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FSItemSortingComparator
@@ -10,9 +11,9 @@ import dagger.assisted.AssistedInject
 import java.io.File
 
 class LocalFileLister @AssistedInject constructor(
-    @Assisted private val dummyAuthToken: String = ""
+    @Assisted private val dummyAuthToken: String
 )
-    : BasicFileLister()
+    : FileLister<SortingMode>
 {
     override fun listDir(
         path: String,
@@ -28,15 +29,15 @@ class LocalFileLister @AssistedInject constructor(
             for (name: String in fileNamesArray) {
                 val absolutePath = path + FSItem.DS + name
                 val file = File(absolutePath)
-                fileList.add(SimpleFSItem(file))
+                fileList.add(if (file.isDirectory) DirItem(file) else SimpleFSItem(file))
             }
         }
 
-        return categorizeFSItems(fileList.toList())
-            .sortedWith(sortingComparator(sortingMode))
-    }
+//        return categorizeFSItems(fileList.toList())
+//            .sortedWith(sortingComparator(sortingMode))
 
-    override fun sortingComparator(externalSortingMode: SortingMode): FSItemSortingComparator {
-        return FSItemSortingComparator.create(externalSortingMode)
+        return fileList.toList()
+//            .let { categorizeFSItems(it) }
+            .sortedWith(FSItemSortingComparator.create(sortingMode))
     }
 }

@@ -33,9 +33,11 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
 
     fun onItemClick(position: Int) {
         getItemAtPosition(position).also { fsItem ->
-            if (fsItem is DirItem) {
-                fileExplorer.changeDir(fsItem)
-                processCurrentPath()
+            fsItem?.also {
+                if (fsItem.isDir) {
+                    fileExplorer.changeDir(fsItem as DirItem)
+                    processCurrentPath()
+                }
             }
         }
     }

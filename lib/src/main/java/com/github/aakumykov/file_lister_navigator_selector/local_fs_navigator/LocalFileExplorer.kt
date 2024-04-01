@@ -21,4 +21,8 @@ class LocalFileExplorer(
         isDirMode = isDirMode,
         listCache = listCache,
         pathCache = pathCache
-    ), FileLister<SortingMode> by localFileLister, DirCreator by localDirCreator
+    ),
+
+    FileLister<SortingMode> by localFileLister,
+
+    DirCreator by localDirCreator

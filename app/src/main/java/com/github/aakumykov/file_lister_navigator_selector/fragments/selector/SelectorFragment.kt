@@ -15,22 +15,24 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelector
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.google.gson.Gson
-import permissions.dispatcher.ktx.PermissionsRequester
 
 class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Callback {
 
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
-    private lateinit var selectFilePermissionRequest: PermissionsRequester
-    private val gson by lazy { Gson() }
+//    private lateinit var selectFilePermissionRequest: PermissionsRequester
     private lateinit var storageAccessHelper: StorageAccessHelper
+    private val gson by lazy { Gson() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = FragmentSelectorBinding.bind(view)
 
-        binding.selectButton.setOnClickListener { selectFilePermissionRequest.launch() }
+        binding.selectButton.setOnClickListener {
+//            selectFilePermissionRequest.launch()
+            onSelectButtonClicked()
+        }
 
         /*selectFilePermissionRequest = constructPermissionsRequest(
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -41,9 +43,14 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 
         storageAccessHelper = StorageAccessHelper.create(this)
 
-        storageAccessHelper.requestReadAccess { showFileSelector() }
+        onSelectButtonClicked()
     }
 
+    private fun onSelectButtonClicked() {
+        storageAccessHelper.requestReadAccess {
+            showFileSelector()
+        }
+    }
 
     private fun showFileSelector() {
 

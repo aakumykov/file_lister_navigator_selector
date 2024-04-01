@@ -21,4 +21,8 @@ class YandexDiskFileExplorer(
         isDirMode = isDirMode,
         listCache = listCache,
         pathCache = pathCache
-    ), FileLister<SortingMode> by yandexDiskFileLister, DirCreator by yandexDiskDirCreator
+    ),
+
+    FileLister<SortingMode> by yandexDiskFileLister,
+
+    DirCreator by yandexDiskDirCreator
