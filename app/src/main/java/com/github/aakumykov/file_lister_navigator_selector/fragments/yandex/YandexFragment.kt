@@ -160,12 +160,12 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
         val isDirMode = binding.dirModeToggle.isChecked
         val isMultipleMode = binding.multipleSelectionToggle.isChecked
 
-        val fs = YandexDiskFileSelector.create(
+        YandexDiskFileSelector.create(
             authToken = yandexAuthToken!!,
             isMultipleSelectionMode = isMultipleMode,
             isDirMode = isDirMode
-        ).show(childFragmentManager)
-        fs.setCallback(this)
+        ).show(childFragmentManager, FileSelector.TAG)
+//        fs.setCallback(this)
     }
 
     override fun onFilesSelected(selectedItemsList: List<FSItem>) {
@@ -243,7 +243,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     }
 
     override fun onDestroyView() {
-        FileSelector.find(YandexDiskFileSelector.TAG, childFragmentManager)?.unsetCallback()
+//        FileSelector.find(YandexDiskFileSelector.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }

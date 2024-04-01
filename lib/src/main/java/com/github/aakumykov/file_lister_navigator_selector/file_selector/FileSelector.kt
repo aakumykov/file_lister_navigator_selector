@@ -24,7 +24,7 @@ import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import kotlin.concurrent.thread
 
 typealias Layout = DialogFileSelectorBinding
-abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
+abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemLongClickListener,
     AdapterView.OnItemClickListener
 {
@@ -72,7 +72,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     //
     // Компоненты, реализуемые наследниками.
     //
-    abstract fun fileExplorer(): FileExplorer
+    abstract fun fileExplorer(): FileExplorer<SortingModeType>
     abstract fun defaultStartPath(): String
     abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
 
@@ -83,20 +83,20 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     private lateinit var storageAccessHelper: StorageAccessHelper
 
 
-    fun show(fragmentManager: FragmentManager): FileSelector {
+    fun show(fragmentManager: FragmentManager): FileSelector<SortingModeType> {
         show(fragmentManager, TAG)
         return this
     }
 
 
-    fun setCallback(callback: Callback): FileSelector {
+    /*fun setCallback(callback: Callback): FileSelector<SortingModeType> {
         this.callback = callback
         return this
     }
 
     fun unsetCallback() {
         this.callback = null
-    }
+    }*/
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -326,12 +326,12 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
         @Deprecated("Здесь ему не место")
         const val AUTH_TOKEN = "AUTH_TOKEN"
 
-        fun find(tag: String, fragmentManager: FragmentManager): FileSelector? {
+        /*fun find(tag: String, fragmentManager: FragmentManager): FileSelector<SortingModeType>? {
             return when(val fragment = fragmentManager.findFragmentByTag(tag)) {
                 is FileSelector -> fragment
                 else -> null
             }
-        }
+        }*/
     }
 }
 

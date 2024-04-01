@@ -20,21 +20,24 @@ import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.google.gson.Gson
 
-abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
+abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private var _binding: DialogFileSelectorBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var listAdapter: FileListAdapter
-    private val viewModel: FileSelectorViewModel2 by viewModels { FileSelectorViewModel2.Factory(fileExplorer()) }
+
+    private val viewModel: FileSelectorViewModel2<SortingModeType> by viewModels {
+        FileSelectorViewModel2.Factory<SortingModeType>(fileExplorer(defaultSortingMode()))
+    }
 
     private val gson by lazy { Gson() }
 
     private lateinit var storageAccessHelper: StorageAccessHelper
 
-
-    protected abstract fun fileExplorer(): FileExplorer
+    protected abstract fun defaultSortingMode(): SortingModeType
+    protected abstract fun fileExplorer(defaultSortingMode: SortingModeType): FileExplorer<SortingModeType>
     abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
 
 
@@ -119,7 +122,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 
     private fun onCreateDirButtonClicked() {
         storageAccessHelper.requestWriteAccess {
-            dirCreatorDialog(fileExplorer().getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
+            dirCreatorDialog(fileExplorer(defaultSortingMode()).getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
         }
     }
 
@@ -128,7 +131,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 //    abstract fun sortingModeSelectionListener(): DialogInterface.OnClickListener
 
     private fun onSortButtonClicked() {
-//        viewModel.toggleSortingMode()
+        viewModel.toggleSortingMode()
 
 //        sortingModeDialog()
 

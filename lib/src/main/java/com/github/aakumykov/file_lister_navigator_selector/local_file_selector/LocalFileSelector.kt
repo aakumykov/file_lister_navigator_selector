@@ -10,12 +10,12 @@ import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator_dia
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
 
-class LocalFileSelector: FileSelector() {
+class LocalFileSelector<SortingModeType>: FileSelector<SortingModeType>() {
 
-    private var _fileExplorer: FileExplorer? = null
+    private var _fileExplorer: FileExplorer<SortingModeType>? = null
 
 
-    override fun fileExplorer(): FileExplorer {
+    override fun fileExplorer(): FileExplorer<SortingModeType> {
         if (null == _fileExplorer)
             _fileExplorer = createFileExplorer(arguments)
         return _fileExplorer!!
@@ -25,16 +25,17 @@ class LocalFileSelector: FileSelector() {
     override fun defaultStartPath(): String = Environment.getExternalStorageDirectory().path
 
 
-    private fun createFileExplorer(arguments: Bundle?): FileExplorer {
+    private fun createFileExplorer(arguments: Bundle?): FileExplorer<SortingModeType> {
 
         val initialPath = arguments?.getString(START_PATH) ?: Environment.getExternalStorageDirectory().path
 
-        return LocalFileExplorer(
+        return LocalFileExplorer<SortingModeType>(
             initialPath = initialPath,
             localFileLister = LocalFileLister(""),
             localDirCreator = LocalDirCreator(),
             listCache = null,
             pathCache = null,
+            defaultSortingMode =
         )
     }
 
@@ -51,7 +52,7 @@ class LocalFileSelector: FileSelector() {
                    isDirMode: Boolean = false) : LocalFileSelector
         {
             return LocalFileSelector().apply {
-                setCallback(callback)
+//                setCallback(callback)
                 arguments = Bundle().apply {
                     putString(START_PATH, startPath)
                     putBoolean(IS_DIR_MODE, isDirMode)

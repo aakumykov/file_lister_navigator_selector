@@ -8,11 +8,11 @@ import com.github.aakumykov.file_lister_navigator_selector.LocalFileSelector2.Lo
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.file_selector2.FileSelector2
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
-import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelector
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.google.gson.Gson
 
@@ -57,11 +57,13 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
                 }
             }
 
-        LocalFileSelector2().show(childFragmentManager, LocalFileSelector2.TAG)
+        LocalFileSelector2<SortingMode>()
+            .setDefaultSortingMode(SortingMode.NAME_DIRECT)
+            .show(childFragmentManager, LocalFileSelector2.TAG)
     }
 
     override fun onDestroyView() {
-        FileSelector.find(LocalFileSelector.TAG, childFragmentManager)?.unsetCallback()
+//        FileSelector.find(LocalFileSelector.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }
