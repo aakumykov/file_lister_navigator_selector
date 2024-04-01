@@ -10,9 +10,11 @@ import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
+import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.google.gson.Gson
 
@@ -27,14 +29,19 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 
     private val gson by lazy { Gson() }
 
+    private lateinit var storageAccessHelper: StorageAccessHelper
+
 
     protected abstract fun fileExplorer(): FileExplorer
+    abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = DialogFileSelectorBinding.bind(view)
+
+        storageAccessHelper = StorageAccessHelper.create(this)
 
         prepareListAdapter()
         prepareButtons()
@@ -55,6 +62,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     private fun prepareButtons() {
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
         binding.dialogCloseButton.setOnClickListener { dismiss() }
+        binding.createDirButton.setOnClickListener { onCreateDirButtonClicked() }
         binding.sortButton.setOnClickListener { onSortButtonClicked() }
     }
 
@@ -101,6 +109,13 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     private fun onIsBusyChanged(b: Boolean?) {
         b?.also {
             binding.progressBar.visibility = if (b) View.VISIBLE else View.GONE
+        }
+    }
+
+
+    private fun onCreateDirButtonClicked() {
+        storageAccessHelper.requestWriteAccess {
+            dirCreatorDialog(fileExplorer().getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
         }
     }
 
