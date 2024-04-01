@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
@@ -9,14 +10,14 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.io.File
 
-class LocalFileLister<T> @AssistedInject constructor(
+class LocalFileLister @AssistedInject constructor(
     @Assisted private val dummyAuthToken: String
 )
-    : FileLister<T>
+    : FileLister<SortingMode>
 {
     override fun listDir(
         path: String,
-        sortingMode: T
+        sortingMode: SortingMode
     )
         : List<FSItem>
     {

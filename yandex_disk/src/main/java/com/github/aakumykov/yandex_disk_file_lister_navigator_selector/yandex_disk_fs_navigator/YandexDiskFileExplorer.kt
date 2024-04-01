@@ -16,12 +16,11 @@ class YandexDiskFileExplorer(
     listCache: FileExplorer.ListCache? = null, // FIXME: привести аргументы всех потомков к единообразию
     pathCache: FileExplorer.PathCache? = null
 )
-    : BasicFileExplorer<SortingMode>(
+    : BasicFileExplorer(
         initialPath = initialPath,
         isDirMode = isDirMode,
         listCache = listCache,
-        pathCache = pathCache,
-        defaultSortingMode = SortingMode.NAME_DIRECT
+        pathCache = pathCache
     ),
 
     FileLister<SortingMode> by yandexDiskFileLister,

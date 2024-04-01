@@ -1,37 +1,34 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 
 // FIXME: перенести кеш в реализацию
-abstract class BasicFileExplorer<SortingModeType> (
+abstract class BasicFileExplorer (
     private val initialPath: String,
     private val isDirMode: Boolean,
-    private val defaultSortingMode: SortingModeType,
+    private val defaultSortingMode: SortingMode = SortingMode.NAME_DIRECT,
     private var listCache: FileExplorer.ListCache?, // TODO: сделать val
     private var pathCache: FileExplorer.PathCache?, // TODO: сделать val
     private val dirSeparator: String = FSItem.DS
 )
-    : FileExplorer<SortingModeType>, DirCreator
+    : FileExplorer, DirCreator
 {
     private var currentPath: String = initialPath
     private var currentDir: DirItem = DirItem.fromPath(initialPath)
 
-    private var currentSortingMode: SortingModeType = defaultSortingMode
+    private var currentSortingMode: SortingMode = defaultSortingMode
 
     private val currentList: MutableList<FSItem> = mutableListOf()
 
     override fun getCurrentPath(): String = currentPath
     override fun getCurrentDir(): DirItem = currentDir
 
-    override fun setSortingMode(sortingMode: SortingModeType) {
+    override fun setSortingMode(sortingMode: SortingMode) {
         currentSortingMode = sortingMode
-    }
-
-    override fun getSortingMode(): SortingModeType {
-        return currentSortingMode
     }
 
     override fun listCurrentPath(): List<FSItem> {

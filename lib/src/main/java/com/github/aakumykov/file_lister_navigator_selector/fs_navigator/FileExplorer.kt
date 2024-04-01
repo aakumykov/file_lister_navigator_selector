@@ -2,6 +2,7 @@ package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
@@ -12,7 +13,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
  *
  * Интерфефс расширяет интерфейс FileLister, так как навигация в отрыве от получения списка файлов бессмысленна.
  */
-interface FileExplorer<SortingModeType> : FileLister<SortingModeType>, DirCreator {
+interface FileExplorer : FileLister<SortingMode>, DirCreator {
 
     fun changeDir(dirItem: DirItem) // TODO: выброс исключений...
     fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
@@ -24,8 +25,7 @@ interface FileExplorer<SortingModeType> : FileLister<SortingModeType>, DirCreato
     fun getCurrentPath(): String
     fun getCurrentDir(): DirItem
 
-    fun setSortingMode(sortingMode: SortingModeType)
-    fun getSortingMode(): SortingModeType
+    fun setSortingMode(sortingMode: SortingMode)
 
     fun setPathCache(pathCache: PathCache)
     fun setListCache(listCache: ListCache)

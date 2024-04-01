@@ -10,7 +10,7 @@ abstract class FSItemSortingComparator(reverseOrder: Boolean, foldersFirst: Bool
     override fun isPriorityItem(item: FSItem): Boolean = item.isDir
 
     companion object {
-        fun <T> create(sortingMode: T): FSItemSortingComparator {
+        fun create(sortingMode: SortingMode): FSItemSortingComparator {
             return when(sortingMode) {
                 SortingMode.NAME_DIRECT -> NameSortingComparator(true, foldersFirst = true)
                 SortingMode.NAME_REVERSE -> NameSortingComparator(false, foldersFirst = true)
