@@ -3,6 +3,7 @@ package com.github.aakumykov.file_lister_navigator_selector.file_selector2
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
@@ -11,6 +12,7 @@ import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
@@ -42,6 +44,8 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
         _binding = DialogFileSelectorBinding.bind(view)
 
         storageAccessHelper = StorageAccessHelper.create(this)
+
+        childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
 
         prepareListAdapter()
         prepareButtons()
@@ -180,4 +184,22 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
         viewModel.onItemLongClick(position)
         return true
     }
+
+    private fun onDirCreationResult(requestKey: String, resultBundle: Bundle) {
+        resultBundle.getString(DirCreatorDialog.DIR_NAME)?.also {
+            Toast.makeText(requireContext(), getString(R.string.dir_was_created, it), Toast.LENGTH_SHORT).show()
+        }
+        reopenCurrentDir()
+    }
+
+
+    private fun reopenCurrentDir() {
+//        openDir(fileExplorer().getCurrentDir())
+        viewModel.reopenCurrentDir()
+    }
+
+    private fun reopenCurrentDir(sortingMode: SortingMode) {
+//        openDir(fileExplorer().getCurrentDir(), sortingMode)
+    }
+
 }

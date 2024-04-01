@@ -31,6 +31,10 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
         processCurrentPath()
     }
 
+    fun reopenCurrentDir() {
+        processCurrentPath()
+    }
+
     fun onItemClick(position: Int) {
         getItemAtPosition(position).also { fsItem ->
             fsItem?.also {
