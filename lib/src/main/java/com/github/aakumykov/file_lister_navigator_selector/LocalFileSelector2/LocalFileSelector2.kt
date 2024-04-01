@@ -23,12 +23,4 @@ class LocalFileSelector2 : FileSelector2() {
             null
         )
     }
-
-    /*override fun sortingModeDialog(): AlertDialog {
-
-    }
-
-    override fun sortingModeSelectionListener(): DialogInterface.OnClickListener {
-
-    }*/
 }
