@@ -10,7 +10,7 @@ import dagger.assisted.AssistedInject
 import java.io.File
 
 class LocalFileLister @AssistedInject constructor(
-    @Assisted private val dummyAuthToken: String
+    @Assisted private val dummyAuthToken: String = ""
 )
     : BasicFileLister()
 {
