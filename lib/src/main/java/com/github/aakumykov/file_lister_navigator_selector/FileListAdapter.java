@@ -12,6 +12,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem;
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,20 +22,39 @@ import java.util.List;
 // FIXME: зависимость от внешнего класса FSItem вызывает у меня сомнения (инкапсуляция)
 public class FileListAdapter extends ArrayAdapter<FSItem> {
 
+    public static String TAG = FileListAdapter.class.getSimpleName();
+
+    private final static String defaultFolderGraphicalCharacter = "\uD83D\uDCC1";
+    private final static String defaultFileGraphicalCharacter = "\uD83D\uDCC4";
+
     private final LayoutInflater inflater;
     private final int layout;
     private final int titleViewId;
     private final List<FSItem> selectionsList = new ArrayList<>();
+    private final String folderGraphicalCharacter;
+    private final String fileGraphicalCharacter;
 
     public FileListAdapter(Context context,
                            @LayoutRes int resource,
                            @IdRes int titleViewId
     ) {
+        this(context, resource, titleViewId, defaultFolderGraphicalCharacter, defaultFileGraphicalCharacter);
+    }
+
+    public FileListAdapter(Context context,
+                           @LayoutRes int resource,
+                           @IdRes int titleViewId,
+                           String folderGraphicalCharacter,
+                           String fileGraphicalCharacter
+    ) {
         super(context, resource, new ArrayList<>());
         this.layout = resource;
         this.titleViewId = titleViewId;
         this.inflater = LayoutInflater.from(context);
+        this.folderGraphicalCharacter = folderGraphicalCharacter;
+        this.fileGraphicalCharacter = fileGraphicalCharacter;
     }
+
 
     @NonNull
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
@@ -51,10 +71,19 @@ public class FileListAdapter extends ArrayAdapter<FSItem> {
 
         FSItem fsItem = super.getItem(position);
 
-        String title = (fsItem.isDir()) ? "["+fsItem.getName()+"]" : fsItem.getName();
+        if (null == fsItem)
+            throw new IllegalStateException("FSItem is null");
+
+        String title;
+        if (fsItem instanceof ParentDirItem)
+            title = " " + fsItem.getName();
+        else
+            title = (fsItem.isDir()) ?
+                folderGraphicalCharacter + " " + fsItem.getName()
+                : fileGraphicalCharacter + " " + fsItem.getName();
 
         if (selectionsList.contains(fsItem))
-            title = "*" + title;
+            title = "*" + " " + title;
 
         viewHolder.nameView.setText(title);
 
