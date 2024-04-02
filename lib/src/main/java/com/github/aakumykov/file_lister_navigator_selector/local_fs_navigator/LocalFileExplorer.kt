@@ -16,7 +16,7 @@ class LocalFileExplorer(
     listCache: FileExplorer.ListCache?,
     pathCache: FileExplorer.PathCache?
 )
-    : BasicFileExplorer(
+    : BasicFileExplorer<SortingMode>(
         initialPath = initialPath,
         isDirMode = isDirMode,
         listCache = listCache,
