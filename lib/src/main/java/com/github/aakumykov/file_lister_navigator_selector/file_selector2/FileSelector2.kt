@@ -34,7 +34,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     private lateinit var storageAccessHelper: StorageAccessHelper
 
 
-    protected abstract fun fileExplorer(): FileExplorer<SortingMode>
+    protected abstract fun fileExplorer(): FileExplorer
     abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
 
 
@@ -128,7 +128,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 //    abstract fun sortingModeSelectionListener(): DialogInterface.OnClickListener
 
     private fun onSortButtonClicked() {
-        viewModel.toggleSortingMode()
+//        viewModel.toggleSortingMode()
 
 //        sortingModeDialog()
 
@@ -136,8 +136,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 
         AlertDialog.Builder(requireContext())
             .setTitle("Сортировать по...")
-            .setAdapter(
-                SimpleAdapter(
+            .setAdapter(SimpleAdapter(
                 requireContext(),
                 listOf(
                     mapOf(key to "Имени"),
@@ -146,8 +145,7 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
                 R.layout.sorting_mode_list_item,
                 arrayOf(key), // from
                 intArrayOf(R.id.titleView) // to
-            )
-            ) { _, position ->
+            )) { _, position ->
                 Log.d(TAG, "")
             }
             .create()
@@ -199,4 +197,9 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
 //        openDir(fileExplorer().getCurrentDir())
         viewModel.reopenCurrentDir()
     }
+
+    private fun reopenCurrentDir(sortingMode: SortingMode) {
+//        openDir(fileExplorer().getCurrentDir(), sortingMode)
+    }
+
 }

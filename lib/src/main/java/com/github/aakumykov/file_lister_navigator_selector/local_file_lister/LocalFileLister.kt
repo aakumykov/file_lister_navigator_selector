@@ -15,7 +15,11 @@ class LocalFileLister @AssistedInject constructor(
 )
     : FileLister<SortingMode>
 {
-    override fun listDir(path: String, sortingMode: SortingMode?): List<FSItem>
+    override fun listDir(
+        path: String,
+        sortingMode: SortingMode
+    )
+        : List<FSItem>
     {
         val fileNamesArray = File(path).list()
 

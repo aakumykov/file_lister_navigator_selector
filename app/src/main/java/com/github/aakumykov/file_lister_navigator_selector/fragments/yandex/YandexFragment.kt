@@ -165,7 +165,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
             isMultipleSelectionMode = isMultipleMode,
             isDirMode = isDirMode
         ).show(childFragmentManager)
-//        fs.setCallback(this)
+        fs.setCallback(this)
     }
 
     override fun onFilesSelected(selectedItemsList: List<FSItem>) {
@@ -243,7 +243,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
     }
 
     override fun onDestroyView() {
-//        FileSelector.find(YandexDiskFileSelector.TAG, childFragmentManager)?.unsetCallback()
+        FileSelector.find(YandexDiskFileSelector.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }
