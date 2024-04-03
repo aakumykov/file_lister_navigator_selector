@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.LocalFileSelector2
 
 import android.os.Environment
+import com.github.aakumykov.file_lister_navigator_selector.ComparatorFactory
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_selector2.FileSelector2
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
@@ -19,7 +20,7 @@ class LocalFileSelector2 : FileSelector2() {
         return LocalFileExplorer(
             initialPath = Environment.getExternalStorageDirectory().absolutePath,
             isDirMode = false,
-            LocalFileLister(""),
+            LocalFileLister("", ComparatorFactory()),
             LocalDirCreator(),
             null,
             null

@@ -10,7 +10,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 abstract class BasicFileExplorer (
     private val initialPath: String,
     private val isDirMode: Boolean,
-    private val defaultSortingMode: SortingMode = SortingMode.NAME_DIRECT,
+    private val defaultSortingMode: SortingMode = SortingMode.NAME,
     private var listCache: FileExplorer.ListCache?, // TODO: сделать val
     private var pathCache: FileExplorer.PathCache?, // TODO: сделать val
     private val dirSeparator: String = FSItem.DS
@@ -33,7 +33,7 @@ abstract class BasicFileExplorer (
 
     override fun listCurrentPath(): List<FSItem> {
 
-        val rawDirList = listDir(currentPath, currentSortingMode)
+        val rawDirList = listDir(currentPath, currentSortingMode, false, true)
 
         currentList.clear()
         currentList.add(ParentDirItem())

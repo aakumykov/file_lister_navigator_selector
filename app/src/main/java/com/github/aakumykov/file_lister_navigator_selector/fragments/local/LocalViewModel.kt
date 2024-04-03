@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.fragments.local
 
 import android.os.Environment
+import com.github.aakumykov.file_lister_navigator_selector.ComparatorFactory
 import com.github.aakumykov.file_lister_navigator_selector.common.BasicViewModel
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
@@ -21,7 +22,7 @@ class LocalViewModel : BasicViewModel() {
         LocalFileExplorer(
             initialPath = initialPath,
             isDirMode = true,
-            localFileLister = LocalFileLister(""),
+            localFileLister = LocalFileLister("", ComparatorFactory()),
             localDirCreator = LocalDirCreator(),
             listCache = this,
             pathCache = this)

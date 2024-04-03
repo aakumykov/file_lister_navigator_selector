@@ -148,7 +148,7 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
     private fun onSortButtonClicked() {
-        viewModel.toggleSortingMode()
+        viewModel.toggleSortingDirection()
     }
 
 
@@ -236,7 +236,10 @@ abstract class FileSelector : DialogFragment(R.layout.dialog_file_selector),
     }
 
 
-    private fun openDir(dirItem: DirItem, sortingMode: SortingMode = SortingMode.NAME_DIRECT) {
+    private fun openDir(dirItem: DirItem,
+                        sortingMode: SortingMode = SortingMode.NAME,
+                        reverseOrder: Boolean = false,
+                        foldersFirst: Boolean = true) {
 
         hideError()
         showProgressBar()

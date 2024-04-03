@@ -27,7 +27,12 @@ class RecursiveDirReader(private val fileLister: FileLister<SortingMode>) {
 
             getUnlistedDir()?.let { currentlyListedDir: FileListItem ->
 
-                fileLister.listDir(currentlyListedDir.absolutePath, sortingMode).forEach { fsItem ->
+                fileLister.listDir(
+                    currentlyListedDir.absolutePath,
+                    sortingMode,
+                    false,
+                    true
+                ).forEach { fsItem ->
 
                     val childItem = FileListItem(
                         name = fsItem.name,

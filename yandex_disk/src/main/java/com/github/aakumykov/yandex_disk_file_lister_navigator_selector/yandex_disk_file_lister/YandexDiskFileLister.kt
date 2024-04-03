@@ -15,10 +15,11 @@ class YandexDiskFileLister @AssistedInject constructor(@Assisted private val aut
 
     override fun listDir(
         path: String,
-        sortingMode: SortingMode
+        sortingMode: SortingMode,
+        reverseOrder: Boolean,
+        foldersFirst: Boolean
     ): List<FSItem> {
         return yandexDiskClient.listDir(path, sortingMode).let {
-//            categorizeFSItems(it)
             it
         }
     }

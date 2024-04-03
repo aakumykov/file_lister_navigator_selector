@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.github.aakumykov.file_lister_navigator_selector.ComparatorFactory
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentLocalBinding
@@ -43,7 +44,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
     private var isFirstRun: Boolean = true
 
-    private var currentSortingMode: SortingMode = SortingMode.NAME_DIRECT
+    private var currentSortingMode: SortingMode = SortingMode.NAME
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -176,7 +177,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
         val fsItem = itemsList[position]
 
-        val recursiveDirReader = RecursiveDirReader(LocalFileLister(""))
+        val recursiveDirReader = RecursiveDirReader(LocalFileLister("", ComparatorFactory()))
 
         val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath, currentSortingMode)
 

@@ -2,6 +2,7 @@ package com.github.aakumykov.file_lister_navigator_selector.local_file_selector
 
 import android.os.Bundle
 import android.os.Environment
+import com.github.aakumykov.file_lister_navigator_selector.ComparatorFactory
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
@@ -31,7 +32,7 @@ class LocalFileSelector: FileSelector() {
 
         return LocalFileExplorer(
             initialPath = initialPath,
-            localFileLister = LocalFileLister(""),
+            localFileLister = LocalFileLister("", ComparatorFactory()),
             localDirCreator = LocalDirCreator(),
             listCache = null,
             pathCache = null,

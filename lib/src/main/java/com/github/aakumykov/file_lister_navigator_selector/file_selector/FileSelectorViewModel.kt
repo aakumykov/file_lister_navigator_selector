@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
-class FileSelectorViewModel(initialSortingMode: SortingMode = SortingMode.NAME_DIRECT) : ViewModel() {
+class FileSelectorViewModel(initialSortingMode: SortingMode = SortingMode.NAME) : ViewModel() {
 
     private var currentSortingMode: SortingMode = initialSortingMode
     private val _sortingModeMutableLiveData: MutableLiveData<SortingMode> = MutableLiveData(initialSortingMode)
@@ -62,12 +62,7 @@ class FileSelectorViewModel(initialSortingMode: SortingMode = SortingMode.NAME_D
         return _selectedList
     }
 
-    fun toggleSortingMode() {
-        currentSortingMode = when(currentSortingMode) {
-            SortingMode.NAME_DIRECT -> SortingMode.NAME_REVERSE
-            else -> SortingMode.NAME_DIRECT
-        }
-
+    fun toggleSortingDirection() {
         _sortingModeMutableLiveData.value = currentSortingMode
     }
 }
