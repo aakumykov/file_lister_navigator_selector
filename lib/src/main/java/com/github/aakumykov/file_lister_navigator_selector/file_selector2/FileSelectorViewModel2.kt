@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import kotlinx.coroutines.launch
 
 class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel() {

@@ -1,4 +1,4 @@
-package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
+package com.github.aakumykov.file_lister_navigator_selector.file_explorer
 
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode

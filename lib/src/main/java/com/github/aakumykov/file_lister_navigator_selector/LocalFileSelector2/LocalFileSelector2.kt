@@ -2,8 +2,8 @@ package com.github.aakumykov.file_lister_navigator_selector.LocalFileSelector2
 
 import android.os.Environment
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_selector2.FileSelector2
-import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator.LocalDirCreator
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator_dialog.LocalDirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister

@@ -14,11 +14,11 @@ import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import kotlin.concurrent.thread

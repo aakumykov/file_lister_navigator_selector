@@ -5,8 +5,8 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 
 class YandexViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.PathCache {
 

@@ -15,11 +15,11 @@ import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentLocalBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
+import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.file_lister_navigator_selector.utils.AndroidVersionHelper
