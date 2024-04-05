@@ -61,7 +61,7 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
     }
 
     override fun onDestroyView() {
-        FileSelector.find(LocalFileSelector.TAG, childFragmentManager)?.unsetCallback()
+//        FileSelector.find(LocalFileSelector.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }

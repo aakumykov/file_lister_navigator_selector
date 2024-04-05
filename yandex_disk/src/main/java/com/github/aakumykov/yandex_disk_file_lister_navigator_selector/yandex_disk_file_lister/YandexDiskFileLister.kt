@@ -6,7 +6,9 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-class YandexDiskFileLister @AssistedInject constructor(@Assisted private val authToken: String)
+class YandexDiskFileLister @AssistedInject constructor(
+    @Assisted private val authToken: String
+)
     : FileLister<SortingMode>
 {
     private val yandexDiskClient: FileListerYandexDiskClient by lazy {
@@ -17,9 +19,6 @@ class YandexDiskFileLister @AssistedInject constructor(@Assisted private val aut
         path: String,
         sortingMode: SortingMode
     ): List<FSItem> {
-        return yandexDiskClient.listDir(path, sortingMode).let {
-//            categorizeFSItems(it)
-            it
-        }
+        return yandexDiskClient.listDir(path, sortingMode)
     }
 }

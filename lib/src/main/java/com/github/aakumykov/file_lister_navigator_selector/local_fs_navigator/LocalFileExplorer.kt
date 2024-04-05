@@ -1,28 +1,23 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator
 
-import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.BasicFileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
-import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator.LocalDirCreator
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 
 class LocalFileExplorer(
+    localFileLister: LocalFileLister,
     initialPath: String,
     isDirMode: Boolean = false,
-    localFileLister: LocalFileLister,
-    localDirCreator: LocalDirCreator,
-    listCache: FileExplorer.ListCache?,
-    pathCache: FileExplorer.PathCache?
+    defaultSortingMode: SortingMode = SortingMode.NAME_DIRECT,
+    listCache: FileExplorer.ListCache? = null,
+    pathCache: FileExplorer.PathCache? = null
 )
-    : BasicFileExplorer(
+    : BasicFileExplorer<SortingMode> (
+        fileLister = localFileLister,
         initialPath = initialPath,
         isDirMode = isDirMode,
+        initialSortingMode = defaultSortingMode,
         listCache = listCache,
         pathCache = pathCache
-    ),
-
-    FileLister<SortingMode> by localFileLister,
-
-    DirCreator by localDirCreator
+    )

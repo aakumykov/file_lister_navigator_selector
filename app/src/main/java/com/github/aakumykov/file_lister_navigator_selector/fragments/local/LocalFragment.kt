@@ -39,7 +39,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
     private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
 
-    private val fileExplorer: FileExplorer get() = mLocalViewModel.getFileExplorer()
+    private val fileExplorer: FileExplorer<SortingMode> get() = mLocalViewModel.getFileExplorer()
 
     private var isFirstRun: Boolean = true
 
