@@ -5,6 +5,7 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 
@@ -13,11 +14,11 @@ class YandexViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.PathCa
     private val handler = Handler(Looper.getMainLooper())
 
 
-    private var _fileExplorer: FileExplorer? = null
+    private var _fileExplorer: FileExplorer<SortingMode>? = null
 
     val fileExplorer get() = _fileExplorer!!
 
-    fun setFileExplorer(fileExplorer: FileExplorer) {
+    fun setFileExplorer(fileExplorer: FileExplorer<SortingMode>) {
         _fileExplorer = fileExplorer
     }
 

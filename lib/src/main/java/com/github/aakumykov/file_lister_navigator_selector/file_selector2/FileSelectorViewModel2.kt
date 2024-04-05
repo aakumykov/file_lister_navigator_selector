@@ -5,13 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import kotlinx.coroutines.launch
 
-class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel() {
-
+class FileSelectorViewModel2 (
+    private val fileExplorer: FileExplorer<SortingMode>
+)
+    : ViewModel()
+{
     private val _currentPath: MutableLiveData<String> = MutableLiveData()
     private val _currentList: MutableLiveData<List<FSItem>> = MutableLiveData(emptyList())
     private val _selectedList: MutableLiveData<List<FSItem>> = MutableLiveData(emptyList())
@@ -89,7 +93,11 @@ class FileSelectorViewModel2(private val fileExplorer: FileExplorer) : ViewModel
     }
 
 
-    class Factory(private val fileExplorer: FileExplorer) : ViewModelProvider.Factory {
+    class Factory(
+        private val fileExplorer: FileExplorer<SortingMode>
+    )
+        : ViewModelProvider.Factory
+    {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return FileSelectorViewModel2(fileExplorer) as T

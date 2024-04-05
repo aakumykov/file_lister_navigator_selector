@@ -1,8 +1,5 @@
 package com.github.aakumykov.file_lister_navigator_selector.fs_navigator
 
-import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
@@ -13,19 +10,26 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
  *
  * Интерфефс расширяет интерфейс FileLister, так как навигация в отрыве от получения списка файлов бессмысленна.
  */
-interface FileExplorer : FileLister<SortingMode>, DirCreator {
+interface FileExplorer<SortingModeType> {
 
     fun changeDir(dirItem: DirItem) // TODO: выброс исключений...
+
+    // TODO: убрать, оставить только changeDir()
     fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
     fun goToParentDir() // TODO: throws IOException, AccessDeniesException
+
+    @Deprecated("Не используется?")
     fun goToRootDir() // TODO: throws IOException, AccessDeniesException
 
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
 
+    @Deprecated("Не используется?")
     fun getCurrentPath(): String
+
+    @Deprecated("Не используется?")
     fun getCurrentDir(): DirItem
 
-    fun setSortingMode(sortingMode: SortingMode)
+    fun setSortingMode(sortingMode: SortingModeType)
 
     fun setPathCache(pathCache: PathCache)
     fun setListCache(listCache: ListCache)

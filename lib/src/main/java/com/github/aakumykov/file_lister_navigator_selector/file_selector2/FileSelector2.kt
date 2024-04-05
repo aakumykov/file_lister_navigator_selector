@@ -27,14 +27,16 @@ abstract class FileSelector2 : DialogFragment(R.layout.dialog_file_selector),
     private val binding get() = _binding!!
 
     private lateinit var listAdapter: FileListAdapter
-    private val viewModel: FileSelectorViewModel2 by viewModels { FileSelectorViewModel2.Factory(fileExplorer()) }
+    private val viewModel: FileSelectorViewModel2 by viewModels {
+        FileSelectorViewModel2.Factory(fileExplorer())
+    }
 
     private val gson by lazy { Gson() }
 
     private lateinit var storageAccessHelper: StorageAccessHelper
 
 
-    protected abstract fun fileExplorer(): FileExplorer
+    protected abstract fun fileExplorer(): FileExplorer<SortingMode>
     abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
 
 

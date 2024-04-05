@@ -2,6 +2,7 @@ package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_d
 
 import android.os.Bundle
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
@@ -10,16 +11,16 @@ import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_di
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 
-class YandexDiskFileSelector : FileSelector() {
+class YandexDiskFileSelector : FileSelector<SortingMode>() {
 
     override fun dirCreatorDialog(basePath: String): DirCreatorDialog {
         // TODO: как быть с "!!" ?
         return YandexDiskDirCreatorDialog.create(basePath, authToken()!!)
     }
 
-    private var _fileExplorer: FileExplorer? = null
+    private var _fileExplorer: FileExplorer<SortingMode>? = null
 
-    override fun fileExplorer(): FileExplorer {
+    override fun fileExplorer(): FileExplorer<SortingMode> {
         if (null == _fileExplorer) {
 
             val authToken = authToken()

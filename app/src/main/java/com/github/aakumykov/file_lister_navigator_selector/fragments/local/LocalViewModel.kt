@@ -2,13 +2,14 @@ package com.github.aakumykov.file_lister_navigator_selector.fragments.local
 
 import android.os.Environment
 import com.github.aakumykov.file_lister_navigator_selector.common.BasicViewModel
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_navigator.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator.LocalDirCreator
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
 
-class LocalViewModel : BasicViewModel() {
+class LocalViewModel : BasicViewModel<SortingMode>() {
 
     private var isRirstRun: Boolean = true
 
@@ -17,7 +18,7 @@ class LocalViewModel : BasicViewModel() {
     private var _initialPath: String? = null
     val initialPath get() = _initialPath ?: DEFAULT_INITIAL_PATH
 
-    private val fileExplorer: FileExplorer =
+    private val fileExplorer: FileExplorer<SortingMode> =
         LocalFileExplorer(
             initialPath = initialPath,
             isDirMode = true,
@@ -29,7 +30,7 @@ class LocalViewModel : BasicViewModel() {
 //    private val fileExplorer: FileExplorer =
 
 
-    override fun getFileExplorer(): FileExplorer = fileExplorer
+    override fun getFileExplorer(): FileExplorer<SortingMode> = fileExplorer
 
 
     override fun cacheList(list: List<FSItem>) {
