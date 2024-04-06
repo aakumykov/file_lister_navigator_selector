@@ -58,7 +58,7 @@ abstract class BasicFileExplorer<SortingModeType> (
         }
     }
 
-    override fun goToParentDir() {
+    private fun goToParentDir() {
         val pathParts = currentPath.split(dirSeparator)
         val parentPathParts = pathParts.subList(0, pathParts.size-1)
         var parentPath = parentPathParts.joinToString(separator = dirSeparator)
@@ -68,7 +68,7 @@ abstract class BasicFileExplorer<SortingModeType> (
         changeCurrentPath(parentPath)
     }
 
-    override fun goToChildDir(dirPath: String) {
+    private fun goToChildDir(dirPath: String) {
         changeCurrentPath(dirPath)
     }
 

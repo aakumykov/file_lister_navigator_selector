@@ -156,15 +156,10 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val fsItem = itemsList[position]
-        when {
-            fsItem is ParentDirItem -> fileExplorer.goToParentDir()
-            fsItem.isDir -> fileExplorer.changeDir(DirItem(fsItem))
-            else -> {
-                showToast(R.string.it_is_not_a_dir)
-                return
+        if (fsItem is DirItem)
+            fileExplorer.changeDir(fsItem).also {
+                listCurrentDir()
             }
-        }
-        listCurrentDir()
     }
 
     override fun onItemLongClick(

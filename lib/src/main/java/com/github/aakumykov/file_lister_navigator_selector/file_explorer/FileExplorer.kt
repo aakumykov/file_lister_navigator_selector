@@ -15,8 +15,6 @@ interface FileExplorer<SortingModeType> {
 
     // TODO: оставить только changeDir
     fun changeDir(dirItem: DirItem) // TODO: выброс исключений...
-    fun goToChildDir(dirPath: String) // TODO: throws IOException, AccessDeniesException
-    fun goToParentDir() // TODO: throws IOException, AccessDeniesException
 
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
 
