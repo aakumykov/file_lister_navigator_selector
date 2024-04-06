@@ -20,6 +20,10 @@ import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.google.gson.Gson
 
+typealias SortingModesMap = Map<SortingMode, Int>
+
+// TODO: Сделать интерфейс "FileSelector" ?
+
 abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
@@ -37,7 +41,9 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
 
 
     protected abstract fun fileExplorer(): FileExplorer<SortingModeType>
-    abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
+    protected abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
+
+    protected abstract fun getSortingModesMap(): SortingModesMap
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +74,7 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
     private fun prepareButtons() {
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
         binding.dialogCloseButton.setOnClickListener { dismiss() }
-        binding.createDirButton.setOnClickListener { onCreateDirButtonClicked() }
+        binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.sortButton.setOnClickListener { onSortButtonClicked() }
     }
 
@@ -119,9 +125,10 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
     }
 
 
-    private fun onCreateDirButtonClicked() {
+    private fun onCreateDirClicked() {
         storageAccessHelper.requestWriteAccess {
-            dirCreatorDialog(fileExplorer().getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
+            dirCreatorDialog(fileExplorer().getCurrentPath())
+                .show(childFragmentManager, DirCreatorDialog.TAG)
         }
     }
 

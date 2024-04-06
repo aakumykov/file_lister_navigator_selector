@@ -11,7 +11,17 @@
     <string name="dir_creator_dialog_text_input_hint">Dir name</string>
     <string name="dir_creator_dialog_title">New dir</string>
     <string name="dir_was_created">Dir «%1$s» was created</string>
+
     <string name="dir_is_empty">Пустой каталог</string>
+
+    <string name="sorting_mode_name_direct">By name</string>
+    <string name="sorting_mode_name_reverse">By name, reverse</string>
+    <string name="sorting_mode_c_time_direct">Crated</string>
+    <string name="sorting_mode_c_time_reverse">Created, reverse</string>
+    <string name="sorting_mode_m_time_direct">Modified</string>
+    <string name="sorting_mode_m_time_reverse">Modified, reverse</string>
+    <string name="sorting_mode_size_direct">By size</string>
+    <string name="sorting_mode_size_reverse">By size, reverse</string>
 </resources>
 
 <!-- «» -->
