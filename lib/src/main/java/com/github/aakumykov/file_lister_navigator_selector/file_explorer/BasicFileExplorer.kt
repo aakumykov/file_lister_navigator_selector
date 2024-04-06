@@ -58,10 +58,6 @@ abstract class BasicFileExplorer<SortingModeType> (
         }
     }
 
-    override fun goToRootDir() {
-        changeCurrentPath(FileExplorer.ROOT_DIR_PATH)
-    }
-
     override fun goToParentDir() {
         val pathParts = currentPath.split(dirSeparator)
         val parentPathParts = pathParts.subList(0, pathParts.size-1)
