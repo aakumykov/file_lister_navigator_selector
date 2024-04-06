@@ -20,7 +20,7 @@ import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.google.gson.Gson
 
-typealias SortingModesMap = Map<SortingMode, Int>
+typealias SortingModesMap = Map<String, Int>
 
 // TODO: Сделать интерфейс "FileSelector" ?
 
@@ -44,7 +44,7 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
     protected abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
 
     protected abstract fun getSortingModesMap(): SortingModesMap
-
+    protected abstract fun sortingNameToSortingMode(name: String): SortingMode
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

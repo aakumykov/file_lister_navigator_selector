@@ -1,7 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.LocalFileSelector2
 
 import android.os.Environment
-import androidx.annotation.StringRes
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
@@ -35,17 +34,21 @@ class LocalFileSelector2 : FileSelector2<SortingMode>() {
 
     override fun getSortingModesMap(): SortingModesMap {
         return mapOf(
-            SortingMode.NAME_DIRECT to R.string.sorting_mode_name_direct,
-            SortingMode.NAME_REVERSE to R.string.sorting_mode_name_reverse,
+            SortingMode.NAME_DIRECT.name to R.string.sorting_mode_name_direct,
+            SortingMode.NAME_REVERSE.name to R.string.sorting_mode_name_reverse,
 
-            SortingMode.C_TIME_DIRECT to R.string.sorting_mode_c_time_direct,
-            SortingMode.C_TIME_REVERSE to R.string.sorting_mode_c_time_reverse,
+            SortingMode.C_TIME_DIRECT.name to R.string.sorting_mode_c_time_direct,
+            SortingMode.C_TIME_REVERSE.name to R.string.sorting_mode_c_time_reverse,
 
-            SortingMode.M_TIME_DIRECT to R.string.sorting_mode_m_time_direct,
-            SortingMode.M_TIME_REVERSE to R.string.sorting_mode_m_time_reverse,
+            SortingMode.M_TIME_DIRECT.name to R.string.sorting_mode_m_time_direct,
+            SortingMode.M_TIME_REVERSE.name to R.string.sorting_mode_m_time_reverse,
 
-            SortingMode.SIZE_DIRECT to R.string.sorting_mode_size_direct,
-            SortingMode.SIZE_REVERSE to R.string.sorting_mode_size_reverse,
+            SortingMode.SIZE_DIRECT.name to R.string.sorting_mode_size_direct,
+            SortingMode.SIZE_REVERSE.name to R.string.sorting_mode_size_reverse,
         )
+    }
+
+    override fun sortingNameToSortingMode(name: String): SortingMode {
+        return SortingMode.valueOf(name)
     }
 }
