@@ -90,6 +90,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
 
         val fileExplorer = YandexDiskFileExplorer(
                 yandexDiskFileLister = fileLister,
+                yandexDiskDirCreator = yandexDiskDirCreator,
                 initialPath = "/",
                 isDirMode = true,
                 listCache = viewModel,

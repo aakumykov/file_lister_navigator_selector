@@ -1,14 +1,15 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_explorer
 
+import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 
 // FIXME: перенести кеш в реализацию
-// TODO: добавить параметр типа "SortingModeType" в FileExplorer.
 abstract class BasicFileExplorer<SortingModeType> (
     private val fileLister: FileLister<SortingModeType>,
+    private val dirCreator: DirCreator,
     private val initialPath: String,
     private val isDirMode: Boolean,
     private val initialSortingMode: SortingModeType,
@@ -49,6 +50,16 @@ abstract class BasicFileExplorer<SortingModeType> (
         listCache?.cacheList(currentList)
 
         return currentList
+    }
+
+    override suspend fun createDir(dirName: String): Result<String> {
+        return try {
+            dirCreator.makeDir(dirName)
+            Result.success(dirName)
+        }
+        catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     override fun changeDir(dirItem: DirItem) {

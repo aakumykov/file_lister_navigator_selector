@@ -16,7 +16,10 @@ interface FileExplorer<SortingModeType> {
     // TODO: оставить только changeDir
     fun changeDir(dirItem: DirItem) // TODO: выброс исключений...
 
+    // TODO: suspend
     fun listCurrentPath(): List<FSItem> // TODO: throws NotADirException
+
+    suspend fun createDir(dirName: String): Result<String>
 
     fun getCurrentPath(): String
     fun getCurrentDir(): DirItem

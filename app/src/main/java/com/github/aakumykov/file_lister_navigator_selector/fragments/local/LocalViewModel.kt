@@ -21,10 +21,12 @@ class LocalViewModel : BasicViewModel<SortingMode>() {
     private val fileExplorer: FileExplorer<SortingMode> =
         LocalFileExplorer(
             localFileLister = LocalFileLister(""),
+            localDirCreator = LocalDirCreator(),
             initialPath = initialPath,
             isDirMode = true,
             listCache = this,
-            pathCache = this)
+            pathCache = this
+        )
 
 //    private val fileExplorer: FileExplorer =
 

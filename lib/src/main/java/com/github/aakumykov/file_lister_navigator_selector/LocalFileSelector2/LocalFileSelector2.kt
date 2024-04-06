@@ -19,6 +19,7 @@ class LocalFileSelector2 : FileSelector2<SortingMode>() {
     override fun fileExplorer(): FileExplorer<SortingMode> {
         return LocalFileExplorer(
             localFileLister = LocalFileLister(""),
+            localDirCreator = LocalDirCreator(),
             initialPath = Environment.getExternalStorageDirectory().absolutePath,
             isDirMode = false,
             defaultSortingMode = SortingMode.NAME_DIRECT

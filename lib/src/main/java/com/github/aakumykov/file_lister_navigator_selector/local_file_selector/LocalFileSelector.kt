@@ -34,6 +34,7 @@ class LocalFileSelector: FileSelector<SortingMode>() {
         return LocalFileExplorer (
             initialPath = initialPath,
             localFileLister = LocalFileLister(""),
+            localDirCreator = LocalDirCreator(),
             listCache = null,
             pathCache = null,
         )

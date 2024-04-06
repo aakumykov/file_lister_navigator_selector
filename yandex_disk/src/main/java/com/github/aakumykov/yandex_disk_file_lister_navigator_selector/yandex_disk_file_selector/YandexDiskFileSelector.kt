@@ -31,6 +31,7 @@ class YandexDiskFileSelector : FileSelector<SortingMode>() {
                 val yandexDiskClient = FileListerYandexDiskClient(authToken)
                 _fileExplorer = YandexDiskFileExplorer(
                         yandexDiskFileLister = YandexDiskFileLister(authToken),
+                        yandexDiskDirCreator = YandexDiskDirCreator(yandexDiskClient),
                         initialPath = "/",
                         isDirMode = isDirMode,
                 )
