@@ -11,7 +11,8 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import kotlinx.coroutines.launch
 
 class FileSelectorViewModel2<SortingModeType> (
-    private val fileExplorer: FileExplorer<SortingModeType>
+    private val fileExplorer: FileExplorer<SortingModeType>,
+    initialSortingMode: SortingModeType
 )
     : ViewModel()
 {
@@ -28,6 +29,8 @@ class FileSelectorViewModel2<SortingModeType> (
     val selectedList: LiveData<List<FSItem>> = _selectedList
     val errorMsg: LiveData<Throwable> = _currentError
     val isBusy: LiveData<Boolean> = _isBusy
+
+    val currentSortingMode: SortingModeType = initialSortingMode
 
 
     fun startWork() {
@@ -81,25 +84,21 @@ class FileSelectorViewModel2<SortingModeType> (
         }
     }
 
-    fun toggleSortingMode() {
-        /*fileExplorer.setSortingComparator(
-            when(fileExplorer.getSortingMode()) {
-                SortingMode.NAME_DIRECT -> SortingMode.NAME_REVERSE
-                else -> SortingMode.NAME_DIRECT
-            }
-        )*/
+    fun changeSortingMode(sortingMode: SortingModeType) {
+        fileExplorer.setSortingMode(sortingMode)
         processCurrentPath()
     }
 
 
-    class Factory<SortingModeType> (
-        private val fileExplorer: FileExplorer<SortingModeType>
+    class Factory<SortingModeType>(
+        private val fileExplorer: FileExplorer<SortingModeType>,
+        private val initialSortingMode: SortingModeType
     )
         : ViewModelProvider.Factory
     {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FileSelectorViewModel2(fileExplorer) as T
+            return FileSelectorViewModel2(fileExplorer, initialSortingMode) as T
         }
     }
 }
