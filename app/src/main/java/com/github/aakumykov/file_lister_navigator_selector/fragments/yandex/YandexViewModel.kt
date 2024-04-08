@@ -6,20 +6,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
-// TODO: сделать SortingMode параметром типа
+// TODO: сделать SimpleSortingMode параметром типа
 class YandexViewModel : ViewModel(), FileExplorer.ListCache, FileExplorer.PathCache {
 
     private val handler = Handler(Looper.getMainLooper())
 
 
-    private var _fileExplorer: FileExplorer<SortingMode>? = null
+    private var _fileExplorer: FileExplorer<SimpleSortingMode>? = null
 
     val fileExplorer get() = _fileExplorer!!
 
-    fun setFileExplorer(fileExplorer: FileExplorer<SortingMode>) {
+    fun setFileExplorer(fileExplorer: FileExplorer<SimpleSortingMode>) {
         _fileExplorer = fileExplorer
     }
 

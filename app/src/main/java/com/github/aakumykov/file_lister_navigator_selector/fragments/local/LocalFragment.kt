@@ -16,10 +16,9 @@ import com.github.aakumykov.file_lister_navigator_selector.common.ListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.databinding.FragmentLocalBinding
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.file_lister_navigator_selector.utils.AndroidVersionHelper
@@ -39,11 +38,11 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
     private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
 
-    private val fileExplorer: FileExplorer<SortingMode> get() = mLocalViewModel.getFileExplorer()
+    private val fileExplorer: FileExplorer<SimpleSortingMode> get() = mLocalViewModel.getFileExplorer()
 
     private var isFirstRun: Boolean = true
 
-    private var currentSortingMode: SortingMode = SortingMode.NAME_DIRECT
+    private var currentSortingMode: SimpleSortingMode = SimpleSortingMode.NAME_DIRECT
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

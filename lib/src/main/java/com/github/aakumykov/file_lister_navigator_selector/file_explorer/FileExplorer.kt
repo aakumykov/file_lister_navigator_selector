@@ -1,8 +1,5 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_explorer
 
-import com.github.aakumykov.file_lister_navigator_selector.dir_creator.DirCreator
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 

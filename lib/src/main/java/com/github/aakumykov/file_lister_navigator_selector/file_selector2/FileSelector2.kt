@@ -14,7 +14,7 @@ import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
@@ -195,7 +195,7 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
         viewModel.reopenCurrentDir()
     }
 
-    private fun reopenCurrentDir(sortingMode: SortingMode) {
+    private fun reopenCurrentDir(sortingMode: SimpleSortingMode) {
 //        openDir(fileExplorer().getCurrentDir(), sortingMode)
     }
 

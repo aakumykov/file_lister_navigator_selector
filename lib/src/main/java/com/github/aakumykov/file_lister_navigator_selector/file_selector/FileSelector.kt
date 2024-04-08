@@ -15,7 +15,7 @@ import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
@@ -154,7 +154,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     }
 
 
-    private fun onSortingModeChanged(sortingMode: SortingMode?) {
+    private fun onSortingModeChanged(sortingMode: SimpleSortingMode?) {
         sortingMode?.also { reopenCurrentDir(sortingMode) } ?: reopenCurrentDir()
     }
 
@@ -184,7 +184,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         openDir(fileExplorer().getCurrentDir())
     }
 
-    private fun reopenCurrentDir(sortingMode: SortingMode) {
+    private fun reopenCurrentDir(sortingMode: SimpleSortingMode) {
         openDir(fileExplorer().getCurrentDir(), sortingMode)
     }
 
@@ -238,7 +238,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     }
 
 
-    private fun openDir(dirItem: DirItem, sortingMode: SortingMode = SortingMode.NAME_DIRECT) {
+    private fun openDir(dirItem: DirItem, sortingMode: SimpleSortingMode = SimpleSortingMode.NAME_DIRECT) {
 
         hideError()
         showProgressBar()
