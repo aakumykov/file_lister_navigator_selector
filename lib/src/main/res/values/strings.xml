@@ -14,14 +14,14 @@
 
     <string name="dir_is_empty">Пустой каталог</string>
 
-    <string name="sorting_mode_name_direct">By name</string>
-    <string name="sorting_mode_name_reverse">By name, reverse</string>
-    <string name="sorting_mode_c_time_direct">Crated</string>
-    <string name="sorting_mode_c_time_reverse">Created, reverse</string>
-    <string name="sorting_mode_m_time_direct">Modified</string>
-    <string name="sorting_mode_m_time_reverse">Modified, reverse</string>
-    <string name="sorting_mode_size_direct">By size</string>
-    <string name="sorting_mode_size_reverse">By size, reverse</string>
+    <string name="sorting_mode_name_direct">Name ⬇️</string>
+    <string name="sorting_mode_name_reverse">Name ⬆️</string>
+    <string name="sorting_mode_c_time_direct">Crated ⬇️</string>
+    <string name="sorting_mode_c_time_reverse">Created ⬆️</string>
+    <string name="sorting_mode_m_time_direct">Modified ⬇️</string>
+    <string name="sorting_mode_m_time_reverse">Modified ⬆️</string>
+    <string name="sorting_mode_size_direct">Size ⬇️</string>
+    <string name="sorting_mode_size_reverse">Size ⬆️</string>
 
     <string name="SORTING_MODE_DIALOG_title">Sort by</string>
 </resources>
