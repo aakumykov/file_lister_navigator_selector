@@ -17,7 +17,26 @@ class LocalFileSelector2 : FileSelector2<SortingMode>() {
         val TAG: String = LocalFileSelector2::class.java.simpleName
     }
 
+
     override fun defaultSortingMode(): SortingMode = SortingMode.NAME_DIRECT
+
+
+    override fun sortingModeToPosition(mode: SortingMode): Int {
+        return SortingMode.entries.indexOf(mode)
+    }
+
+    override fun positionToSortingMode(position: Int): SortingMode {
+        return SortingMode.entries[position]
+    }
+
+    override fun sortingModeToSortingNames(): Array<String> {
+        return SortingMode.entries.map { it.name }.toTypedArray()
+    }
+
+    // FIXME: опасное преобразование
+    override fun sortingNameToSortingMode(name: String): SortingMode {
+        return SortingMode.valueOf(name)
+    }
 
     override fun fileExplorer(): FileExplorer<SortingMode> {
         return LocalFileExplorer(

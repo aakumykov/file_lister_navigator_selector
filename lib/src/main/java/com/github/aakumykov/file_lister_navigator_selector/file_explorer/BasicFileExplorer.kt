@@ -33,6 +33,8 @@ abstract class BasicFileExplorer<SortingModeType> (
         currentSortingMode = sortingMode
     }
 
+    override fun getSortingMode(): SortingModeType = currentSortingMode
+
     override fun listCurrentPath(): List<FSItem> {
 
         val rawDirList = fileLister.listDir(currentPath, currentSortingMode)

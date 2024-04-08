@@ -1,15 +1,12 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_selector2
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
@@ -20,8 +17,6 @@ import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExp
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
-import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_dialog.RealSortingModeDialog
-import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_dialog.SortingModeDialog
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.google.gson.Gson
@@ -29,14 +24,14 @@ import com.google.gson.Gson
 // TODO: Сделать интерфейс "FileSelector" ?
 
 abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_file_selector),
-    AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, FragmentResultListener {
+    AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private var _binding: DialogFileSelectorBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var listAdapter: FileListAdapter
 
-    private val viewModel: FileSelectorViewModel2<SortingMode> by viewModels {
+    private val viewModel: FileSelectorViewModel2<SortingModeType> by viewModels {
         FileSelectorViewModel2.Factory(fileExplorer(), defaultSortingMode())
     }
 
@@ -44,8 +39,6 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
 
     private lateinit var storageAccessHelper: StorageAccessHelper
 
-
-    protected abstract fun defaultSortingMode(): SortingModeType
     protected abstract fun fileExplorer(): FileExplorer<SortingModeType>
     protected abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
 
@@ -61,15 +54,10 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
 
         prepareListAdapter()
         prepareButtons()
-        prepareFragmentResultListeners()
         prepareViewModel()
 
         if (null == savedInstanceState)
             viewModel.startWork()
-    }
-
-    private fun prepareFragmentResultListeners() {
-        childFragmentManager.setFragmentResultListener(SortingModeDialog.SORTING_MODE_REQUEST, viewLifecycleOwner, this)
     }
 
     private fun prepareViewModel() {
@@ -141,20 +129,26 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
         }
     }
 
-
-//    abstract fun sortingModeDialog(): AlertDialog
-//    abstract fun sortingModeSelectionListener(): DialogInterface.OnClickListener
-
-    private var sortingModeDialog: SortingModeDialog<SortingMode>? = null
-
-    private fun sortingModeDialog(): SortingModeDialog<SortingMode> {
-        if (null == sortingModeDialog)
-            sortingModeDialog = RealSortingModeDialog.create(viewModel.currentSortingMode)
-        return sortingModeDialog!!
-    }
+    @Deprecated("Оцени обоснованность этого метода")
+    protected abstract fun defaultSortingMode(): SortingModeType
+    protected abstract fun sortingModeToPosition(mode: SortingModeType): Int
+    protected abstract fun positionToSortingMode(position: Int): SortingModeType
+    protected abstract fun sortingModeToSortingNames(): Array<String>
+    protected abstract fun sortingNameToSortingMode(name: String): SortingModeType
 
     private fun onSortButtonClicked() {
-        sortingModeDialog().show(childFragmentManager, SortingModeDialog.TAG)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Сортировать по")
+            .setSingleChoiceItems(
+                sortingModeToSortingNames(),
+                sortingModeToPosition(viewModel.currentSortingMode)
+            ) { dialog, position ->
+                onSortingModeChanged(positionToSortingMode(position))
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
 
@@ -207,15 +201,7 @@ abstract class FileSelector2<SortingModeType> : DialogFragment(R.layout.dialog_f
 //        openDir(fileExplorer().getCurrentDir(), sortingMode)
     }
 
-    override fun onFragmentResult(requestKey: String, result: Bundle) {
-        when (requestKey) {
-            SortingModeDialog.SORTING_MODE_REQUEST -> onSortingModeChanged(result)
-            else -> {}
-        }
-    }
-
-    private fun onSortingModeChanged(result: Bundle) {
-        val sortingMode = sortingModeDialog().sortingNameToSortingMode(result.getString(SortingModeDialog.SORTING_MODE_NAME))
+    private fun onSortingModeChanged(sortingMode: SortingModeType) {
         viewModel.changeSortingMode(sortingMode)
     }
 

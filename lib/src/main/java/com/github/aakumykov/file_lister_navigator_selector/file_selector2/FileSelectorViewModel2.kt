@@ -30,7 +30,7 @@ class FileSelectorViewModel2<SortingModeType> (
     val errorMsg: LiveData<Throwable> = _currentError
     val isBusy: LiveData<Boolean> = _isBusy
 
-    val currentSortingMode: SortingModeType = initialSortingMode
+    val currentSortingMode get() = fileExplorer.getSortingMode()
 
 
     fun startWork() {

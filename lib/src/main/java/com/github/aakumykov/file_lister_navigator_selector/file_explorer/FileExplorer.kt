@@ -25,6 +25,7 @@ interface FileExplorer<SortingModeType> {
     fun getCurrentDir(): DirItem
 
     fun setSortingMode(sortingMode: SortingModeType)
+    fun getSortingMode(): SortingModeType
 
     fun setPathCache(pathCache: PathCache)
     fun setListCache(listCache: ListCache)
