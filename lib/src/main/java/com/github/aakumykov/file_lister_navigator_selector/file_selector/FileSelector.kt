@@ -33,7 +33,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     private lateinit var listAdapter: FileListAdapter
 
     private val viewModel: FileSelectorViewModel<SortingModeType> by viewModels {
-        FileSelectorViewModel.Factory(fileExplorer(), defaultSortingMode())
+        FileSelectorViewModel.Factory(fileExplorer())
     }
 
     private val gson by lazy { Gson() }

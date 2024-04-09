@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 
 class FileSelectorViewModel<SortingModeType> (
     private val fileExplorer: FileExplorer<SortingModeType>,
-    initialSortingMode: SortingModeType
 )
     : ViewModel()
 {
@@ -92,13 +91,12 @@ class FileSelectorViewModel<SortingModeType> (
 
     class Factory<SortingModeType>(
         private val fileExplorer: FileExplorer<SortingModeType>,
-        private val initialSortingMode: SortingModeType
     )
         : ViewModelProvider.Factory
     {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FileSelectorViewModel(fileExplorer, initialSortingMode) as T
+            return FileSelectorViewModel(fileExplorer) as T
         }
     }
 }
