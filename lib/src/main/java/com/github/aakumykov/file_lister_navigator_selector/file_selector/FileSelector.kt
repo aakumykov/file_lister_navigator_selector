@@ -1,14 +1,13 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_selector
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
@@ -16,161 +15,172 @@ import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFil
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
+import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
-import kotlin.concurrent.thread
+import com.google.gson.Gson
 
-typealias Layout = DialogFileSelectorBinding
-
+// TODO: Сделать интерфейс "FileSelector" ?
 
 abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_file_selector),
-    AdapterView.OnItemLongClickListener,
-    AdapterView.OnItemClickListener
-{
-    //
-    // Разметка
-    //
-    private var _binding: Layout? = null
+    AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+
+    private var _binding: DialogFileSelectorBinding? = null
     private val binding get() = _binding!!
 
-    //
-    // Handler для асинхронных операций
-    //
-    private val handler: Handler = Handler(Looper.getMainLooper())
-
-    //
-    // Адаптер списка и список, который он отображает (можно без него?)
-    //
     private lateinit var listAdapter: FileListAdapter
-    private val itemList: MutableList<FSItem> = mutableListOf()
 
-    //
-    // ViewModel хранит текущее состояние интерфейса
-    //
-    private val viewModel: FileSelectorViewModel by viewModels()
+    private val viewModel: FileSelectorViewModel<SortingModeType> by viewModels {
+        FileSelectorViewModel.Factory(fileExplorer(), defaultSortingMode())
+    }
 
-    //
-    // Флаг перваго запуску
-    //
-    private var firstRun: Boolean = true
+    private val gson by lazy { Gson() }
 
-    //
-    // Колбек подтверждения выбора.
-    //
-    private var callback: Callback? = null
-
-
-    //
-    // Свойства, получаемые из аргументов фрагмента.
-    //
-    private val isMultipleSelectionMode: Boolean by lazy { arguments?.getBoolean(IS_MULTIPLE_SELECTION_MODE) ?: false }
-    private val startPath: String by lazy { arguments?.getString(START_PATH) ?: defaultStartPath() }
-    protected val isDirMode: Boolean by lazy { arguments?.getBoolean(IS_DIR_MODE) ?: false }
-
-
-    //
-    // Компоненты, реализуемые наследниками.
-    //
-    abstract fun fileExplorer(): FileExplorer<SortingModeType>
-    abstract fun defaultStartPath(): String
-    abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
-
-
-    //
-    // StorageAccessHelper
-    //
     private lateinit var storageAccessHelper: StorageAccessHelper
 
-
-    fun show(fragmentManager: FragmentManager): FileSelector<SortingModeType> {
-        show(fragmentManager, TAG)
-        return this
-    }
-
-
-    fun setCallback(callback: Callback): FileSelector<SortingModeType> {
-        this.callback = callback
-        return this
-    }
-
-    fun unsetCallback() {
-        this.callback = null
-    }
-
+    protected abstract fun fileExplorer(): FileExplorer<SortingModeType>
+    protected abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
+    protected abstract fun sortingModeTranslator(): SortingModeTranslator<SortingModeType>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = Layout.bind(view)
-
-        firstRun = (null == savedInstanceState)
+        _binding = DialogFileSelectorBinding.bind(view)
 
         storageAccessHelper = StorageAccessHelper.create(this)
 
         childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
 
-        viewModel.fileList.observe(viewLifecycleOwner, ::onFileListChanged)
-        viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectionListChanged)
-        viewModel.currentPath.observe(viewLifecycleOwner, ::onCurrentPathChanged)
-        viewModel.errorMessage.observe(viewLifecycleOwner, ::onErrorChanged)
-        viewModel.sortingMode.observe(viewLifecycleOwner, ::onSortingModeChanged)
+        prepareListAdapter()
+        prepareButtons()
+        prepareViewModel()
 
-        listAdapter =
-            FileListAdapter(
-                requireContext(),
-                R.layout.file_list_item,
-                R.id.titleView
-            )
+        if (null == savedInstanceState)
+            viewModel.startWork()
+    }
 
-        binding.pathView.setText(if (isDirMode) R.string.DIALOG_title_dir_mode else R.string.DIALOG_title_common_mode)
+    private fun prepareViewModel() {
+        viewModel.path.observe(viewLifecycleOwner, ::onPathChanged)
+        viewModel.list.observe(viewLifecycleOwner, ::onListChanged)
+        viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectedListChanged)
+        viewModel.errorMsg.observe(viewLifecycleOwner, ::onNewError)
+        viewModel.isBusy.observe(viewLifecycleOwner, ::onIsBusyChanged)
+    }
 
-        binding.listView.adapter = listAdapter
-        binding.listView.onItemClickListener = this
-        binding.listView.onItemLongClickListener = this
-
+    private fun prepareButtons() {
+        binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
+        binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.sortButton.setOnClickListener { onSortButtonClicked() }
-        binding.dialogCloseButton.setOnClickListener { dismiss() }
-        binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (firstRun)
-            openDir(DirItem.fromPath(startPath))
+    private fun prepareListAdapter() {
+
+        listAdapter = FileListAdapter(
+            requireContext(),
+            R.layout.file_list_item,
+            R.id.titleView)
+
+        binding.listView.adapter = listAdapter
+
+        binding.listView.onItemClickListener = this
+        binding.listView.onItemLongClickListener = this
     }
 
-    private fun onCreateDirClicked() {
-        storageAccessHelper.requestWriteAccess {
-            dirCreatorDialog(fileExplorer().getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
+
+    private fun onPathChanged(s: String?) {
+        binding.pathView.text = s
+    }
+
+    private fun onListChanged(list: List<FSItem>?) {
+        list?.also {
+            listAdapter.setList(it)
+        }.also {
+            if (0 == list?.size)
+                binding.emptyListLabel.visibility = View.VISIBLE
+            else
+                binding.emptyListLabel.visibility = View.GONE
         }
     }
 
-    private fun onSortButtonClicked() {
-        viewModel.toggleSortingMode()
+    private fun onSelectedListChanged(selectedItemsList: List<FSItem>?) {
+        selectedItemsList?.also {
+            listAdapter.updateSelections(selectedItemsList)
+            binding.confirmSelectionButton.isEnabled = (selectedItemsList.size > 0)
+        }
+    }
+
+    private fun onNewError(throwable: Throwable?) {
+        binding.errorView.text = ExceptionUtils.getErrorMessage(throwable)
+    }
+
+    private fun onIsBusyChanged(b: Boolean?) {
+        b?.also {
+            binding.progressBar.visibility = if (b) View.VISIBLE else View.GONE
+        }
     }
 
 
-    private fun onSortingModeChanged(sortingMode: SimpleSortingMode?) {
-        sortingMode?.also { reopenCurrentDir(sortingMode) } ?: reopenCurrentDir()
+    private fun onCreateDirClicked() {
+        storageAccessHelper.requestWriteAccess {
+            dirCreatorDialog(fileExplorer().getCurrentPath())
+                .show(childFragmentManager, DirCreatorDialog.TAG)
+        }
+    }
+
+    @Deprecated("Оцени обоснованность этого метода")
+    protected abstract fun defaultSortingMode(): SortingModeType
+
+    private fun onSortButtonClicked() {
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.SORTING_MODE_DIALOG_title)
+            .setSingleChoiceItems(
+                sortingModeTranslator().sortingModeNames(),
+                sortingModeTranslator().sortingModeToPosition(viewModel.currentSortingMode)
+            ) {
+              dialog, position ->
+                    viewModel.changeSortingMode(sortingModeTranslator().positionToSortingMode(position))
+                    dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
 
     private fun onConfirmSelectionClicked() {
-        callback?.onFilesSelected(viewModel.getSelectedList())
+        setFragmentResult(ITEMS_SELECTION, selectedItemsToBundle())
         dismiss()
     }
 
-    private fun onSelectionListChanged(selectionList: List<FSItem>?) {
-        selectionList?.let { list ->
-            listAdapter.updateSelections(list)
-            binding.confirmSelectionButton.isEnabled = list.isNotEmpty()
+    private fun selectedItemsToBundle(): Bundle {
+        val listOfJSON = viewModel.selectedList.value?.map {
+            gson.toJson(it, SimpleFSItem::class.java)
         }
+        return bundleOf(SELECTED_ITEMS_LIST to listOfJSON)
     }
 
+    companion object {
+        val TAG: String = FileSelector::class.java.simpleName
+        const val ITEMS_SELECTION = "ITEMS_SELECTION"
+        const val SELECTED_ITEMS_LIST = "FS_ITEM"
+    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        viewModel.onItemClick(position)
+    }
+
+    override fun onItemLongClick(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ): Boolean {
+        viewModel.onItemLongClick(position)
+        return true
+    }
 
     private fun onDirCreationResult(requestKey: String, resultBundle: Bundle) {
         resultBundle.getString(DirCreatorDialog.DIR_NAME)?.also {
@@ -181,159 +191,12 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
 
     private fun reopenCurrentDir() {
-        openDir(fileExplorer().getCurrentDir())
+//        openDir(fileExplorer().getCurrentDir())
+        viewModel.reopenCurrentDir()
     }
 
     private fun reopenCurrentDir(sortingMode: SimpleSortingMode) {
-        openDir(fileExplorer().getCurrentDir(), sortingMode)
+//        openDir(fileExplorer().getCurrentDir(), sortingMode)
     }
 
-
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        listAdapter.getItem(position)?.also { clickedItem ->
-            when {
-                clickedItem is DirItem -> openDir(clickedItem)
-                isMultipleSelectionMode -> onItemClickedInSingleSelectionMode(clickedItem)
-                else -> onItemClickedInMultipleSelectionMode(clickedItem)
-            }
-        }
-    }
-
-
-    private fun onItemClickedInSingleSelectionMode(clickedItem: FSItem) {
-        selectItem(clickedItem)
-        onConfirmSelectionClicked()
-    }
-
-    private fun onItemClickedInMultipleSelectionMode(clickedItem: FSItem) {
-        selectItem(clickedItem)
-    }
-
-    override fun onItemLongClick(
-        parent: AdapterView<*>?,
-        view: View?,
-        position: Int,
-        id: Long
-    ): Boolean {
-
-        listAdapter.getItem(position)?.also { longClickedItem ->
-            // Игнорирую попытку выбора родительского каталога.
-            if (longClickedItem is ParentDirItem)
-                return true
-
-            if (isMultipleSelectionMode) toggleItemSelection(longClickedItem)
-            else selectItem(longClickedItem)
-        }
-
-        return true
-    }
-
-
-    private fun toggleItemSelection(fsItem: FSItem) {
-        viewModel.toggleItemSelection(fsItem)
-    }
-
-    private fun selectItem(fsItem: FSItem) {
-        viewModel.setSelectedItem(fsItem)
-    }
-
-
-    private fun openDir(dirItem: DirItem, sortingMode: SimpleSortingMode = SimpleSortingMode.NAME_DIRECT) {
-
-        hideError()
-        showProgressBar()
-
-        thread {
-            try {
-                fileExplorer().changeDir(dirItem)
-                val list = fileExplorer().listCurrentPath()
-
-                handler.post {
-                    hideProgressBar()
-                    viewModel.clearSelectionList()
-                    viewModel.setFileList(list)
-                    viewModel.setCurrentPath(fileExplorer().getCurrentPath())
-                }
-            }
-            catch (throwable: Throwable) {
-                handler.post { viewModel.setError(throwable) }
-            }
-            finally {
-                handler.post { hideProgressBar() }
-            }
-        }
-    }
-
-
-    private fun onErrorChanged(throwable: Throwable?) {
-        throwable?.let {
-            showError(throwable)
-            Log.e(TAG, ExceptionUtils.getErrorMessage(throwable), throwable)
-        }
-    }
-
-
-    private fun onCurrentPathChanged(path: String?) {
-        binding.pathView.text = path?.let { path } ?: "?"
-    }
-
-
-    private fun onFileListChanged(list: List<FSItem>?) {
-        list?.let {
-            hideProgressBar()
-            listAdapter.setList(list)
-        }
-    }
-
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
-
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.GONE
-    }
-
-
-    private fun showError(throwable: Throwable) {
-        showError(ExceptionUtils.getErrorMessage(throwable))
-    }
-    private fun showError(text: String) {
-        binding.errorView.text = text
-        binding.errorView.visibility = View.VISIBLE
-    }
-    private fun hideError() {
-        binding.errorView.text = ""
-        binding.errorView.visibility = View.GONE
-    }
-
-
-    interface Callback {
-        fun onFilesSelected(selectedItemsList: List<FSItem>)
-    }
-
-
-    companion object {
-        val TAG: String = FileSelector::class.java.simpleName
-
-        const val START_PATH = "INITIAL_PATH"
-        const val IS_MULTIPLE_SELECTION_MODE = "IS_MULTIPLE_SELECTION_MODE"
-        const val IS_DIR_MODE = "IS_DIR_MODE"
-
-        @Deprecated("Здесь ему не место")
-        const val AUTH_TOKEN = "AUTH_TOKEN"
-
-        /*fun find(tag: String, fragmentManager: FragmentManager): FileSelector? {
-            return when(val fragment = fragmentManager.findFragmentByTag(tag)) {
-                is FileSelector -> fragment
-                else -> null
-            }
-        }*/
-    }
 }
-

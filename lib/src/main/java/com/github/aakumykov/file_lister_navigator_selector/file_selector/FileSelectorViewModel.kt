@@ -3,71 +3,102 @@ package com.github.aakumykov.file_lister_navigator_selector.file_selector
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import kotlinx.coroutines.launch
 
-class FileSelectorViewModel(initialSortingMode: SimpleSortingMode = SimpleSortingMode.NAME_DIRECT) : ViewModel() {
+class FileSelectorViewModel<SortingModeType> (
+    private val fileExplorer: FileExplorer<SortingModeType>,
+    initialSortingMode: SortingModeType
+)
+    : ViewModel()
+{
+    private val _currentPath: MutableLiveData<String> = MutableLiveData()
+    private val _currentList: MutableLiveData<List<FSItem>> = MutableLiveData(emptyList())
+    private val _selectedList: MutableLiveData<List<FSItem>> = MutableLiveData(emptyList())
+    private val _currentError: MutableLiveData<Throwable> = MutableLiveData()
+    private val _isBusy: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var currentSortingMode: SimpleSortingMode = initialSortingMode
-    private val _sortingModeMutableLiveData: MutableLiveData<SimpleSortingMode> = MutableLiveData(initialSortingMode)
-    val sortingMode: LiveData<SimpleSortingMode> = _sortingModeMutableLiveData
+    private val selectedItems: MutableList<FSItem> = mutableListOf()
 
-    private val _currentPathMutableLiveData: MutableLiveData<String> = MutableLiveData()
-    val currentPath get(): LiveData<String> = _currentPathMutableLiveData
+    val path: LiveData<String> = _currentPath
+    val list: LiveData<List<FSItem>> = _currentList
+    val selectedList: LiveData<List<FSItem>> = _selectedList
+    val errorMsg: LiveData<Throwable> = _currentError
+    val isBusy: LiveData<Boolean> = _isBusy
 
-    private val _fileListMutableLiveData: MutableLiveData<List<FSItem>> = MutableLiveData()
-    val fileList get(): LiveData<List<FSItem>> = _fileListMutableLiveData
-
-    private val _errorMutableLiveData: MutableLiveData<Throwable> = MutableLiveData()
-    val errorMessage get(): LiveData<Throwable> = _errorMutableLiveData
-
-    private val _selectedList: MutableList<FSItem> = mutableListOf()
-    private val _selectedListMutableLiveData: MutableLiveData<List<FSItem>> = MutableLiveData(_selectedList)
-    val selectedList get(): LiveData<List<FSItem>> = _selectedListMutableLiveData
+    val currentSortingMode get() = fileExplorer.getSortingMode()
 
 
-    fun setFileList(list: List<FSItem>) {
-        _fileListMutableLiveData.value = list
+    fun startWork() {
+        processCurrentPath()
     }
 
-
-    fun toggleItemSelection(fsItem: FSItem) {
-        if (_selectedList.contains(fsItem))
-            _selectedList.remove(fsItem)
-        else
-            _selectedList.add(fsItem)
-        _selectedListMutableLiveData.value = _selectedList
+    fun reopenCurrentDir() {
+        processCurrentPath()
     }
 
-    fun setSelectedItem(fsItem: FSItem) {
-        clearSelectionList()
-        _selectedList.add(fsItem)
-        _selectedListMutableLiveData.value = _selectedList
-    }
-
-    fun clearSelectionList() {
-        _selectedList.clear()
-    }
-
-
-    fun setCurrentPath(path: String) {
-        _currentPathMutableLiveData.value = path
-    }
-
-    fun setError(throwable: Throwable) {
-        _errorMutableLiveData.value = throwable
-    }
-
-    fun getSelectedList(): List<FSItem> {
-        return _selectedList
-    }
-
-    fun toggleSortingMode() {
-        currentSortingMode = when(currentSortingMode) {
-            SimpleSortingMode.NAME_DIRECT -> SimpleSortingMode.NAME_REVERSE
-            else -> SimpleSortingMode.NAME_DIRECT
+    fun onItemClick(position: Int) {
+        getItemAtPosition(position).also { fsItem ->
+            fsItem?.also {
+                if (fsItem.isDir) {
+                    fileExplorer.changeDir(fsItem as DirItem)
+                    processCurrentPath()
+                }
+            }
         }
+    }
 
-        _sortingModeMutableLiveData.value = currentSortingMode
+    fun onItemLongClick(position: Int) {
+        getItemAtPosition(position)?.also { fsItem ->
+            if (selectedItems.contains(fsItem))
+                selectedItems.remove(fsItem)
+            else
+                selectedItems.add(fsItem)
+
+            _selectedList.value = selectedItems
+        }
+    }
+
+    private fun getItemAtPosition(position: Int): FSItem? {
+        return _currentList.value?.get(position)
+    }
+
+    private fun processCurrentPath() {
+
+        _currentPath.value = fileExplorer.getCurrentPath()
+        _selectedList.value = emptyList()
+
+        viewModelScope.launch {
+            _isBusy.value = true
+            try {
+                _currentList.value = fileExplorer.listCurrentPath()
+            } catch (e: Exception) {
+                _currentError.value = e
+            } finally {
+                _isBusy.value = false
+            }
+        }
+    }
+
+    fun changeSortingMode(sortingMode: SortingModeType) {
+        fileExplorer.setSortingMode(sortingMode)
+        processCurrentPath()
+    }
+
+
+    class Factory<SortingModeType>(
+        private val fileExplorer: FileExplorer<SortingModeType>,
+        private val initialSortingMode: SortingModeType
+    )
+        : ViewModelProvider.Factory
+    {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return FileSelectorViewModel(fileExplorer, initialSortingMode) as T
+        }
     }
 }
