@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
 import kotlinx.coroutines.launch
 
 class FileSelectorViewModel<SortingModeType> (
@@ -60,6 +61,11 @@ class FileSelectorViewModel<SortingModeType> (
 
             _selectedList.value = selectedItems
         }
+    }
+
+    fun onBackClicked() {
+        fileExplorer.changeDir(ParentDirItem())
+        processCurrentPath()
     }
 
     private fun getItemAtPosition(position: Int): FSItem? {

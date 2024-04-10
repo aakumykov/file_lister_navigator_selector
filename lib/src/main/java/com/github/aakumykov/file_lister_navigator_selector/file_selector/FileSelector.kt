@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.CheckBox
 import android.widget.Toast
-import android.widget.ToggleButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
@@ -78,6 +77,11 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.sortButton.setOnClickListener { onSortButtonClicked() }
+        binding.backButton.setOnClickListener { onBackButtonClicked() }
+    }
+
+    private fun onBackButtonClicked() {
+        viewModel.onBackClicked()
     }
 
     private fun prepareListAdapter() {

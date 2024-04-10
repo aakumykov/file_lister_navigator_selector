@@ -6,6 +6,7 @@
     <string name="description_dialog_close_button">Close file selection dialog</string>
     <string name="description_sort_button">List sorting</string>
     <string name="description_create_dir_button">Create dir</string>
+    <string name="description_back_button">Назад</string>
     <string name="not_implemented_yet">Not implemented yet</string>
     <string name="dir_creator_dialog_create_button">Create</string>
     <string name="dir_creator_dialog_text_input_hint">Dir name</string>
