@@ -29,7 +29,7 @@ import com.yandex.authsdk.YandexAuthSdkContract
 import com.yandex.authsdk.internal.strategy.LoginType
 import kotlin.concurrent.thread
 
-class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback {
+class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
     private var _binding: FragmentYandexBinding? = null
     private val binding get() = _binding!!
@@ -165,14 +165,14 @@ class YandexFragment : Fragment(R.layout.fragment_yandex), FileSelector.Callback
             authToken = yandexAuthToken!!,
             isMultipleSelectionMode = isMultipleMode,
             isDirMode = isDirMode
-        ).show(childFragmentManager)
+        ).show(childFragmentManager, FileSelector.TAG)
 
     //        fs.setCallback(this)
     }
 
-    override fun onFilesSelected(selectedItemsList: List<FSItem>) {
+    /*override fun onFilesSelected(selectedItemsList: List<FSItem>) {
         showToast(selectedItemsList.joinToString("\n"))
-    }
+    }*/
 
     private fun onListButtonClicked() {
         listCurrentDir()

@@ -14,7 +14,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.google.gson.Gson
 
-class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Callback {
+class SelectorFragment : Fragment(R.layout.fragment_selector) {
 
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
@@ -62,10 +62,6 @@ class SelectorFragment : Fragment(R.layout.fragment_selector), FileSelector.Call
 //        FileSelector.find(LocalFileSelector.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
-    }
-
-    override fun onFilesSelected(selectedItemsList: List<FSItem>) {
-        showToast(selectedItemsList.joinToString(separator = "\n"))
     }
 
     companion object {

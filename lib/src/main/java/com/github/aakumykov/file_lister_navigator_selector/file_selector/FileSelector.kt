@@ -162,12 +162,6 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         return bundleOf(SELECTED_ITEMS_LIST to listOfJSON)
     }
 
-    companion object {
-        val TAG: String = FileSelector::class.java.simpleName
-        const val ITEMS_SELECTION = "ITEMS_SELECTION"
-        const val SELECTED_ITEMS_LIST = "FS_ITEM"
-    }
-
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         viewModel.onItemClick(position)
     }
@@ -199,4 +193,11 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 //        openDir(fileExplorer().getCurrentDir(), sortingMode)
     }
 
+
+    companion object {
+        val TAG: String = FileSelector::class.java.simpleName
+        const val ITEMS_SELECTION = "ITEMS_SELECTION"
+        const val SELECTED_ITEMS_LIST = "FS_ITEM"
+        const val AUTH_TOKEN = "AUTH_TOKEN"
+    }
 }

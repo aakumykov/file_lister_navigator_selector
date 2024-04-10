@@ -13,6 +13,7 @@ abstract class BasicFileExplorer<SortingModeType> (
     private val initialPath: String,
     private val isDirMode: Boolean,
     private val initialSortingMode: SortingModeType,
+    private var reverseOrder: Boolean = false,
     private var listCache: FileExplorer.ListCache?, // TODO: сделать val
     private var pathCache: FileExplorer.PathCache?, // TODO: сделать val
     private val dirSeparator: String = FSItem.DS
@@ -69,6 +70,14 @@ abstract class BasicFileExplorer<SortingModeType> (
             is ParentDirItem -> goToParentDir()
             else -> goToChildDir(dirItem.absolutePath)
         }
+    }
+
+    override fun setReverseOrder(b: Boolean) {
+        reverseOrder = b
+    }
+
+    override fun getReverseOrder(): Boolean {
+        return reverseOrder
     }
 
     private fun goToParentDir() {

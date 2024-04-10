@@ -10,7 +10,6 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
  */
 interface FileExplorer<SortingModeType> {
 
-    // TODO: оставить только changeDir
     fun changeDir(dirItem: DirItem) // TODO: выброс исключений...
 
     // TODO: suspend
@@ -24,7 +23,11 @@ interface FileExplorer<SortingModeType> {
     fun setSortingMode(sortingMode: SortingModeType)
     fun getSortingMode(): SortingModeType
 
+    fun setReverseOrder(b: Boolean)
+    fun getReverseOrder(): Boolean
+
     fun setPathCache(pathCache: PathCache)
+
     fun setListCache(listCache: ListCache)
 
 

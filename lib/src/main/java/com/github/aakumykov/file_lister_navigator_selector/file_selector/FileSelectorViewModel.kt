@@ -88,6 +88,10 @@ class FileSelectorViewModel<SortingModeType> (
         processCurrentPath()
     }
 
+    fun changeReverseOrder(isReverseOrder: Boolean) {
+        fileExplorer.setReverseOrder(isReverseOrder)
+        processCurrentPath()
+    }
 
     class Factory<SortingModeType>(
         private val fileExplorer: FileExplorer<SortingModeType>,
