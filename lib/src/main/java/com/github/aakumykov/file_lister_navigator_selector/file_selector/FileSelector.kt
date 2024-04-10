@@ -32,6 +32,8 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     private var _binding: DialogFileSelectorBinding? = null
     private val binding get() = _binding!!
 
+    private var sortingDialog: AlertDialog? = null
+
     private lateinit var listAdapter: FileListAdapter
 
     private val viewModel: FileSelectorViewModel<SortingModeType> by viewModels {
@@ -147,15 +149,13 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
         val sortingFlagsView = layoutInflater.inflate(R.layout.sorting_flags_dialog_view, null)
             .apply {
-                findViewById<ToggleButton>(R.id.reverseOrderToggle).setOnCheckedChangeListener { _, isChecked ->
-                    viewModel.changeReverseOrder(isChecked)
-                }
-                findViewById<CheckBox>(R.id.foldersFirstCheckbox).setOnCheckedChangeListener { _, isChecked ->
+                findViewById<CheckBox>(R.id.foldersFirstCheckbox).setOnCheckedChangeListener { dialog, isChecked ->
                     viewModel.changeFoldersFist(isChecked)
+                    sortingDialog?.dismiss()
                 }
             }
 
-        AlertDialog.Builder(requireContext())
+        sortingDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.SORTING_MODE_DIALOG_title)
             .setView(sortingFlagsView)
             .setSingleChoiceItems(
@@ -166,7 +166,8 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
                 dialog.dismiss()
             }
             .create()
-            .show()
+
+        sortingDialog?.show()
     }
 
 

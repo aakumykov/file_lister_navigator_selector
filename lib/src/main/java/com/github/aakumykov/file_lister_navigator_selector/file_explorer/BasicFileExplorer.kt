@@ -36,6 +36,11 @@ abstract class BasicFileExplorer<SortingModeType> (
 
     override fun getSortingMode(): SortingModeType = currentSortingMode
 
+    override fun changeSortingMode(newSortingMode: SortingModeType) {
+        reverseOrder = (currentSortingMode == newSortingMode)
+        currentSortingMode = newSortingMode
+    }
+
     override fun listCurrentPath(): List<FSItem> {
 
         val rawDirList = fileLister.listDir(currentPath, currentSortingMode)

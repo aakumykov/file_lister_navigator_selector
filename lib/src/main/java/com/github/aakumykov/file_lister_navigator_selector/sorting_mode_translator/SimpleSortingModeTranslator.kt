@@ -15,19 +15,12 @@ class SimpleSortingModeTranslator(
     override fun sortingModeNames(currentMode: SimpleSortingMode, isReverseOrder: Boolean): Array<String> {
         return SimpleSortingMode.entries.map { sortingMode ->
 
-            var name = resources.getString(
-                /*if (currentMode == sortingMode) {
-                    if (isReverseOrder) sortingMode.reverseName
-                    else sortingMode.directName
-                } else
-                    sortingMode.directName*/
-                sortingMode.sortingName
-            )
+            var name = resources.getString(sortingMode.sortingName)
 
-            name += if (currentMode == sortingMode) {
+            name += " " + if (currentMode == sortingMode) {
                 if (isReverseOrder) reverseOrderIcon
                 else directOrderIcon
-            } else directOrderIcon
+            } else ""
 
             return@map name
 

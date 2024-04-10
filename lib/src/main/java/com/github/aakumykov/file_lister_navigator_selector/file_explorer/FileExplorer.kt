@@ -23,6 +23,11 @@ interface FileExplorer<SortingModeType> {
     fun setSortingMode(sortingMode: SortingModeType)
     fun getSortingMode(): SortingModeType
 
+    /**
+     * TODO: документировать
+     */
+    fun changeSortingMode(sortingMode: SortingModeType)
+
     fun setReverseOrder(b: Boolean)
     fun getReverseOrder(): Boolean
 

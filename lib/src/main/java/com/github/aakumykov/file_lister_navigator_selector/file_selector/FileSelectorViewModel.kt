@@ -84,7 +84,7 @@ class FileSelectorViewModel<SortingModeType> (
     }
 
     fun changeSortingMode(sortingMode: SortingModeType) {
-        fileExplorer.setSortingMode(sortingMode)
+        fileExplorer.changeSortingMode(sortingMode)
         processCurrentPath()
     }
 
