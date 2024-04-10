@@ -24,6 +24,9 @@
     <string name="sorting_mode_size_reverse">Size ⬆️</string>
 
     <string name="SORTING_MODE_DIALOG_title">Sort by</string>
+    <string name="sorting_flags_direct_order">Прямой порядок</string>
+    <string name="sorting_flags_reverse_order">Обратный порядок</string>
+    <string name="sorting_flags_folders_first">Сначала каталоги</string>
 </resources>
 
 <!-- «» -->

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <ToggleButton
+        android:id="@+id/reverseOrderToggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textOff="@string/sorting_flags_direct_order"
+        android:textOn="@string/sorting_flags_reverse_order"/>
+
+    <CheckBox
+        android:id="@+id/foldersFirstCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checked="true"
+        android:text="@string/sorting_flags_folders_first" />
+
+</LinearLayout>

@@ -93,6 +93,10 @@ class FileSelectorViewModel<SortingModeType> (
         processCurrentPath()
     }
 
+    fun changeFoldersFist(foldersFirst: Boolean) {
+
+    }
+
     class Factory<SortingModeType>(
         private val fileExplorer: FileExplorer<SortingModeType>,
     )

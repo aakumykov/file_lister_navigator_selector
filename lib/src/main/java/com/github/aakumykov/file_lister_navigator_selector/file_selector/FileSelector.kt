@@ -3,7 +3,9 @@ package com.github.aakumykov.file_lister_navigator_selector.file_selector
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.CheckBox
 import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
@@ -134,16 +136,30 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     protected abstract fun defaultSortingMode(): SortingModeType
 
     private fun onSortButtonClicked() {
+        showSortingDialog()
+    }
+
+    private fun showSortingDialog() {
+
+        val sortingFlagsView = layoutInflater.inflate(R.layout.sorting_flags_dialog_view, null)
+            .apply {
+                findViewById<ToggleButton>(R.id.reverseOrderToggle).setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.changeReverseOrder(isChecked)
+                }
+                findViewById<CheckBox>(R.id.foldersFirstCheckbox).setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.changeFoldersFist(isChecked)
+                }
+            }
 
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.SORTING_MODE_DIALOG_title)
+            .setView(sortingFlagsView)
             .setSingleChoiceItems(
                 sortingModeTranslator().sortingModeNames(),
                 sortingModeTranslator().sortingModeToPosition(viewModel.currentSortingMode)
-            ) {
-              dialog, position ->
-                    viewModel.changeSortingMode(sortingModeTranslator().positionToSortingMode(position))
-                    dialog.dismiss()
+            ) { dialog, position ->
+                viewModel.changeSortingMode(sortingModeTranslator().positionToSortingMode(position))
+                dialog.dismiss()
             }
             .create()
             .show()
