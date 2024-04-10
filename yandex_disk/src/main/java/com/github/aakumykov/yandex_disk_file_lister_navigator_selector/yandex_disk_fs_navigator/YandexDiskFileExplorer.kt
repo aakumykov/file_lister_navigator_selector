@@ -11,7 +11,7 @@ class YandexDiskFileExplorer (
     yandexDiskDirCreator: YandexDiskDirCreator,
     initialPath: String,
     isDirMode: Boolean = false,
-    defaultSortingMode: SimpleSortingMode = SimpleSortingMode.NAME_DIRECT,
+    defaultSortingMode: SimpleSortingMode = SimpleSortingMode.NAME,
     listCache: FileExplorer.ListCache? = null,
     pathCache: FileExplorer.PathCache? = null
 )

@@ -30,7 +30,7 @@ class FileSelectorViewModel<SortingModeType> (
     val isBusy: LiveData<Boolean> = _isBusy
 
     val currentSortingMode get() = fileExplorer.getSortingMode()
-
+    val isReverseOrder: Boolean get() = fileExplorer.getReverseOrder()
 
     fun startWork() {
         processCurrentPath()

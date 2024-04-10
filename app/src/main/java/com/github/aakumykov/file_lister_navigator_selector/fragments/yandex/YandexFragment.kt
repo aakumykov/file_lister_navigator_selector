@@ -42,7 +42,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     private val itemsList = mutableListOf<FSItem>()
     private lateinit var listAdapter: ListAdapter
 
-    private var currentSortingMode: SimpleSortingMode = SimpleSortingMode.NAME_DIRECT
+    private var currentSortingMode: SimpleSortingMode = SimpleSortingMode.NAME
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -190,7 +190,6 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
         thread {
             try {
-                val sortingMode = sortingMode()
                 viewModel.fileExplorer.listCurrentPath()
             }
             catch (t: Throwable) {
@@ -198,16 +197,6 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
             } finally {
                 uiRun { hideProgressBar() }
             }
-        }
-    }
-
-    private fun sortingMode(): SimpleSortingMode {
-        val isDirect = binding.sortingDirection.isChecked
-        return when(binding.sortingMode.checkedChipId) {
-            R.id.sortBySize -> if (isDirect) SimpleSortingMode.SIZE_DIRECT else SimpleSortingMode.SIZE_REVERSE
-            R.id.sortByMTime -> if (isDirect) SimpleSortingMode.M_TIME_DIRECT else SimpleSortingMode.M_TIME_REVERSE
-            R.id.sortByCTime -> if (isDirect) SimpleSortingMode.C_TIME_DIRECT else SimpleSortingMode.C_TIME_REVERSE
-            else -> if (isDirect) SimpleSortingMode.NAME_DIRECT else SimpleSortingMode.NAME_REVERSE
         }
     }
 

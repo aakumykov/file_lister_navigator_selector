@@ -42,7 +42,7 @@ class LocalFragment : Fragment(R.layout.fragment_local), AdapterView.OnItemClick
 
     private var isFirstRun: Boolean = true
 
-    private var currentSortingMode: SimpleSortingMode = SimpleSortingMode.NAME_DIRECT
+    private var currentSortingMode: SimpleSortingMode = SimpleSortingMode.NAME
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

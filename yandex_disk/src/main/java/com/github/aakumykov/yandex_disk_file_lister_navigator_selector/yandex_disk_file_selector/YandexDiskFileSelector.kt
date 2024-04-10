@@ -27,8 +27,10 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
     }
 
     override fun defaultSortingMode(): SimpleSortingMode {
-        return SimpleSortingMode.NAME_DIRECT
+        return SimpleSortingMode.NAME
     }
+
+    override fun defaultReverseMode(): Boolean = false
 
     private var _fileExplorer: FileExplorer<SimpleSortingMode>? = null
 

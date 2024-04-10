@@ -135,6 +135,10 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     @Deprecated("Оцени обоснованность этого метода")
     protected abstract fun defaultSortingMode(): SortingModeType
 
+    @Deprecated("Оцени обоснованность этого метода")
+    protected abstract fun defaultReverseMode(): Boolean
+
+
     private fun onSortButtonClicked() {
         showSortingDialog()
     }
@@ -155,7 +159,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
             .setTitle(R.string.SORTING_MODE_DIALOG_title)
             .setView(sortingFlagsView)
             .setSingleChoiceItems(
-                sortingModeTranslator().sortingModeNames(),
+                sortingModeTranslator().sortingModeNames(viewModel.currentSortingMode, viewModel.isReverseOrder),
                 sortingModeTranslator().sortingModeToPosition(viewModel.currentSortingMode)
             ) { dialog, position ->
                 viewModel.changeSortingMode(sortingModeTranslator().positionToSortingMode(position))

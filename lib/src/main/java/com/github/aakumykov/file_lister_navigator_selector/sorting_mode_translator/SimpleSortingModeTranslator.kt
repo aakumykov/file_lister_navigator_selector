@@ -1,44 +1,45 @@
 package com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator
 
 import android.content.res.Resources
+import androidx.annotation.StringRes
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 
-class SimpleSortingModeTranslator(private val resources: Resources) :
+class SimpleSortingModeTranslator(
+    private val resources: Resources,
+    private val directOrderIcon: String = "⬇\uFE0F",
+    private val reverseOrderIcon: String = "⬆\uFE0F"
+) :
     SortingModeTranslator<SimpleSortingMode> {
 
-    override fun sortingModeNames(): Array<String> {
-        return SimpleSortingMode.entries.map {
-            when(it) {
-                SimpleSortingMode.NAME_DIRECT -> resources.getString(R.string.sorting_mode_name_direct)
-                SimpleSortingMode.NAME_REVERSE -> resources.getString(R.string.sorting_mode_name_reverse)
+    override fun sortingModeNames(currentMode: SimpleSortingMode, isReverseOrder: Boolean): Array<String> {
+        return SimpleSortingMode.entries.map { sortingMode ->
 
-                SimpleSortingMode.SIZE_DIRECT -> resources.getString(R.string.sorting_mode_size_direct)
-                SimpleSortingMode.SIZE_REVERSE -> resources.getString(R.string.sorting_mode_size_reverse)
+            var name = resources.getString(
+                /*if (currentMode == sortingMode) {
+                    if (isReverseOrder) sortingMode.reverseName
+                    else sortingMode.directName
+                } else
+                    sortingMode.directName*/
+                sortingMode.sortingName
+            )
 
-                SimpleSortingMode.C_TIME_DIRECT -> resources.getString(R.string.sorting_mode_c_time_direct)
-                SimpleSortingMode.C_TIME_REVERSE -> resources.getString(R.string.sorting_mode_c_time_reverse)
+            name += if (currentMode == sortingMode) {
+                if (isReverseOrder) reverseOrderIcon
+                else directOrderIcon
+            } else directOrderIcon
 
-                SimpleSortingMode.M_TIME_DIRECT -> resources.getString(R.string.sorting_mode_m_time_direct)
-                SimpleSortingMode.M_TIME_REVERSE -> resources.getString(R.string.sorting_mode_m_time_reverse)
-            }
+            return@map name
+
         }.toTypedArray()
     }
 
-    override fun sortingNameToSortingMode(name: String): SimpleSortingMode? {
-        return when(name) {
-            resources.getString(R.string.sorting_mode_name_direct) -> SimpleSortingMode.NAME_DIRECT
-            resources.getString (R.string.sorting_mode_name_reverse) -> SimpleSortingMode.NAME_REVERSE
-
-            resources.getString (R.string.sorting_mode_size_direct) -> SimpleSortingMode.SIZE_DIRECT
-            resources.getString (R.string.sorting_mode_size_reverse) -> SimpleSortingMode.SIZE_REVERSE
-
-            resources.getString (R.string.sorting_mode_c_time_direct) -> SimpleSortingMode.C_TIME_DIRECT
-            resources.getString (R.string.sorting_mode_c_time_reverse) -> SimpleSortingMode.C_TIME_REVERSE
-
-            resources.getString (R.string.sorting_mode_m_time_direct) -> SimpleSortingMode.M_TIME_DIRECT
-            resources.getString (R.string.sorting_mode_m_time_reverse) -> SimpleSortingMode.M_TIME_REVERSE
-
+    override fun sortingNameToSortingMode(sortingModeName: String): SimpleSortingMode? {
+        return when(sortingModeName) {
+            s(R.string.sorting_mode_name) -> SimpleSortingMode.NAME
+            s(R.string.sorting_mode_size) -> SimpleSortingMode.SIZE
+            s(R.string.sorting_mode_c_time) -> SimpleSortingMode.C_TIME
+            s(R.string.sorting_mode_m_time) -> SimpleSortingMode.M_TIME
             else -> null
         }
     }
@@ -49,5 +50,9 @@ class SimpleSortingModeTranslator(private val resources: Resources) :
 
     override fun positionToSortingMode(position: Int): SimpleSortingMode {
         return SimpleSortingMode.entries[position]
+    }
+
+    private fun s(@StringRes strRes: Int): String {
+        return resources.getString(strRes)
     }
 }

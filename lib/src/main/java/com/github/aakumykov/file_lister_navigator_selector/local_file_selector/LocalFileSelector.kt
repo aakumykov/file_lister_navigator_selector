@@ -19,7 +19,9 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
     }
 
 
-    override fun defaultSortingMode(): SimpleSortingMode = SimpleSortingMode.NAME_DIRECT
+    override fun defaultSortingMode(): SimpleSortingMode = SimpleSortingMode.NAME
+
+    override fun defaultReverseMode(): Boolean = false
 
 
     override fun fileExplorer(): FileExplorer<SimpleSortingMode> {

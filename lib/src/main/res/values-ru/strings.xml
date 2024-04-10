@@ -14,16 +14,16 @@
 
     <string name="dir_is_empty">Пустой каталог</string>
 
-    <string name="sorting_mode_name_direct">Имени ⬇️</string>
-    <string name="sorting_mode_name_reverse">Имени ⬆️</string>
-    <string name="sorting_mode_c_time_direct">Дате создания ⬇️</string>
-    <string name="sorting_mode_c_time_reverse">Дате создания ⬆️</string>
-    <string name="sorting_mode_m_time_direct">Дате изменения ⬇️</string>
-    <string name="sorting_mode_m_time_reverse">Дате изменения ⬆️</string>
-    <string name="sorting_mode_size_direct">Размеру ⬇️</string>
-    <string name="sorting_mode_size_reverse">Размеру ⬆️</string>
+    <string name="sorting_mode_name">Имени</string>
+    <string name="sorting_mode_c_time">Дате создания</string>
+    <string name="sorting_mode_m_time">Дате изменения</string>
+    <string name="sorting_mode_size">Размеру</string>
 
     <string name="SORTING_MODE_DIALOG_title">Сортировать по</string>
+
+    <string name="sorting_flags_direct_order">Прямой порядок</string>
+    <string name="sorting_flags_reverse_order">Обратный порядок</string>
+    <string name="sorting_flags_folders_first">Сначала каталоги</string>
 </resources>
 
 <!-- «» -->

@@ -10,17 +10,14 @@ abstract class FSItemSortingComparator(reverseOrder: Boolean, foldersFirst: Bool
     override fun isPriorityItem(item: FSItem): Boolean = item.isDir
 
     companion object {
-        fun create(sortingMode: SimpleSortingMode): FSItemSortingComparator {
+        fun create(sortingMode: SimpleSortingMode,
+                   isReverseOrder: Boolean = false,
+                   foldersFirst: Boolean = true
+        ): FSItemSortingComparator {
             return when(sortingMode) {
-                SimpleSortingMode.NAME_DIRECT -> NameSortingComparator(true, foldersFirst = true)
-                SimpleSortingMode.NAME_REVERSE -> NameSortingComparator(false, foldersFirst = true)
-
-                SimpleSortingMode.SIZE_DIRECT -> SizeSortingComparator(true, foldersFirst = true)
-                SimpleSortingMode.SIZE_REVERSE -> SizeSortingComparator(false, foldersFirst = true)
-
-                SimpleSortingMode.M_TIME_DIRECT -> TimeSortingComparator(true, foldersFirst = true)
-                SimpleSortingMode.M_TIME_REVERSE -> TimeSortingComparator(true, foldersFirst = true)
-
+                SimpleSortingMode.NAME -> NameSortingComparator(isReverseOrder, foldersFirst)
+                SimpleSortingMode.SIZE -> SizeSortingComparator(isReverseOrder, foldersFirst)
+                SimpleSortingMode.M_TIME -> TimeSortingComparator(isReverseOrder, foldersFirst)
                 else -> DummySortingComparator()
             }
         }

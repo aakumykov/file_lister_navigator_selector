@@ -33,11 +33,9 @@ class LocalFileLister @AssistedInject constructor(
             }
         }
 
-//        return categorizeFSItems(fileList.toList())
-//            .sortedWith(sortingComparator(sortingMode))
-
         return fileList.toList()
-//            .let { categorizeFSItems(it) }
-            .sortedWith(FSItemSortingComparator.create(sortingMode))
+            .sortedWith(
+                FSItemSortingComparator.create(sortingMode)
+            )
     }
 }
