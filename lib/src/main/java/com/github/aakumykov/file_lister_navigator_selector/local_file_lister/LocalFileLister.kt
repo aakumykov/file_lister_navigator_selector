@@ -17,7 +17,8 @@ class LocalFileLister @AssistedInject constructor(
 {
     override fun listDir(
         path: String,
-        sortingMode: SimpleSortingMode
+        sortingMode: SimpleSortingMode,
+        reverseOrder: Boolean
     )
         : List<FSItem>
     {
@@ -35,7 +36,7 @@ class LocalFileLister @AssistedInject constructor(
 
         return fileList.toList()
             .sortedWith(
-                FSItemSortingComparator.create(sortingMode)
+                FSItemSortingComparator.create(sortingMode, reverseOrder)
             )
     }
 }

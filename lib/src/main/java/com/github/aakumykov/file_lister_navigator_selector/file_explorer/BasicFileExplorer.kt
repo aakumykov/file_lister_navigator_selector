@@ -43,7 +43,7 @@ abstract class BasicFileExplorer<SortingModeType> (
 
     override fun listCurrentPath(): List<FSItem> {
 
-        val rawDirList = fileLister.listDir(currentPath, currentSortingMode)
+        val rawDirList = fileLister.listDir(currentPath, currentSortingMode,)
 
         currentList.clear()
         currentList.add(ParentDirItem())

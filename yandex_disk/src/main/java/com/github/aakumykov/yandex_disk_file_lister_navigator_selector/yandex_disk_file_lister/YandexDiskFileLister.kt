@@ -17,7 +17,8 @@ class YandexDiskFileLister @AssistedInject constructor(
 
     override fun listDir(
         path: String,
-        sortingMode: SimpleSortingMode
+        sortingMode: SimpleSortingMode,
+        reverseOrder: Boolean
     ): List<FSItem> {
         return yandexDiskClient.listDir(path, sortingMode)
     }
