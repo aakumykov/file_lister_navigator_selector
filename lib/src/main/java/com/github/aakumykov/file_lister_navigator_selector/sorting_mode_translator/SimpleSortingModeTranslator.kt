@@ -1,43 +1,44 @@
 package com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator
 
 import android.content.res.Resources
-import androidx.annotation.StringRes
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 
-class SimpleSortingModeTranslator(
-    private val resources: Resources,
-    private val directOrderArrow: String = "⬇\uFE0F",
-    private val reverseOrderArrow: String = "⬆\uFE0F",
-) :
+class SimpleSortingModeTranslator(private val resources: Resources) :
     SortingModeTranslator<SimpleSortingMode> {
 
-    override fun sortingModeNames(reverseOrder: Boolean,
-                                  selectedItem: SimpleSortingMode): Array<String>
-    {
+    override fun sortingModeNames(): Array<String> {
         return SimpleSortingMode.entries.map {
             when(it) {
-                SimpleSortingMode.NAME -> qwerty(SimpleSortingMode.NAME, R.string.sorting_mode_name, reverseOrder, selectedItem)
-                SimpleSortingMode.SIZE -> qwerty(SimpleSortingMode.SIZE, R.string.sorting_mode_size, reverseOrder, selectedItem)
-                SimpleSortingMode.C_TIME -> qwerty(SimpleSortingMode.C_TIME, R.string.sorting_mode_c_time, reverseOrder, selectedItem)
-                SimpleSortingMode.M_TIME -> qwerty(SimpleSortingMode.M_TIME, R.string.sorting_mode_m_time, reverseOrder, selectedItem)
+                SimpleSortingMode.NAME_DIRECT -> resources.getString(R.string.sorting_mode_name_direct)
+                SimpleSortingMode.NAME_REVERSE -> resources.getString(R.string.sorting_mode_name_reverse)
+
+                SimpleSortingMode.SIZE_DIRECT -> resources.getString(R.string.sorting_mode_size_direct)
+                SimpleSortingMode.SIZE_REVERSE -> resources.getString(R.string.sorting_mode_size_reverse)
+
+                SimpleSortingMode.C_TIME_DIRECT -> resources.getString(R.string.sorting_mode_c_time_direct)
+                SimpleSortingMode.C_TIME_REVERSE -> resources.getString(R.string.sorting_mode_c_time_reverse)
+
+                SimpleSortingMode.M_TIME_DIRECT -> resources.getString(R.string.sorting_mode_m_time_direct)
+                SimpleSortingMode.M_TIME_REVERSE -> resources.getString(R.string.sorting_mode_m_time_reverse)
             }
         }.toTypedArray()
     }
 
-    private fun qwerty(sortingMode: SimpleSortingMode, @StringRes sortingModeName: Int,
-                       reverseOrder: Boolean, selectedItem: SimpleSortingMode): String
-    {
-        val name = resources.getString(sortingModeName)
-        if (sortingMode)
-    }
-
     override fun sortingNameToSortingMode(name: String): SimpleSortingMode? {
         return when(name) {
-            resources.getString(R.string.sorting_mode_name) -> SimpleSortingMode.NAME
-            resources.getString (R.string.sorting_mode_size) -> SimpleSortingMode.SIZE
-            resources.getString (R.string.sorting_mode_c_time) -> SimpleSortingMode.C_TIME
-            resources.getString (R.string.sorting_mode_m_time) -> SimpleSortingMode.M_TIME
+            resources.getString(R.string.sorting_mode_name_direct) -> SimpleSortingMode.NAME_DIRECT
+            resources.getString (R.string.sorting_mode_name_reverse) -> SimpleSortingMode.NAME_REVERSE
+
+            resources.getString (R.string.sorting_mode_size_direct) -> SimpleSortingMode.SIZE_DIRECT
+            resources.getString (R.string.sorting_mode_size_reverse) -> SimpleSortingMode.SIZE_REVERSE
+
+            resources.getString (R.string.sorting_mode_c_time_direct) -> SimpleSortingMode.C_TIME_DIRECT
+            resources.getString (R.string.sorting_mode_c_time_reverse) -> SimpleSortingMode.C_TIME_REVERSE
+
+            resources.getString (R.string.sorting_mode_m_time_direct) -> SimpleSortingMode.M_TIME_DIRECT
+            resources.getString (R.string.sorting_mode_m_time_reverse) -> SimpleSortingMode.M_TIME_REVERSE
+
             else -> null
         }
     }

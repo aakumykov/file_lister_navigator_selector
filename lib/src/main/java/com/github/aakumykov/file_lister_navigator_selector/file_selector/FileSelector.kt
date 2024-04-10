@@ -155,7 +155,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
             .setTitle(R.string.SORTING_MODE_DIALOG_title)
             .setView(sortingFlagsView)
             .setSingleChoiceItems(
-                sortingModeTranslator().sortingModeNames(,),
+                sortingModeTranslator().sortingModeNames(),
                 sortingModeTranslator().sortingModeToPosition(viewModel.currentSortingMode)
             ) { dialog, position ->
                 viewModel.changeSortingMode(sortingModeTranslator().positionToSortingMode(position))

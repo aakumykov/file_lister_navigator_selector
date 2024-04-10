@@ -2,7 +2,7 @@ package com.github.aakumykov.file_lister_navigator_selector.sorting_mode_transla
 
 interface SortingModeTranslator<SortingModeType> {
 
-    fun sortingModeNames(reverseOrder: Boolean, selectedITem: SortingModeType): Array<String>
+    fun sortingModeNames(): Array<String>
     fun sortingNameToSortingMode(name: String): SortingModeType?
 
     fun sortingModeToPosition(mode: SortingModeType): Int
