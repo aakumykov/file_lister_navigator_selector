@@ -125,7 +125,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
         )
 
         thread {
-            val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath, currentSortingMode)
+            val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath, currentSortingMode, false)
             binding.root.post {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Рекурсивный список содержимого")

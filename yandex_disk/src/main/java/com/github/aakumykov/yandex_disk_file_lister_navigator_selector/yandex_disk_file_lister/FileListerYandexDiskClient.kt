@@ -11,13 +11,12 @@ import com.yandex.disk.rest.json.Resource
 class FileListerYandexDiskClient(authToken: String)
     : YandexDiskClient<FSItem, SimpleSortingMode>(authToken)
 {
-    override fun appToDiskSortingMode(appSortingMode: SimpleSortingMode): YandexDiskSortingMode {
-        val isReverseOrder = false
+    override fun appToDiskSortingMode(appSortingMode: SimpleSortingMode, reverseOrder: Boolean): YandexDiskSortingMode {
         return when(appSortingMode) {
-            SimpleSortingMode.NAME -> if (isReverseOrder) YandexDiskSortingMode.NAME_DIRECT else YandexDiskSortingMode.NAME_REVERSE
-            SimpleSortingMode.C_TIME -> if (isReverseOrder) YandexDiskSortingMode.C_TIME_FROM_OLD_TO_NEW else YandexDiskSortingMode.C_TIME_FROM_NEW_TO_OLD
-            SimpleSortingMode.M_TIME -> if (isReverseOrder) YandexDiskSortingMode.M_TIME_FROM_OLD_TO_NEW else YandexDiskSortingMode.M_TIME_FROM_NEW_TO_OLD
-            SimpleSortingMode.SIZE -> if (isReverseOrder) YandexDiskSortingMode.SIZE_FROM_SMALL_TO_BIG else YandexDiskSortingMode.SIZE_FROM_BIG_TO_SMALL
+            SimpleSortingMode.NAME -> if (reverseOrder) YandexDiskSortingMode.NAME_DIRECT else YandexDiskSortingMode.NAME_REVERSE
+            SimpleSortingMode.C_TIME -> if (reverseOrder) YandexDiskSortingMode.C_TIME_FROM_OLD_TO_NEW else YandexDiskSortingMode.C_TIME_FROM_NEW_TO_OLD
+            SimpleSortingMode.M_TIME -> if (reverseOrder) YandexDiskSortingMode.M_TIME_FROM_OLD_TO_NEW else YandexDiskSortingMode.M_TIME_FROM_NEW_TO_OLD
+            SimpleSortingMode.SIZE -> if (reverseOrder) YandexDiskSortingMode.SIZE_FROM_SMALL_TO_BIG else YandexDiskSortingMode.SIZE_FROM_BIG_TO_SMALL
         }
     }
 
