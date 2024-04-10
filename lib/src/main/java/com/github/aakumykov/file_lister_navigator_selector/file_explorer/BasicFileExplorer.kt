@@ -37,7 +37,7 @@ abstract class BasicFileExplorer<SortingModeType> (
     override fun getSortingMode(): SortingModeType = currentSortingMode
 
     override fun changeSortingMode(newSortingMode: SortingModeType) {
-        reverseOrder = (currentSortingMode == newSortingMode)
+        reverseOrder = if (currentSortingMode == newSortingMode) !reverseOrder else false
         currentSortingMode = newSortingMode
     }
 
