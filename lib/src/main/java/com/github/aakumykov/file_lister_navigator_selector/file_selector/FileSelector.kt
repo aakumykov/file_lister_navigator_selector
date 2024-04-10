@@ -154,7 +154,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         val sortingFlagsView = layoutInflater.inflate(R.layout.sorting_flags_dialog_view, null)
             .apply {
                 findViewById<CheckBox>(R.id.foldersFirstCheckbox).setOnCheckedChangeListener { dialog, isChecked ->
-                    viewModel.changeFoldersFist(isChecked)
+                    onFoldersFirstChanged(isChecked)
                     sortingDialog?.dismiss()
                 }
             }
@@ -166,7 +166,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
                 sortingModeTranslator().sortingModeNames(viewModel.currentSortingMode, viewModel.isReverseOrder),
                 sortingModeTranslator().sortingModeToPosition(viewModel.currentSortingMode)
             ) { dialog, position ->
-                viewModel.changeSortingMode(sortingModeTranslator().positionToSortingMode(position))
+                onSortingModeChanged(sortingModeTranslator().positionToSortingMode(position))
                 dialog.dismiss()
             }
             .create()
@@ -174,6 +174,13 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         sortingDialog?.show()
     }
 
+    private fun onFoldersFirstChanged(isFoldersFirst: Boolean) {
+        viewModel.changeFoldersFist(isFoldersFirst)
+    }
+
+    private fun onSortingModeChanged(sortingMode: SortingModeType) {
+        viewModel.changeSortingMode(sortingMode)
+    }
 
     private fun onConfirmSelectionClicked() {
         setFragmentResult(ITEMS_SELECTION, selectedItemsToBundle())
