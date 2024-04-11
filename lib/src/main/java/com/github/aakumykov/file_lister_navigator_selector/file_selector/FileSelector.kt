@@ -14,6 +14,9 @@ import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.extensions.hideIf
+import com.github.aakumykov.file_lister_navigator_selector.extensions.show
+import com.github.aakumykov.file_lister_navigator_selector.extensions.showIf
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
@@ -59,13 +62,13 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
         prepareListAdapter()
         prepareButtons()
-        prepareViewModel()
+        subscribeToViewModel()
 
         if (null == savedInstanceState)
             viewModel.startWork()
     }
 
-    private fun prepareViewModel() {
+    private fun subscribeToViewModel() {
         viewModel.path.observe(viewLifecycleOwner, ::onPathChanged)
         viewModel.list.observe(viewLifecycleOwner, ::onListChanged)
         viewModel.selectedList.observe(viewLifecycleOwner, ::onSelectedListChanged)
@@ -122,12 +125,18 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     }
 
     private fun onNewError(throwable: Throwable?) {
-        binding.errorView.text = ExceptionUtils.getErrorMessage(throwable)
+        throwable?.also {
+            binding.errorView.apply {
+                text = getString(R.string.error, ExceptionUtils.getErrorMessage(throwable))
+                this.show()
+            }
+        }
     }
 
-    private fun onIsBusyChanged(b: Boolean?) {
-        b?.also {
-            binding.progressBar.visibility = if (b) View.VISIBLE else View.GONE
+    private fun onIsBusyChanged(isBusy: Boolean?) {
+        isBusy?.also {
+            binding.progressBar.showIf { isBusy }
+            binding.errorView.hideIf { isBusy }
         }
     }
 

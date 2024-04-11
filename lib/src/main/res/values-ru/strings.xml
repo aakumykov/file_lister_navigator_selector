@@ -25,6 +25,7 @@
     <string name="sorting_flags_direct_order">Прямой порядок</string>
     <string name="sorting_flags_reverse_order">Обратный порядок</string>
     <string name="sorting_flags_folders_first">Сначала каталоги</string>
+    <string name="error">Ошибка: %1$s</string>
 </resources>
 
 <!-- «» -->

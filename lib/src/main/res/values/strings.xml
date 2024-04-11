@@ -25,6 +25,7 @@
     <string name="sorting_flags_direct_order">Direct order</string>
     <string name="sorting_flags_reverse_order">Reverse order</string>
     <string name="sorting_flags_folders_first">Folders first</string>
+    <string name="error">Error: %1$s</string>
 </resources>
 
 <!-- «» -->
