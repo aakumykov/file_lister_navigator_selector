@@ -9,7 +9,9 @@ import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExp
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FileSelectorViewModel<SortingModeType> (
     private val fileExplorer: FileExplorer<SortingModeType>,
@@ -78,15 +80,29 @@ class FileSelectorViewModel<SortingModeType> (
         _currentPath.value = fileExplorer.getCurrentPath()
         _selectedList.value = emptyList()
 
-        viewModelScope.launch {
-            _isBusy.value = true
-            try {
-                _currentList.value = fileExplorer.listCurrentPath()
-            } catch (e: Exception) {
-                _currentError.value = e
-            } finally {
-                _isBusy.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+
+            mainThread {
+                _isBusy.value = true
             }
+
+            try {
+                fileExplorer.listCurrentPath().also {
+                    mainThread {
+                        _currentList.value = it
+                    }
+                }
+            } catch (e: Exception) {
+                mainThread { _currentError.value = e }
+            } finally {
+                mainThread { _isBusy.value = false }
+            }
+        }
+    }
+
+    private suspend fun <T> mainThread(action: () -> T) {
+        withContext(Dispatchers.Main) {
+            return@withContext action.invoke()
         }
     }
 
