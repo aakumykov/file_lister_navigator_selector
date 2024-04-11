@@ -1,6 +1,8 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_selector
 
+import android.os.Bundle
 import android.os.Environment
+import android.view.View
 import androidx.core.os.bundleOf
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
@@ -12,8 +14,17 @@ import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator.Loc
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator_dialog.LocalDirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
+import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 
 class LocalFileSelector : FileSelector<SimpleSortingMode>() {
+
+    private lateinit var storageAccessHelper: StorageAccessHelper
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        storageAccessHelper = StorageAccessHelper.create(this)
+    }
+
 
     override fun defaultSortingMode(): SimpleSortingMode = SimpleSortingMode.NAME
 
@@ -32,7 +43,7 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
 
     override fun defaultInitialPath(): String = Environment.getExternalStorageDirectory().absolutePath
 
-    override fun  dirCreatorDialog(basePath: String): DirCreatorDialog {
+    override fun dirCreatorDialog(basePath: String): DirCreatorDialog {
         return LocalDirCreatorDialog.create(basePath)
     }
 

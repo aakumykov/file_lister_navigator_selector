@@ -43,8 +43,6 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
     private val gson by lazy { Gson() }
 
-    private lateinit var storageAccessHelper: StorageAccessHelper
-
     protected abstract fun defaultInitialPath(): String
     protected abstract fun fileExplorer(): FileExplorer<SortingModeType>
     protected abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
@@ -54,8 +52,6 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         super.onViewCreated(view, savedInstanceState)
 
         _binding = DialogFileSelectorBinding.bind(view)
-
-        storageAccessHelper = StorageAccessHelper.create(this)
 
         childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
 
@@ -146,11 +142,10 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     }
 
 
+    //FIXME:"Вызывать StorageAccessHelper нужно только для локального хранилища.")
     private fun onCreateDirClicked() {
-        storageAccessHelper.requestWriteAccess {
-            dirCreatorDialog(fileExplorer().getCurrentPath())
-                .show(childFragmentManager, DirCreatorDialog.TAG)
-        }
+        dirCreatorDialog(fileExplorer().getCurrentPath())
+            .show(childFragmentManager, DirCreatorDialog.TAG)
     }
 
     @Deprecated("Оцени обоснованность этого метода")
