@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector.fragments.selector
 
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.google.gson.Gson
+import java.io.File
 
 class SelectorFragment : Fragment(R.layout.fragment_selector) {
 
@@ -30,6 +32,8 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
 
         binding.selectButton.setOnClickListener { onSelectButtonClicked() }
 
+        prepareFragmentResultListener()
+
         if (null == savedInstanceState)
             onSelectButtonClicked()
     }
@@ -41,11 +45,12 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
     }
 
     private fun showFileSelector() {
-        prepareSelectionResultListener()
-        LocalFileSelector().show(childFragmentManager, LocalFileSelector.TAG)
+        LocalFileSelector.create(
+            initialPath = File(Environment.getExternalStorageDirectory(), "1").absolutePath
+        ).show(childFragmentManager, LocalFileSelector.TAG)
     }
 
-    private fun prepareSelectionResultListener() {
+    private fun prepareFragmentResultListener() {
         childFragmentManager.setFragmentResultListener(FileSelector.ITEMS_SELECTION, viewLifecycleOwner)
         { requestKey, result ->
             if (FileSelector.ITEMS_SELECTION == requestKey) {

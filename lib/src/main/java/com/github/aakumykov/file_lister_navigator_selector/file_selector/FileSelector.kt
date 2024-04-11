@@ -43,6 +43,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
     private lateinit var storageAccessHelper: StorageAccessHelper
 
+    protected abstract fun defaultInitialPath(): String
     protected abstract fun fileExplorer(): FileExplorer<SortingModeType>
     protected abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
     protected abstract fun sortingModeTranslator(): SortingModeTranslator<SortingModeType>
@@ -226,10 +227,15 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     }
 
 
+    protected fun initialPath(): String {
+        return arguments?.getString(INITIAL_PATH) ?: defaultInitialPath()
+    }
+
     companion object {
         val TAG: String = FileSelector::class.java.simpleName
         const val ITEMS_SELECTION = "ITEMS_SELECTION"
         const val SELECTED_ITEMS_LIST = "FS_ITEM"
         const val AUTH_TOKEN = "AUTH_TOKEN"
+        const val INITIAL_PATH: String = "INITIAL_PATH"
     }
 }

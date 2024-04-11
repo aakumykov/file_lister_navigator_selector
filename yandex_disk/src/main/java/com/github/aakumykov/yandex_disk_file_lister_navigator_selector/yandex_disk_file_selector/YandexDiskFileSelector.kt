@@ -34,6 +34,8 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
 
     private var _fileExplorer: FileExplorer<SimpleSortingMode>? = null
 
+    override fun defaultInitialPath(): String = "/"
+
     override fun fileExplorer(): FileExplorer<SimpleSortingMode> {
         if (null == _fileExplorer) {
 
@@ -64,7 +66,7 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
         val TAG: String = YandexDiskFileSelector::class.java.simpleName
 
         fun create(authToken: String,
-                   startPath: String? = null,
+                   initialPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
                    isDirMode: Boolean = false
         ) : YandexDiskFileSelector
@@ -72,7 +74,7 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
             return YandexDiskFileSelector().apply {
                 arguments = Bundle().apply {
                     putString(AUTH_TOKEN, authToken)
-//                    putString(START_PATH, startPath)
+                    putString(INITIAL_PATH, initialPath)
 //                    putBoolean(IS_DIR_MODE, isDirMode)
 //                    putBoolean(IS_MULTIPLE_SELECTION_MODE, isMultipleSelectionMode)
                 }
