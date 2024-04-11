@@ -31,7 +31,7 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
     override fun defaultReverseMode(): Boolean = false
 
 
-    override fun fileExplorer(): FileExplorer<SimpleSortingMode> {
+    override fun createFileExplorer(): FileExplorer<SimpleSortingMode> {
         return LocalFileExplorer(
             localFileLister = LocalFileLister(""),
             localDirCreator = LocalDirCreator(),
@@ -43,7 +43,7 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
 
     override fun defaultInitialPath(): String = Environment.getExternalStorageDirectory().absolutePath
 
-    override fun dirCreatorDialog(basePath: String): DirCreatorDialog {
+    override fun createDirCreatorDialog(basePath: String): DirCreatorDialog {
         return LocalDirCreatorDialog.create(basePath)
     }
 
@@ -56,7 +56,7 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
     }
 
 
-    override fun sortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {
+    override fun createSortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {
         return SimpleSortingModeTranslator(resources)
     }
 

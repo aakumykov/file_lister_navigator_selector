@@ -17,12 +17,12 @@ import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_di
 
 class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
 
-    override fun dirCreatorDialog(basePath: String): DirCreatorDialog {
+    override fun createDirCreatorDialog(basePath: String): DirCreatorDialog {
         // TODO: как быть с "!!" ?
         return YandexDiskDirCreatorDialog.create(basePath, authToken()!!)
     }
 
-    override fun sortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {
+    override fun createSortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {
         return SimpleSortingModeTranslator(resources)
     }
 
@@ -36,7 +36,7 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
 
     override fun defaultInitialPath(): String = "/"
 
-    override fun fileExplorer(): FileExplorer<SimpleSortingMode> {
+    override fun createFileExplorer(): FileExplorer<SimpleSortingMode> {
         if (null == _fileExplorer) {
 
             val authToken = authToken()

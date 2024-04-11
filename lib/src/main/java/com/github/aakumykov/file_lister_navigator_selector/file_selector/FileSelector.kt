@@ -36,19 +36,21 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     private lateinit var listAdapter: FileListAdapter
 
     private val viewModel: FileSelectorViewModel<SortingModeType> by viewModels {
-        FileSelectorViewModel.Factory(fileExplorer())
+        FileSelectorViewModel.Factory(createFileExplorer())
     }
 
     private val gson by lazy { Gson() }
 
     protected abstract fun defaultInitialPath(): String
-    protected abstract fun fileExplorer(): FileExplorer<SortingModeType>
+
+    protected abstract fun createFileExplorer(): FileExplorer<SortingModeType>
+    protected abstract fun createDirCreatorDialog(basePath: String): DirCreatorDialog
+    protected abstract fun createSortingModeTranslator(): SortingModeTranslator<SortingModeType>
+
     protected abstract fun requestWriteAccess(
         onWriteAccessGranted: () -> Unit,
         onWriteAccessRejected: (errorMsg: String?) -> Unit
     )
-    protected abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
-    protected abstract fun sortingModeTranslator(): SortingModeTranslator<SortingModeType>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -143,15 +145,11 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         }
     }
 
-
     private fun onCreateDirClicked() {
         requestWriteAccess(
             onWriteAccessGranted = {
-                dirCreatorDialog(
-//                    fileExplorer().getCurrentPath()
-                    // FIXME: не нравится мне эта конструкция. Работа с FileExplorer-ом должна быть явной.
-                    viewModel.fileExplorer.getCurrentPath()
-                ).show(childFragmentManager, DirCreatorDialog.TAG)
+                createDirCreatorDialog(viewModel.fileExplorer.getCurrentPath())
+                    .show(childFragmentManager, DirCreatorDialog.TAG)
             },
             onWriteAccessRejected = {
                 Toast.makeText(requireContext(), R.string.write_access_denied, Toast.LENGTH_SHORT).show()
@@ -187,10 +185,10 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
             .setTitle(R.string.SORTING_MODE_DIALOG_title)
             .setView(sortingFlagsView)
             .setSingleChoiceItems(
-                sortingModeTranslator().sortingModeNames(viewModel.currentSortingMode, viewModel.isReverseOrder),
-                sortingModeTranslator().sortingModeToPosition(viewModel.currentSortingMode)
+                createSortingModeTranslator().sortingModeNames(viewModel.currentSortingMode, viewModel.isReverseOrder),
+                createSortingModeTranslator().sortingModeToPosition(viewModel.currentSortingMode)
             ) { dialog, position ->
-                onSortingModeChanged(sortingModeTranslator().positionToSortingMode(position))
+                onSortingModeChanged(createSortingModeTranslator().positionToSortingMode(position))
                 dialog.dismiss()
             }
             .create()
