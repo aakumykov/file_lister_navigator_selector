@@ -57,6 +57,13 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
         return _fileExplorer!!
     }
 
+    override fun requestWriteAccess(
+        onWriteAccessGranted: () -> Unit,
+        onWriteAccessRejected: (errorMsg: String?) -> Unit
+    ) {
+        onWriteAccessGranted()
+    }
+
 
     private fun authToken(): String? = arguments?.getString(AUTH_TOKEN)
 

@@ -26,6 +26,7 @@
     <string name="sorting_flags_reverse_order">Reverse order</string>
     <string name="sorting_flags_folders_first">Folders first</string>
     <string name="error">Error: %1$s</string>
+    <string name="write_access_denied">Write access denied</string>
 </resources>
 
 <!-- «» -->

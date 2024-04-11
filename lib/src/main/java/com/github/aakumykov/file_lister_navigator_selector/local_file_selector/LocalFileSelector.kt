@@ -47,6 +47,15 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
         return LocalDirCreatorDialog.create(basePath)
     }
 
+    override fun requestWriteAccess(
+        onWriteAccessGranted: () -> Unit,
+        onWriteAccessRejected: (errorMsg: String?) -> Unit
+    ) {
+        // TODO: StorageAccessHelper: реакция на запрет
+        storageAccessHelper.requestWriteAccess { onWriteAccessGranted() }
+    }
+
+
     override fun sortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {
         return SimpleSortingModeTranslator(resources)
     }

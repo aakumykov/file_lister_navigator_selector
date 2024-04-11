@@ -16,12 +16,10 @@ import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFil
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.extensions.hide
 import com.github.aakumykov.file_lister_navigator_selector.extensions.show
-import com.github.aakumykov.file_lister_navigator_selector.extensions.showIf
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
-import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.google.gson.Gson
 
@@ -45,6 +43,10 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
     protected abstract fun defaultInitialPath(): String
     protected abstract fun fileExplorer(): FileExplorer<SortingModeType>
+    protected abstract fun requestWriteAccess(
+        onWriteAccessGranted: () -> Unit,
+        onWriteAccessRejected: (errorMsg: String?) -> Unit
+    )
     protected abstract fun dirCreatorDialog(basePath: String): DirCreatorDialog
     protected abstract fun sortingModeTranslator(): SortingModeTranslator<SortingModeType>
 
@@ -142,10 +144,15 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     }
 
 
-    //FIXME:"Вызывать StorageAccessHelper нужно только для локального хранилища.")
     private fun onCreateDirClicked() {
-        dirCreatorDialog(fileExplorer().getCurrentPath())
-            .show(childFragmentManager, DirCreatorDialog.TAG)
+        requestWriteAccess(
+            onWriteAccessGranted = {
+                dirCreatorDialog(fileExplorer().getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
+            },
+            onWriteAccessRejected = {
+                Toast.makeText(requireContext(), R.string.write_access_denied, Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
     @Deprecated("Оцени обоснованность этого метода")
