@@ -16,6 +16,7 @@ import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFil
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.extensions.hide
 import com.github.aakumykov.file_lister_navigator_selector.extensions.show
+import com.github.aakumykov.file_lister_navigator_selector.extensions.showIf
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
@@ -84,11 +85,6 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.sortButton.setOnClickListener { onSortButtonClicked() }
         binding.backButton.setOnClickListener { onBackButtonClicked() }
-        binding.swipeRefreshLayout.setOnRefreshListener { onRefreshRequested() }
-    }
-
-    private fun onRefreshRequested() {
-        viewModel.reopenCurrentDir()
     }
 
     private fun onBackButtonClicked() {
@@ -142,7 +138,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
     private fun onIsBusyChanged(isBusy: Boolean?) {
         isBusy?.also {
-            binding.swipeRefreshLayout.isRefreshing = isBusy
+            binding.progressBar.showIf { isBusy }
             if (isBusy)
                 binding.errorView.hide()
         }
