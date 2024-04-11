@@ -15,11 +15,9 @@ import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.extensions.hide
-import com.github.aakumykov.file_lister_navigator_selector.extensions.hideIf
 import com.github.aakumykov.file_lister_navigator_selector.extensions.show
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showIf
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
@@ -83,6 +81,11 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.sortButton.setOnClickListener { onSortButtonClicked() }
         binding.backButton.setOnClickListener { onBackButtonClicked() }
+        binding.swipeRefreshLayout.setOnRefreshListener { onRefreshRequested() }
+    }
+
+    private fun onRefreshRequested() {
+        viewModel.reopenCurrentDir()
     }
 
     private fun onBackButtonClicked() {
@@ -136,7 +139,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
     private fun onIsBusyChanged(isBusy: Boolean?) {
         isBusy?.also {
-            binding.progressBar.showIf { isBusy }
+            binding.swipeRefreshLayout.isRefreshing = isBusy
             if (isBusy)
                 binding.errorView.hide()
         }
@@ -227,17 +230,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         resultBundle.getString(DirCreatorDialog.DIR_NAME)?.also {
             Toast.makeText(requireContext(), getString(R.string.dir_was_created, it), Toast.LENGTH_SHORT).show()
         }
-        reopenCurrentDir()
-    }
-
-
-    private fun reopenCurrentDir() {
-//        openDir(fileExplorer().getCurrentDir())
         viewModel.reopenCurrentDir()
-    }
-
-    private fun reopenCurrentDir(sortingMode: SimpleSortingMode) {
-//        openDir(fileExplorer().getCurrentDir(), sortingMode)
     }
 
 
