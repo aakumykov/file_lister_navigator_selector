@@ -35,11 +35,11 @@ class FileSelectorViewModel<SortingModeType> (
     val isFoldersFirst: Boolean get() = fileExplorer.getFoldersFirst()
 
     fun startWork() {
-        reReadCurrentPath()
+        listCurrentPath()
     }
 
     fun reopenCurrentDir() {
-        reReadCurrentPath()
+        listCurrentPath()
     }
 
     fun onItemClick(position: Int) {
@@ -47,7 +47,7 @@ class FileSelectorViewModel<SortingModeType> (
             fsItem?.also {
                 if (fsItem.isDir) {
                     fileExplorer.changeDir(fsItem as DirItem)
-                    reReadCurrentPath()
+                    listCurrentPath()
                 }
             }
         }
@@ -66,14 +66,14 @@ class FileSelectorViewModel<SortingModeType> (
 
     fun onBackClicked() {
         fileExplorer.changeDir(ParentDirItem())
-        reReadCurrentPath()
+        listCurrentPath()
     }
 
     private fun getItemAtPosition(position: Int): FSItem? {
         return _currentList.value?.get(position)
     }
 
-    private fun reReadCurrentPath() {
+    private fun listCurrentPath() {
 
         _currentPath.value = fileExplorer.getCurrentPath()
         _selectedList.value = emptyList()
@@ -92,17 +92,17 @@ class FileSelectorViewModel<SortingModeType> (
 
     fun changeSortingMode(sortingMode: SortingModeType) {
         fileExplorer.changeSortingMode(sortingMode)
-        reReadCurrentPath()
+        listCurrentPath()
     }
 
     fun changeReverseOrder(isReverseOrder: Boolean) {
         fileExplorer.setReverseOrder(isReverseOrder)
-        reReadCurrentPath()
+        listCurrentPath()
     }
 
     fun changeFoldersFist(foldersFirst: Boolean) {
         fileExplorer.setFoldersFirst(foldersFirst)
-        reReadCurrentPath()
+        listCurrentPath()
     }
 
     class Factory<SortingModeType>(
