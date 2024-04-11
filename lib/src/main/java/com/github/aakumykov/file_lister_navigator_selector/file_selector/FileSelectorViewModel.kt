@@ -80,29 +80,21 @@ class FileSelectorViewModel<SortingModeType> (
         _currentPath.value = fileExplorer.getCurrentPath()
         _selectedList.value = emptyList()
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
 
-            mainThread {
-                _isBusy.value = true
-            }
+            _isBusy.value = true
 
             try {
-                fileExplorer.listCurrentPath().also {
-                    mainThread {
-                        _currentList.value = it
-                    }
+                withContext(Dispatchers.IO) {
+                    fileExplorer.listCurrentPath()
+                }.also {
+                    _currentList.value = it
                 }
             } catch (e: Exception) {
-                mainThread { _currentError.value = e }
+                _currentError.value = e
             } finally {
-                mainThread { _isBusy.value = false }
+                _isBusy.value = false
             }
-        }
-    }
-
-    private suspend fun <T> mainThread(action: () -> T) {
-        withContext(Dispatchers.Main) {
-            return@withContext action.invoke()
         }
     }
 
