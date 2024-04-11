@@ -31,6 +31,8 @@ interface FileExplorer<SortingModeType> {
     fun setReverseOrder(b: Boolean)
     fun getReverseOrder(): Boolean
 
+    fun setFoldersFirst(b: Boolean)
+
     fun setPathCache(pathCache: PathCache)
 
     fun setListCache(listCache: ListCache)

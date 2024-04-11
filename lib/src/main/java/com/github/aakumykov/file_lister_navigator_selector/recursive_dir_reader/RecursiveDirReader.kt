@@ -11,8 +11,11 @@ class RecursiveDirReader(private val fileLister: FileLister<SimpleSortingMode>) 
     private val list: MutableList<FileListItem> = mutableListOf()
 
     @Throws(FileLister.NotADirException::class)
-    fun getRecursiveList(path: String, sortingMode: SimpleSortingMode, reverseOrder: Boolean): List<FileListItem> {
-
+    fun getRecursiveList(path: String,
+                         sortingMode: SimpleSortingMode,
+                         reverseOrder: Boolean,
+                         foldersFirst: Boolean
+    ): List<FileListItem> {
         list.add(
             FileListItem(
                 uri = Uri.parse(path),
@@ -27,7 +30,12 @@ class RecursiveDirReader(private val fileLister: FileLister<SimpleSortingMode>) 
 
             getUnlistedDir()?.let { currentlyListedDir: FileListItem ->
 
-                fileLister.listDir(currentlyListedDir.absolutePath, sortingMode, reverseOrder).forEach { fsItem ->
+                fileLister.listDir(
+                    currentlyListedDir.absolutePath,
+                    sortingMode,
+                    reverseOrder,
+                    foldersFirst
+                ).forEach { fsItem ->
 
                     val childItem = FileListItem(
                         name = fsItem.name,

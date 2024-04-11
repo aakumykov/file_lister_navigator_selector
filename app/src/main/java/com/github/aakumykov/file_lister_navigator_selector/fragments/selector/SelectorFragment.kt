@@ -41,21 +41,23 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
     }
 
     private fun showFileSelector() {
+        prepareSelectionResultListener()
+        LocalFileSelector().show(childFragmentManager, LocalFileSelector.TAG)
+    }
 
+    private fun prepareSelectionResultListener() {
         childFragmentManager.setFragmentResultListener(FileSelector.ITEMS_SELECTION, viewLifecycleOwner)
-            { requestKey, result ->
-                if (FileSelector.ITEMS_SELECTION == requestKey) {
-                    result.getStringArrayList(FileSelector.SELECTED_ITEMS_LIST)?.also { listOfJSON ->
-                        val fsItemList: List<FSItem> = listOfJSON.map {  jsonFSItem ->
-                            return@map gson.fromJson(jsonFSItem, SimpleFSItem::class.java)
-                        }
-                        Log.d(TAG, fsItemList.toString())
-                        showToast("Выбрано:\n${fsItemList.map { it.name }.joinToString("\n")}")
+        { requestKey, result ->
+            if (FileSelector.ITEMS_SELECTION == requestKey) {
+                result.getStringArrayList(FileSelector.SELECTED_ITEMS_LIST)?.also { listOfJSON ->
+                    val fsItemList: List<FSItem> = listOfJSON.map {  jsonFSItem ->
+                        return@map gson.fromJson(jsonFSItem, SimpleFSItem::class.java)
                     }
+                    Log.d(TAG, fsItemList.toString())
+                    showToast("Выбрано:\n${fsItemList.map { it.name }.joinToString("\n")}")
                 }
             }
-
-        LocalFileSelector().show(childFragmentManager, LocalFileSelector.TAG)
+        }
     }
 
     override fun onDestroyView() {

@@ -106,7 +106,13 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
 
         binding.listView.setOnItemClickListener { _, _, position, _ -> onListItemClicked(itemsList[position]) }
 
-        binding.listView.setOnItemLongClickListener { parent, view, position, id -> onListItemLongClicked(itemsList[position])}
+        binding.listView.setOnItemLongClickListener { parent, view, position, id ->
+            onListItemLongClicked(
+                fsItem = itemsList[position],
+                reverseOrder = false,
+                foldersFirst = false
+            )
+        }
     }
 
     private fun onListItemClicked(fsItem: FSItem) {
@@ -116,7 +122,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
         }
     }
 
-    private fun onListItemLongClicked(fsItem: FSItem): Boolean {
+    private fun onListItemLongClicked(fsItem: FSItem, reverseOrder: Boolean, foldersFirst: Boolean): Boolean {
 
         val recursiveDirReader = RecursiveDirReader(
             YandexDiskFileLister(
@@ -125,7 +131,12 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
         )
 
         thread {
-            val recursiveList = recursiveDirReader.getRecursiveList(fsItem.absolutePath, currentSortingMode, false)
+            val recursiveList = recursiveDirReader.getRecursiveList(
+                fsItem.absolutePath,
+                currentSortingMode,
+                reverseOrder,
+                foldersFirst)
+
             binding.root.post {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Рекурсивный список содержимого")

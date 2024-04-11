@@ -15,10 +15,14 @@ class YandexDiskFileLister @AssistedInject constructor(
         FileListerYandexDiskClient(authToken)
     }
 
+    /**
+     * Параметр foldersFirst не имеет эффекта.
+     */
     override fun listDir(
         path: String,
         sortingMode: SimpleSortingMode,
-        reverseOrder: Boolean
+        reverseOrder: Boolean,
+        foldersFirst: Boolean
     ): List<FSItem> {
         return yandexDiskClient.listDir(path, sortingMode,)
     }

@@ -14,6 +14,7 @@ abstract class BasicFileExplorer<SortingModeType> (
     private val isDirMode: Boolean,
     private val initialSortingMode: SortingModeType,
     private var reverseOrder: Boolean = false,
+    private var foldersFirst: Boolean = true, // TODO: вынести в более явное место?
     private var listCache: FileExplorer.ListCache?, // TODO: сделать val
     private var pathCache: FileExplorer.PathCache?, // TODO: сделать val
     private val dirSeparator: String = FSItem.DS
@@ -43,7 +44,7 @@ abstract class BasicFileExplorer<SortingModeType> (
 
     override fun listCurrentPath(): List<FSItem> {
 
-        val rawDirList = fileLister.listDir(currentPath, currentSortingMode, reverseOrder)
+        val rawDirList = fileLister.listDir(currentPath, currentSortingMode, reverseOrder, foldersFirst)
 
         currentList.clear()
         currentList.add(ParentDirItem())
@@ -83,6 +84,10 @@ abstract class BasicFileExplorer<SortingModeType> (
 
     override fun getReverseOrder(): Boolean {
         return reverseOrder
+    }
+
+    override fun setFoldersFirst(b: Boolean) {
+        foldersFirst = b
     }
 
     private fun goToParentDir() {

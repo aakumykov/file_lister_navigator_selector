@@ -20,7 +20,12 @@ interface FileLister<SortingModeType> {
      * к облаку.
      */
     @Throws(NotADirException::class)
-    fun listDir(path: String, sortingMode: SortingModeType, reverseOrder: Boolean): List<FSItem>
+    fun listDir(
+        path: String,
+        sortingMode: SortingModeType,
+        reverseOrder: Boolean,
+        foldersFirst: Boolean
+    ): List<FSItem>
 
 
     @Deprecated("Избавиться, так как используется только в RecursiveDirReader")
