@@ -25,7 +25,12 @@ open class DirItem(
         mTime = file.lastModified(),
     )
 
-    constructor(fsItem: FSItem) : this(fsItem.name, fsItem.absolutePath, fsItem.parentPath, fsItem.mTime)
+    constructor(fsItem: FSItem) : this(
+        fsItem.name,
+        fsItem.absolutePath,
+        fsItem.parentPath,
+        fsItem.mTime
+    )
 
     override fun toString(): String = TAG + " { ${nameAndPath()} }"
 
