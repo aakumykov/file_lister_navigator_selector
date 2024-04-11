@@ -62,7 +62,7 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
 
 
     companion object {
-        fun create(initialPath: String): LocalFileSelector {
+        fun create(initialPath: String? = null): LocalFileSelector {
             return LocalFileSelector().apply {
                 arguments = bundleOf(INITIAL_PATH to initialPath)
             }
