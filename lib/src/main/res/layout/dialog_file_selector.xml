@@ -84,6 +84,7 @@
         android:id="@+id/errorView"
         style="@style/error_view"
         android:layout_below="@id/progressBar"
+        android:visibility="gone"
         tools:visibility="visible"
         tools:text="Сообщение об ошибке"/>
 
