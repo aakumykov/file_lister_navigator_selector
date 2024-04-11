@@ -14,6 +14,7 @@ import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.databinding.DialogFileSelectorBinding
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
+import com.github.aakumykov.file_lister_navigator_selector.extensions.hide
 import com.github.aakumykov.file_lister_navigator_selector.extensions.hideIf
 import com.github.aakumykov.file_lister_navigator_selector.extensions.show
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showIf
@@ -136,7 +137,8 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     private fun onIsBusyChanged(isBusy: Boolean?) {
         isBusy?.also {
             binding.progressBar.showIf { isBusy }
-            binding.errorView.hideIf { isBusy }
+            if (isBusy)
+                binding.errorView.hide()
         }
     }
 
