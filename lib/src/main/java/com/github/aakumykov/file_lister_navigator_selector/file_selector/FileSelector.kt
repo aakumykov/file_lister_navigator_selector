@@ -85,6 +85,11 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.sortButton.setOnClickListener { onSortButtonClicked() }
         binding.backButton.setOnClickListener { onBackButtonClicked() }
+        binding.refreshButton.setOnClickListener { onRefreshRequested() }
+    }
+
+    private fun onRefreshRequested() {
+        viewModel.reopenCurrentDir()
     }
 
     private fun onBackButtonClicked() {

@@ -16,4 +16,12 @@
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
     </style>
+
+    <style name="dialog_header_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/design_default_color_primary</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
 </resources>
