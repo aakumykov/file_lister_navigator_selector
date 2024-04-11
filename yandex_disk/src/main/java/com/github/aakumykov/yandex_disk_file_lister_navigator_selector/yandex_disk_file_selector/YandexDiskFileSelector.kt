@@ -34,7 +34,7 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
 
     private var _fileExplorer: FileExplorer<SimpleSortingMode>? = null
 
-    override fun defaultInitialPath(): String = "/"
+    override fun getDefaultInitialPath(): String = "/"
 
     override fun createFileExplorer(): FileExplorer<SimpleSortingMode> {
         if (null == _fileExplorer) {

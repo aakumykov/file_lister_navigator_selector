@@ -41,7 +41,7 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
         )
     }
 
-    override fun defaultInitialPath(): String = Environment.getExternalStorageDirectory().absolutePath
+    override fun getDefaultInitialPath(): String = Environment.getExternalStorageDirectory().absolutePath
 
     override fun createDirCreatorDialog(basePath: String): DirCreatorDialog {
         return LocalDirCreatorDialog.create(basePath)

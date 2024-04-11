@@ -41,12 +41,15 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
     private val gson by lazy { Gson() }
 
-    protected abstract fun defaultInitialPath(): String
+    // Методы, просто возвращающие значение, имеют приставку "get".
+    protected abstract fun getDefaultInitialPath(): String
 
+    // Методы, создающие новый экземпляр, имеют приставку "create".
     protected abstract fun createFileExplorer(): FileExplorer<SortingModeType>
     protected abstract fun createDirCreatorDialog(basePath: String): DirCreatorDialog
     protected abstract fun createSortingModeTranslator(): SortingModeTranslator<SortingModeType>
 
+    // Методы, не возвращающие значений, не имеют приставки-действия.
     protected abstract fun requestWriteAccess(
         onWriteAccessGranted: () -> Unit,
         onWriteAccessRejected: (errorMsg: String?) -> Unit
@@ -239,7 +242,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
 
     protected fun initialPath(): String {
-        return arguments?.getString(INITIAL_PATH) ?: defaultInitialPath()
+        return arguments?.getString(INITIAL_PATH) ?: getDefaultInitialPath()
     }
 
     companion object {
