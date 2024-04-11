@@ -45,9 +45,7 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
     }
 
     private fun showFileSelector() {
-        LocalFileSelector.create(
-            initialPath = File(Environment.getExternalStorageDirectory(), "1").absolutePath
-        ).show(childFragmentManager, LocalFileSelector.TAG)
+        LocalFileSelector.create().show(childFragmentManager, LocalFileSelector.TAG)
     }
 
     private fun prepareFragmentResultListener() {
