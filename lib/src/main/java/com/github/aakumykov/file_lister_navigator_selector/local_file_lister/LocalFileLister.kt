@@ -2,7 +2,6 @@ package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FSItemSortingComparator
@@ -29,9 +28,13 @@ class LocalFileLister @AssistedInject constructor(
 
         if (null != fileNamesArray) {
             for (name: String in fileNamesArray) {
-                val absolutePath = path + FSItem.DS + name
-                val file = File(absolutePath)
-                fileList.add(if (file.isDirectory) DirItem(file) else SimpleFSItem(file))
+                fileList.add(
+                    convertDirToDirItem(
+                        SimpleFSItem(
+                            File(path, name)
+                        )
+                    )
+                )
             }
         }
 
