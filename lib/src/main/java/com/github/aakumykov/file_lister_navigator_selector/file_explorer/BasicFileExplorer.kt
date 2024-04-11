@@ -90,6 +90,10 @@ abstract class BasicFileExplorer<SortingModeType> (
         foldersFirst = b
     }
 
+    override fun getFoldersFirst(): Boolean {
+        return foldersFirst
+    }
+
     private fun goToParentDir() {
         val pathParts = currentPath.split(dirSeparator)
         val parentPathParts = pathParts.subList(0, pathParts.size-1)

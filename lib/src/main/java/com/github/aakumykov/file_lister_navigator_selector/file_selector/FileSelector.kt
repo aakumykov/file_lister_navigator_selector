@@ -154,9 +154,12 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
         val sortingFlagsView = layoutInflater.inflate(R.layout.sorting_flags_dialog_view, null)
             .apply {
-                findViewById<CheckBox>(R.id.foldersFirstCheckbox).setOnCheckedChangeListener { dialog, isChecked ->
-                    onFoldersFirstChanged(isChecked)
-                    sortingDialog?.dismiss()
+                findViewById<CheckBox>(R.id.foldersFirstCheckbox).apply {
+                    isChecked = viewModel.isFoldersFirst
+                    setOnCheckedChangeListener { dialog, isChecked ->
+                        onFoldersFirstChanged(isChecked)
+                        sortingDialog?.dismiss()
+                    }
                 }
             }
 

@@ -32,6 +32,7 @@ class FileSelectorViewModel<SortingModeType> (
 
     val currentSortingMode get() = fileExplorer.getSortingMode()
     val isReverseOrder: Boolean get() = fileExplorer.getReverseOrder()
+    val isFoldersFirst: Boolean get() = fileExplorer.getFoldersFirst()
 
     fun startWork() {
         reReadCurrentPath()
