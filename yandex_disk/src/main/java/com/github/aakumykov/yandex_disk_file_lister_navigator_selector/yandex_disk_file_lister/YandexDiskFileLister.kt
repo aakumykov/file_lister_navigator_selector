@@ -2,6 +2,7 @@ package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_d
 
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
+import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -26,6 +27,11 @@ class YandexDiskFileLister @AssistedInject constructor(
     )
         : List<FSItem>
     {
-        return yandexDiskClient.listDir(path, sortingMode, reverseOrder)
+        return yandexDiskClient
+            .listDir(path, sortingMode, reverseOrder)
+            .map { item ->
+                if (item.isDir) DirItem(item)
+                else item
+            }
     }
 }
