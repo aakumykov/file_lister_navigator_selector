@@ -147,7 +147,11 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     private fun onCreateDirClicked() {
         requestWriteAccess(
             onWriteAccessGranted = {
-                dirCreatorDialog(fileExplorer().getCurrentPath()).show(childFragmentManager, DirCreatorDialog.TAG)
+                dirCreatorDialog(
+//                    fileExplorer().getCurrentPath()
+                    // FIXME: не нравится мне эта конструкция. Работа с FileExplorer-ом должна быть явной.
+                    viewModel.fileExplorer.getCurrentPath()
+                ).show(childFragmentManager, DirCreatorDialog.TAG)
             },
             onWriteAccessRejected = {
                 Toast.makeText(requireContext(), R.string.write_access_denied, Toast.LENGTH_SHORT).show()

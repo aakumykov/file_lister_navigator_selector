@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FileSelectorViewModel<SortingModeType> (
-    private val fileExplorer: FileExplorer<SortingModeType>,
+    val fileExplorer: FileExplorer<SortingModeType>,
 )
     : ViewModel()
 {
