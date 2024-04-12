@@ -18,8 +18,10 @@ import com.github.aakumykov.file_lister_navigator_selector.extensions.hide
 import com.github.aakumykov.file_lister_navigator_selector.extensions.show
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showIf
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
+import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
+import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.google.gson.Gson
@@ -34,7 +36,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
     private var sortingDialog: AlertDialog? = null
 
-    private lateinit var listAdapter: FileListAdapter
+    private lateinit var listAdapter: FileListAdapter<SortingModeType>
 
     private val viewModel: FileSelectorViewModel<SortingModeType> by viewModels {
         FileSelectorViewModel.Factory(createFileExplorer())
@@ -49,6 +51,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     protected abstract fun createFileExplorer(): FileExplorer<SortingModeType>
     protected abstract fun createDirCreatorDialog(basePath: String): DirCreatorDialog
     protected abstract fun createSortingModeTranslator(): SortingModeTranslator<SortingModeType>
+    protected abstract fun createSortingInfoSupplier(): SortingInfoSupplier<SortingModeType>
 
     // Методы, не возвращающие значений, не имеют приставки-действия.
     protected abstract fun requestWriteAccess(
@@ -101,7 +104,9 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
         listAdapter = FileListAdapter(
             requireContext(),
             R.layout.file_list_item,
-            R.id.titleView)
+            R.id.titleView,
+            createSortingInfoSupplier(),
+            viewModel.currentSortingMode)
 
         binding.listView.adapter = listAdapter
 
@@ -206,6 +211,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
 
     private fun onSortingModeChanged(sortingMode: SortingModeType) {
         viewModel.changeSortingMode(sortingMode)
+        listAdapter.changeSortingMode(sortingMode)
     }
 
     private fun onConfirmSelectionClicked() {

@@ -5,6 +5,8 @@ import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.Di
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SimpleSortingInfoSupplier
+import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SimpleSortingModeTranslator
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
@@ -20,6 +22,10 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
     override fun createDirCreatorDialog(basePath: String): DirCreatorDialog {
         // TODO: как быть с "!!" ?
         return YandexDiskDirCreatorDialog.create(basePath, authToken()!!)
+    }
+
+    override fun createSortingInfoSupplier(): SortingInfoSupplier<SimpleSortingMode> {
+        return SimpleSortingInfoSupplier()
     }
 
     override fun createSortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {

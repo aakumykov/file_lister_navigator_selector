@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem;
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem;
+import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SimpleSortingInfoSupplier;
+import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // FIXME: зависимость от внешнего класса FSItem вызывает у меня сомнения (инкапсуляция)
-public class FileListAdapter extends ArrayAdapter<FSItem> {
+public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
 
     public static String TAG = FileListAdapter.class.getSimpleName();
 
@@ -33,19 +35,32 @@ public class FileListAdapter extends ArrayAdapter<FSItem> {
     private final List<FSItem> selectionsList = new ArrayList<>();
     private final String folderGraphicalCharacter;
     private final String fileGraphicalCharacter;
+    private final SortingInfoSupplier<SortingModeType> sortingInfoSupplier;
+
+    private SortingModeType sortingMode;
 
     public FileListAdapter(Context context,
                            @LayoutRes int resource,
-                           @IdRes int titleViewId
+                           @IdRes int titleViewId,
+                           SortingInfoSupplier<SortingModeType> sortingInfoSupplier,
+                           SortingModeType initialSortingMode
     ) {
-        this(context, resource, titleViewId, defaultFolderGraphicalCharacter, defaultFileGraphicalCharacter);
+        this(context,
+            resource,
+            titleViewId,
+            defaultFolderGraphicalCharacter,
+            defaultFileGraphicalCharacter,
+            sortingInfoSupplier,
+            initialSortingMode);
     }
 
     public FileListAdapter(Context context,
                            @LayoutRes int resource,
                            @IdRes int titleViewId,
                            String folderGraphicalCharacter,
-                           String fileGraphicalCharacter
+                           String fileGraphicalCharacter,
+                           SortingInfoSupplier<SortingModeType> sortingInfoSupplier,
+                           SortingModeType initialSortingMode
     ) {
         super(context, resource, new ArrayList<>());
         this.layout = resource;
@@ -53,6 +68,8 @@ public class FileListAdapter extends ArrayAdapter<FSItem> {
         this.inflater = LayoutInflater.from(context);
         this.folderGraphicalCharacter = folderGraphicalCharacter;
         this.fileGraphicalCharacter = fileGraphicalCharacter;
+        this.sortingInfoSupplier = sortingInfoSupplier;
+        this.sortingMode = initialSortingMode;
     }
 
 
@@ -82,6 +99,9 @@ public class FileListAdapter extends ArrayAdapter<FSItem> {
                 folderGraphicalCharacter + " " + fsItem.getName()
                 : fileGraphicalCharacter + " " + fsItem.getName();
 
+        if (!fsItem.isDir())
+            title += sortingInfoSupplier.getSortingInfo(fsItem, sortingMode);
+
         if (selectionsList.contains(fsItem))
             title = "*" + " " + title;
 
@@ -99,6 +119,11 @@ public class FileListAdapter extends ArrayAdapter<FSItem> {
     public void updateSelections(@NotNull List<FSItem> list) {
         selectionsList.clear();
         selectionsList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void changeSortingMode(SortingModeType sortingMode) {
+        this.sortingMode = sortingMode;
         notifyDataSetChanged();
     }
 

@@ -14,6 +14,8 @@ import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator.Loc
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator_dialog.LocalDirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
+import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SimpleSortingInfoSupplier
+import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 
 class LocalFileSelector : FileSelector<SimpleSortingMode>() {
@@ -58,6 +60,10 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
 
     override fun createSortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {
         return SimpleSortingModeTranslator(resources)
+    }
+
+    override fun createSortingInfoSupplier(): SortingInfoSupplier<SimpleSortingMode> {
+        return SimpleSortingInfoSupplier()
     }
 
 

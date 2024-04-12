@@ -1,7 +1,5 @@
 package com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator
 
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
-
 interface SortingModeTranslator<SortingModeType> {
 
     fun sortingModeNames(currentMode: SortingModeType, isReverseOrder: Boolean): Array<String>
