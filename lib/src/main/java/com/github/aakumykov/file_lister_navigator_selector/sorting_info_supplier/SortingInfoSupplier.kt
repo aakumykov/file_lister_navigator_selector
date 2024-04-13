@@ -8,7 +8,7 @@ interface SortingInfoSupplier<SortingModeType> {
         context: Context,
         fsItem: FSItem,
         sortingMode: SortingModeType,
-        prefix: String,
-        suffix: String
+        prefix: String = "",
+        suffix: String = ""
     ): String
 }

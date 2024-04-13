@@ -12,8 +12,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem;
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.ParentDirItem;
-import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SimpleSortingInfoSupplier;
 import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,9 +29,10 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
 
     private final Context context;
     private final LayoutInflater inflater;
-    private final int layout;
+    private final int layoutResource;
     private final int titleViewId;
     private final int infoViewId;
+    private final int fileIconViewId;
     private final List<FSItem> selectionsList = new ArrayList<>();
     private final String folderGraphicalCharacter;
     private final String fileGraphicalCharacter;
@@ -42,16 +41,18 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
     private SortingModeType sortingMode;
 
     public FileListAdapter(Context context,
-                           @LayoutRes int resource,
+                           @LayoutRes int layoutResource,
                            @IdRes int titleViewId,
                            @IdRes int infoViewId,
+                           @IdRes int fileIconViewId,
                            SortingInfoSupplier<SortingModeType> sortingInfoSupplier,
                            SortingModeType initialSortingMode
     ) {
         this(context,
-            resource,
+            layoutResource,
             titleViewId,
             infoViewId,
+            fileIconViewId,
             defaultFolderGraphicalCharacter,
             defaultFileGraphicalCharacter,
             sortingInfoSupplier,
@@ -59,19 +60,21 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
     }
 
     public FileListAdapter(Context context,
-                           @LayoutRes int resource,
+                           @LayoutRes int layoutResource,
                            @IdRes int titleViewId,
                            @IdRes int infoViewId,
+                           @IdRes int fileIconViewId,
                            String folderGraphicalCharacter,
                            String fileGraphicalCharacter,
                            SortingInfoSupplier<SortingModeType> sortingInfoSupplier,
                            SortingModeType initialSortingMode
     ) {
-        super(context, resource, new ArrayList<>());
+        super(context, layoutResource, new ArrayList<>());
         this.context = context;
-        this.layout = resource;
+        this.layoutResource = layoutResource;
         this.titleViewId = titleViewId;
         this.infoViewId = infoViewId;
+        this.fileIconViewId = fileIconViewId;
         this.inflater = LayoutInflater.from(context);
         this.folderGraphicalCharacter = folderGraphicalCharacter;
         this.fileGraphicalCharacter = fileGraphicalCharacter;
@@ -85,7 +88,7 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
 
         ViewHolder viewHolder;
         if(convertView==null){
-            convertView = inflater.inflate(this.layout, parent, false);
+            convertView = inflater.inflate(this.layoutResource, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }
@@ -98,21 +101,20 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
         if (null == fsItem)
             throw new IllegalStateException("FSItem is null");
 
-        String title;
-        if (fsItem instanceof ParentDirItem)
-            title = " " + fsItem.getName();
-        else
-            title = (fsItem.isDir()) ?
-                folderGraphicalCharacter + " " + fsItem.getName()
-                : fileGraphicalCharacter + " " + fsItem.getName();
+        String title = fsItem.getName();
 
         String fileInfo = "";
         if (!fsItem.isDir())
-            fileInfo = sortingInfoSupplier.getSortingInfo(context, fsItem, sortingMode, " (", ")");
+            fileInfo = sortingInfoSupplier.getSortingInfo(context, fsItem, sortingMode, "", "");
 
         if (selectionsList.contains(fsItem))
             title = "*" + " " + title;
 
+        String icon = fileGraphicalCharacter;
+        if (fsItem.isDir())
+            icon = folderGraphicalCharacter;
+
+        viewHolder.fileIconView.setText(icon);
         viewHolder.nameView.setText(title);
         viewHolder.infoView.setText(fileInfo);
 
@@ -139,10 +141,12 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
     private class ViewHolder {
         final TextView nameView;
         final TextView infoView;
+        final TextView fileIconView;
 
         ViewHolder(View view){
             nameView = view.findViewById(titleViewId);
             infoView = view.findViewById(infoViewId);
+            fileIconView = view.findViewById(fileIconViewId);
         }
     }
 }

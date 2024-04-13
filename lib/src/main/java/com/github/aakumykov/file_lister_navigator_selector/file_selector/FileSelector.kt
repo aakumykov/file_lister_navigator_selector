@@ -48,6 +48,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     protected abstract fun getDefaultInitialPath(): String
 
     // Методы, создающие новый экземпляр, имеют приставку "create".
+    // TODO: аргументы для задания начального пути и сортировки
     protected abstract fun createFileExplorer(): FileExplorer<SortingModeType>
     protected abstract fun createDirCreatorDialog(basePath: String): DirCreatorDialog
     protected abstract fun createSortingModeTranslator(): SortingModeTranslator<SortingModeType>
@@ -106,6 +107,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
             R.layout.file_list_item,
             R.id.titleView,
             R.id.infoView,
+            R.id.iconView,
             createSortingInfoSupplier(),
             viewModel.currentSortingMode)
 
