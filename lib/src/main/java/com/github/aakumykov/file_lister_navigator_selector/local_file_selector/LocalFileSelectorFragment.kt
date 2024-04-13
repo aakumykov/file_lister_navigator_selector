@@ -7,7 +7,7 @@ import androidx.core.os.bundleOf
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
-import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SimpleSortingModeTranslator
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator.LocalDirCreator
@@ -18,7 +18,7 @@ import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier
 import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 
-class LocalFileSelector : FileSelector<SimpleSortingMode>() {
+class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
 
     private lateinit var storageAccessHelper: StorageAccessHelper
 
@@ -68,12 +68,12 @@ class LocalFileSelector : FileSelector<SimpleSortingMode>() {
 
 
     companion object {
-        fun create(initialPath: String? = null): LocalFileSelector {
-            return LocalFileSelector().apply {
+        fun create(initialPath: String? = null): LocalFileSelectorFragment {
+            return LocalFileSelectorFragment().apply {
                 arguments = bundleOf(INITIAL_PATH to initialPath)
             }
         }
 
-        val TAG: String = LocalFileSelector::class.java.simpleName
+        val TAG: String = LocalFileSelectorFragment::class.java.simpleName
     }
 }

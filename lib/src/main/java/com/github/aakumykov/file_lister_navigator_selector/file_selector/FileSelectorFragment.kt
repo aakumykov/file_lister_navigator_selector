@@ -18,7 +18,6 @@ import com.github.aakumykov.file_lister_navigator_selector.extensions.hide
 import com.github.aakumykov.file_lister_navigator_selector.extensions.show
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showIf
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
-import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier
@@ -26,9 +25,9 @@ import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translat
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.google.gson.Gson
 
-// TODO: Сделать интерфейс "FileSelector" ?
+// TODO: Сделать интерфейс "FileSelectorFragment" ?
 
-abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_file_selector),
+abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.dialog_file_selector),
     AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private var _binding: DialogFileSelectorBinding? = null
@@ -48,7 +47,6 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     protected abstract fun getDefaultInitialPath(): String
 
     // Методы, создающие новый экземпляр, имеют приставку "create".
-    // TODO: аргументы для задания начального пути и сортировки
     protected abstract fun createFileExplorer(): FileExplorer<SortingModeType>
     protected abstract fun createDirCreatorDialog(basePath: String): DirCreatorDialog
     protected abstract fun createSortingModeTranslator(): SortingModeTranslator<SortingModeType>
@@ -256,7 +254,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
     }
 
     companion object {
-        val TAG: String = FileSelector::class.java.simpleName
+        val TAG: String = FileSelectorFragment::class.java.simpleName
         const val ITEMS_SELECTION = "ITEMS_SELECTION"
         const val SELECTED_ITEMS_LIST = "FS_ITEM"
         const val AUTH_TOKEN = "AUTH_TOKEN"

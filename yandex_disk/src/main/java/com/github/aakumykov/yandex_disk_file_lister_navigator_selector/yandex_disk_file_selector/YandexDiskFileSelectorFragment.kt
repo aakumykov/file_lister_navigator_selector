@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
-import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SimpleSortingInfoSupplier
 import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier
 import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SimpleSortingModeTranslator
@@ -17,7 +17,7 @@ import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_di
 
 // TODO: внедрять зависимости
 
-class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
+class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
 
     override fun createDirCreatorDialog(basePath: String): DirCreatorDialog {
         // TODO: как быть с "!!" ?
@@ -76,15 +76,15 @@ class YandexDiskFileSelector : FileSelector<SimpleSortingMode>() {
 
     // TODO: общий метод для создания этих диалогов
     companion object {
-        val TAG: String = YandexDiskFileSelector::class.java.simpleName
+        val TAG: String = YandexDiskFileSelectorFragment::class.java.simpleName
 
         fun create(authToken: String,
                    initialPath: String? = null,
                    isMultipleSelectionMode: Boolean = false,
                    isDirMode: Boolean = false
-        ) : YandexDiskFileSelector
+        ) : YandexDiskFileSelectorFragment
         {
-            return YandexDiskFileSelector().apply {
+            return YandexDiskFileSelectorFragment().apply {
                 arguments = Bundle().apply {
                     putString(AUTH_TOKEN, authToken)
                     putString(INITIAL_PATH, initialPath)

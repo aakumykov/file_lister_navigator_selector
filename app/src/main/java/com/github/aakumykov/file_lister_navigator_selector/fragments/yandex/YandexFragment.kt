@@ -13,14 +13,14 @@ import com.github.aakumykov.file_lister_navigator_selector.extensions.restoreStr
 import com.github.aakumykov.file_lister_navigator_selector.extensions.showToast
 import com.github.aakumykov.file_lister_navigator_selector.extensions.storeString
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
-import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelector
+import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.DirItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.recursive_dir_reader.RecursiveDirReader
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_dir_creator.YandexDiskDirCreator
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.FileListerYandexDiskClient
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
-import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector.YandexDiskFileSelector
+import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector.YandexDiskFileSelectorFragment
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
 import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils
 import com.yandex.authsdk.YandexAuthLoginOptions
@@ -172,11 +172,11 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
         val isDirMode = binding.dirModeToggle.isChecked
         val isMultipleMode = binding.multipleSelectionToggle.isChecked
 
-        /*val fs = */YandexDiskFileSelector.create(
+        /*val fs = */YandexDiskFileSelectorFragment.create(
             authToken = yandexAuthToken!!,
             isMultipleSelectionMode = isMultipleMode,
             isDirMode = isDirMode
-        ).show(childFragmentManager, FileSelector.TAG)
+        ).show(childFragmentManager, FileSelectorFragment.TAG)
 
     //        fs.setCallback(this)
     }
@@ -245,7 +245,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
     }
 
     override fun onDestroyView() {
-//        FileSelector.find(YandexDiskFileSelector.TAG, childFragmentManager)?.unsetCallback()
+//        FileSelectorFragment.find(YandexDiskFileSelectorFragment.TAG, childFragmentManager)?.unsetCallback()
         _binding = null
         super.onDestroyView()
     }
