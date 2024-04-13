@@ -33,6 +33,7 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
     private final LayoutInflater inflater;
     private final int layout;
     private final int titleViewId;
+    private final int infoViewId;
     private final List<FSItem> selectionsList = new ArrayList<>();
     private final String folderGraphicalCharacter;
     private final String fileGraphicalCharacter;
@@ -43,12 +44,14 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
     public FileListAdapter(Context context,
                            @LayoutRes int resource,
                            @IdRes int titleViewId,
+                           @IdRes int infoViewId,
                            SortingInfoSupplier<SortingModeType> sortingInfoSupplier,
                            SortingModeType initialSortingMode
     ) {
         this(context,
             resource,
             titleViewId,
+            infoViewId,
             defaultFolderGraphicalCharacter,
             defaultFileGraphicalCharacter,
             sortingInfoSupplier,
@@ -58,6 +61,7 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
     public FileListAdapter(Context context,
                            @LayoutRes int resource,
                            @IdRes int titleViewId,
+                           @IdRes int infoViewId,
                            String folderGraphicalCharacter,
                            String fileGraphicalCharacter,
                            SortingInfoSupplier<SortingModeType> sortingInfoSupplier,
@@ -67,6 +71,7 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
         this.context = context;
         this.layout = resource;
         this.titleViewId = titleViewId;
+        this.infoViewId = infoViewId;
         this.inflater = LayoutInflater.from(context);
         this.folderGraphicalCharacter = folderGraphicalCharacter;
         this.fileGraphicalCharacter = fileGraphicalCharacter;
@@ -101,14 +106,15 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
                 folderGraphicalCharacter + " " + fsItem.getName()
                 : fileGraphicalCharacter + " " + fsItem.getName();
 
-        if (!fsItem.isDir()) {
-            title += sortingInfoSupplier.getSortingInfo(context, fsItem, sortingMode, " (", ")");
-        }
+        String fileInfo = "";
+        if (!fsItem.isDir())
+            fileInfo = sortingInfoSupplier.getSortingInfo(context, fsItem, sortingMode, " (", ")");
 
         if (selectionsList.contains(fsItem))
             title = "*" + " " + title;
 
         viewHolder.nameView.setText(title);
+        viewHolder.infoView.setText(fileInfo);
 
         return convertView;
     }
@@ -132,8 +138,11 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
 
     private class ViewHolder {
         final TextView nameView;
+        final TextView infoView;
+
         ViewHolder(View view){
             nameView = view.findViewById(titleViewId);
+            infoView = view.findViewById(infoViewId);
         }
     }
 }

@@ -105,6 +105,7 @@ abstract class FileSelector<SortingModeType> : DialogFragment(R.layout.dialog_fi
             requireContext(),
             R.layout.file_list_item,
             R.id.titleView,
+            R.id.infoView,
             createSortingInfoSupplier(),
             viewModel.currentSortingMode)
 
