@@ -10,39 +10,41 @@
         android:id="@+id/iconView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:textSize="24sp"
         tools:text="📁"
-        />
+        android:paddingVertical="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/titleView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:paddingHorizontal="@dimen/item_title_padding_horizontal"
+        android:paddingVertical="@dimen/item_title_padding_vertical_sorting_info_mode"
+        android:singleLine="true"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/infoView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iconView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/infoView"
-        android:paddingHorizontal="8dp"
-        android:paddingTop="6dp"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:textSize="18sp"
-        tools:text="Имя файла" />
+        tools:text="Название, имя файла" />
 
     <TextView
         android:id="@+id/infoView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/iconView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleView"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingHorizontal="14dp"
-        android:paddingBottom="6dp"
+        android:paddingHorizontal="8dp"
+        android:paddingBottom="2dp"
         android:textSize="13sp"
-        tools:text="3 МБ" />
+        android:textColor="@color/file_info"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iconView"
+        tools:text="Размер файла 3 КБ" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

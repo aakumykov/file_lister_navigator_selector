@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.DimenRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -49,14 +50,14 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
                            SortingModeType initialSortingMode
     ) {
         this(context,
-            layoutResource,
-            titleViewId,
-            infoViewId,
-            fileIconViewId,
-            defaultFolderGraphicalCharacter,
-            defaultFileGraphicalCharacter,
-            sortingInfoSupplier,
-            initialSortingMode);
+                layoutResource,
+                titleViewId,
+                infoViewId,
+                fileIconViewId,
+                defaultFolderGraphicalCharacter,
+                defaultFileGraphicalCharacter,
+                sortingInfoSupplier,
+                initialSortingMode);
     }
 
     public FileListAdapter(Context context,
@@ -114,11 +115,33 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
         if (fsItem.isDir())
             icon = folderGraphicalCharacter;
 
-        viewHolder.fileIconView.setText(icon);
-        viewHolder.nameView.setText(title);
+        viewHolder.titleView.setText(title);
         viewHolder.infoView.setText(fileInfo);
+        viewHolder.iconView.setText(icon);
+
+        if (fileInfo.isEmpty()) {
+            viewHolder.infoView.setVisibility(View.GONE);
+            viewHolder.titleView.setPadding(
+                    getDimension(R.dimen.item_title_padding_horizontal),
+                    getDimension(R.dimen.item_title_padding_vertical_simple_mode),
+                    getDimension(R.dimen.item_title_padding_horizontal),
+                    getDimension(R.dimen.item_title_padding_vertical_simple_mode)
+            );
+        } else {
+            viewHolder.infoView.setVisibility(View.VISIBLE);
+            viewHolder.titleView.setPadding(
+                    getDimension(R.dimen.item_title_padding_horizontal),
+                    getDimension(R.dimen.item_title_padding_vertical_sorting_info_mode),
+                    getDimension(R.dimen.item_title_padding_horizontal),
+                    getDimension(R.dimen.item_title_padding_vertical_sorting_info_mode)
+            );
+        }
 
         return convertView;
+    }
+
+    private int getDimension(@DimenRes int dimenResource) {
+        return (int) context.getResources().getDimension(dimenResource);
     }
 
     public void setList(List<FSItem> list) {
@@ -139,14 +162,14 @@ public class FileListAdapter<SortingModeType> extends ArrayAdapter<FSItem> {
     }
 
     private class ViewHolder {
-        final TextView nameView;
+        final TextView titleView;
         final TextView infoView;
-        final TextView fileIconView;
+        final TextView iconView;
 
         ViewHolder(View view){
-            nameView = view.findViewById(titleViewId);
+            titleView = view.findViewById(titleViewId);
             infoView = view.findViewById(infoViewId);
-            fileIconView = view.findViewById(fileIconViewId);
+            iconView = view.findViewById(fileIconViewId);
         }
     }
 }
