@@ -102,7 +102,7 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
 
         listAdapter = FileListAdapter(
             requireContext(),
-            R.layout.file_list_item,
+            R.layout.list_item,
             R.id.titleView,
             R.id.infoView,
             R.id.iconView,
