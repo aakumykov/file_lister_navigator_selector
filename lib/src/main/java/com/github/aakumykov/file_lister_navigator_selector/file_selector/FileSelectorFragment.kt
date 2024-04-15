@@ -45,6 +45,7 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
 
     // Методы, просто возвращающие значение, имеют приставку "get".
     protected abstract fun getDefaultInitialPath(): String
+    protected abstract fun getDefaultDirSelectionMode(): Boolean
 
     // Методы, создающие новый экземпляр, имеют приставку "create".
     protected abstract fun createFileExplorer(): FileExplorer<SortingModeType>
@@ -253,11 +254,16 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         return arguments?.getString(INITIAL_PATH) ?: getDefaultInitialPath()
     }
 
+    protected fun isDirSelectionMode(): Boolean {
+        return arguments?.getBoolean(DIR_SELECTION_MODE) ?: getDefaultDirSelectionMode()
+    }
+
     companion object {
         val TAG: String = FileSelectorFragment::class.java.simpleName
         const val ITEMS_SELECTION = "ITEMS_SELECTION"
         const val SELECTED_ITEMS_LIST = "FS_ITEM"
         const val AUTH_TOKEN = "AUTH_TOKEN"
-        const val INITIAL_PATH: String = "INITIAL_PATH"
+        const val INITIAL_PATH = "INITIAL_PATH"
+        const val DIR_SELECTION_MODE = "DIR_SELECTION_MODE"
     }
 }

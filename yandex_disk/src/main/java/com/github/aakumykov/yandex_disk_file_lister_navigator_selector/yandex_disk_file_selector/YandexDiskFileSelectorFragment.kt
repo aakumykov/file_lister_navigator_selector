@@ -94,4 +94,6 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
             }
         }
     }
+
+    override fun getDefaultDirSelectionMode(): Boolean = false
 }
