@@ -38,7 +38,7 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
             localFileLister = LocalFileLister(""),
             localDirCreator = LocalDirCreator(),
             initialPath = initialPath(),
-            isDirMode = false,
+            isDirMode = isDirMode(),
             defaultSortingMode = defaultSortingMode()
         )
     }
@@ -70,12 +70,18 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
 
 
     companion object {
-        fun create(initialPath: String? = null): LocalFileSelectorFragment {
+        val TAG: String = LocalFileSelectorFragment::class.java.simpleName
+
+        fun create(
+            initialPath: String? = null,
+            isDirSelectionMode: Boolean = false,
+        ) : LocalFileSelectorFragment {
             return LocalFileSelectorFragment().apply {
-                arguments = bundleOf(INITIAL_PATH to initialPath)
+                arguments = bundleOf(
+                    INITIAL_PATH to initialPath,
+                    DIR_SELECTION_MODE to isDirSelectionMode
+                )
             }
         }
-
-        val TAG: String = LocalFileSelectorFragment::class.java.simpleName
     }
 }

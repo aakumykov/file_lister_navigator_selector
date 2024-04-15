@@ -38,4 +38,14 @@
         tools:text="Ошибка"
         tools:visibility="visible" />
 
+    <Switch
+        android:id="@+id/dirModeSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="@string/only_dirs"
+        android:switchPadding="8dp"
+        android:layout_gravity="center_horizontal"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
 </LinearLayout>

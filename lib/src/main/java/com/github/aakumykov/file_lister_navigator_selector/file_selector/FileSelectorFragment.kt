@@ -254,7 +254,7 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         return arguments?.getString(INITIAL_PATH) ?: getDefaultInitialPath()
     }
 
-    protected fun isDirSelectionMode(): Boolean {
+    protected fun isDirMode(): Boolean {
         return arguments?.getBoolean(DIR_SELECTION_MODE) ?: getDefaultDirSelectionMode()
     }
 

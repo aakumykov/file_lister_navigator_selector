@@ -35,6 +35,9 @@ interface FileExplorer<SortingModeType> {
     fun setFoldersFirst(b: Boolean)
     fun getFoldersFirst(): Boolean
 
+    fun setIsDirMode(b: Boolean)
+    fun getIsDirMode(): Boolean
+
     fun setPathCache(pathCache: PathCache)
 
     fun setListCache(listCache: ListCache)

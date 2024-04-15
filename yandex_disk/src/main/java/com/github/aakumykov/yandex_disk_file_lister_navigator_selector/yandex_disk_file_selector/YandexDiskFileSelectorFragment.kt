@@ -55,7 +55,7 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
                         yandexDiskFileLister = YandexDiskFileLister(authToken),
                         yandexDiskDirCreator = YandexDiskDirCreator(yandexDiskClient),
                         initialPath = "/",
-                        isDirMode = false,
+                        isDirMode = isDirMode(),
                 )
             }
         }
@@ -88,7 +88,7 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
                 arguments = Bundle().apply {
                     putString(AUTH_TOKEN, authToken)
                     putString(INITIAL_PATH, initialPath)
-//                    putBoolean(IS_DIR_MODE, isDirMode)
+                    putBoolean(DIR_SELECTION_MODE, isDirMode)
 //                    putBoolean(IS_MULTIPLE_SELECTION_MODE, isMultipleSelectionMode)
                 }
             }

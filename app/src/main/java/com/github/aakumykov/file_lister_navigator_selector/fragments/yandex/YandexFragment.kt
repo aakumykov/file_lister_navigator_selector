@@ -169,21 +169,13 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
             return
         }
 
-        val isDirMode = binding.dirModeToggle.isChecked
-        val isMultipleMode = binding.multipleSelectionToggle.isChecked
-
-        /*val fs = */YandexDiskFileSelectorFragment.create(
+        YandexDiskFileSelectorFragment.create(
             authToken = yandexAuthToken!!,
-            isMultipleSelectionMode = isMultipleMode,
-            isDirMode = isDirMode
-        ).show(childFragmentManager, FileSelectorFragment.TAG)
-
-    //        fs.setCallback(this)
+            isMultipleSelectionMode = binding.multipleSelectionToggle.isChecked,
+            isDirMode = binding.dirModeToggle.isChecked
+        )
+            .show(childFragmentManager, FileSelectorFragment.TAG)
     }
-
-    /*override fun onFilesSelected(selectedItemsList: List<FSItem>) {
-        showToast(selectedItemsList.joinToString("\n"))
-    }*/
 
     private fun onListButtonClicked() {
         listCurrentDir()

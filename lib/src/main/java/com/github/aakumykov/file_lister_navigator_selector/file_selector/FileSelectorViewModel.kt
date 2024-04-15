@@ -23,6 +23,7 @@ class FileSelectorViewModel<SortingModeType> (
     private val _selectedList: MutableLiveData<List<FSItem>> = MutableLiveData(emptyList())
     private val _currentError: MutableLiveData<Throwable> = MutableLiveData()
     private val _isBusy: MutableLiveData<Boolean> = MutableLiveData()
+    private val _isDirMode: MutableLiveData<Boolean> = MutableLiveData()
 
     private val selectedItems: MutableList<FSItem> = mutableListOf()
 
@@ -31,10 +32,12 @@ class FileSelectorViewModel<SortingModeType> (
     val selectedList: LiveData<List<FSItem>> = _selectedList
     val errorMsg: LiveData<Throwable> = _currentError
     val isBusy: LiveData<Boolean> = _isBusy
+    val isDirMode: LiveData<Boolean> = _isDirMode
 
     val currentSortingMode get() = fileExplorer.getSortingMode()
     val isReverseOrder: Boolean get() = fileExplorer.getReverseOrder()
     val isFoldersFirst: Boolean get() = fileExplorer.getFoldersFirst()
+
 
     fun startWork() {
         listCurrentPath()

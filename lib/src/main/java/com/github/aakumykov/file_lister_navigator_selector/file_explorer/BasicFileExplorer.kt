@@ -11,7 +11,7 @@ abstract class BasicFileExplorer<SortingModeType> (
     private val fileLister: FileLister<SortingModeType>,
     private val dirCreator: DirCreator,
     private val initialPath: String,
-    private val isDirMode: Boolean,
+    private var isDirMode: Boolean,
     private val initialSortingMode: SortingModeType,
     private var reverseOrder: Boolean = false,
     private var foldersFirst: Boolean = true, // TODO: вынести в более явное место?
@@ -98,6 +98,14 @@ abstract class BasicFileExplorer<SortingModeType> (
 
     override fun getFoldersFirst(): Boolean {
         return foldersFirst
+    }
+
+    override fun setIsDirMode(b: Boolean) {
+        this.isDirMode = b
+    }
+
+    override fun getIsDirMode(): Boolean {
+        return isDirMode
     }
 
     private fun goToParentDir() {

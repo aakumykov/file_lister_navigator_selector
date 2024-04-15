@@ -9,6 +9,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.github.aakumykov.file_lister_navigator_selector.databinding.ActivityMainBinding
 import com.github.aakumykov.file_lister_navigator_selector.fragments.selector.SelectorFragment
+import com.github.aakumykov.file_lister_navigator_selector.fragments.yandex.YandexFragment
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 
 class MainActivity : AppCompatActivity() {

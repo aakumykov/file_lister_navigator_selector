@@ -43,7 +43,9 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
     }
 
     private fun showFileSelector() {
-        LocalFileSelectorFragment.create().show(childFragmentManager, LocalFileSelectorFragment.TAG)
+        LocalFileSelectorFragment
+            .create(isDirSelectionMode = binding.dirModeSwitch.isChecked)
+            .show(childFragmentManager, LocalFileSelectorFragment.TAG)
     }
 
     private fun prepareFragmentResultListener() {
