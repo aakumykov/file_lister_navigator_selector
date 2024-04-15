@@ -18,7 +18,8 @@ class LocalFileLister @AssistedInject constructor(
         path: String,
         sortingMode: SimpleSortingMode,
         reverseOrder: Boolean,
-        foldersFirst: Boolean
+        foldersFirst: Boolean,
+        dirMode: Boolean
     )
         : List<FSItem>
     {
@@ -38,7 +39,13 @@ class LocalFileLister @AssistedInject constructor(
             }
         }
 
-        return fileList.toList()
+        return fileList
+            .toList()
+            .filter {
+                // TODO: вынести этот фильтр в единое место
+                if (dirMode) it.isDir
+                else true
+            }
             .sortedWith(
                 FSItemSortingComparator.create(sortingMode, reverseOrder, foldersFirst)
             )

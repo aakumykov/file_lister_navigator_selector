@@ -22,12 +22,18 @@ class YandexDiskFileLister @AssistedInject constructor(
         path: String,
         sortingMode: SimpleSortingMode,
         reverseOrder: Boolean,
-        foldersFirst: Boolean
+        foldersFirst: Boolean,
+        dirMode: Boolean
     )
         : List<FSItem>
     {
         return yandexDiskClient
             .listDir(path, sortingMode, reverseOrder)
+            .filter {
+                // TODO: вынести этот фильтр в единое место
+                if (dirMode) it.isDir
+                else true
+            }
             .map { convertDirToDirItem(it) }
     }
 }

@@ -14,7 +14,8 @@ class RecursiveDirReader(private val fileLister: FileLister<SimpleSortingMode>) 
     fun getRecursiveList(path: String,
                          sortingMode: SimpleSortingMode,
                          reverseOrder: Boolean,
-                         foldersFirst: Boolean
+                         foldersFirst: Boolean,
+                         dirMode: Boolean = false
     ): List<FileListItem> {
         list.add(
             FileListItem(
@@ -34,7 +35,8 @@ class RecursiveDirReader(private val fileLister: FileLister<SimpleSortingMode>) 
                     currentlyListedDir.absolutePath,
                     sortingMode,
                     reverseOrder,
-                    foldersFirst
+                    foldersFirst,
+                    dirMode
                 ).forEach { fsItem ->
 
                     val childItem = FileListItem(

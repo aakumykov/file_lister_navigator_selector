@@ -28,7 +28,8 @@ interface FileLister<SortingModeType> {
         path: String,
         sortingMode: SortingModeType,
         reverseOrder: Boolean,
-        foldersFirst: Boolean
+        foldersFirst: Boolean,
+        dirMode: Boolean,
     ): List<FSItem>
 
 
