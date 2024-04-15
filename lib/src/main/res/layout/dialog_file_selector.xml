@@ -31,22 +31,12 @@
         android:layout_alignBottom="@id/toolbarSpacer"
         android:contentDescription="@string/description_sort_button"/>
 
-    <Switch
-        android:id="@+id/dirModeSwitch"
-        style="@style/dialog_header_button"
-        android:layout_alignParentTop="true"
-        android:layout_alignBottom="@id/toolbarSpacer"
-        android:layout_toEndOf="@id/sortButton"
-        android:textColor="@color/design_default_color_on_primary"
-        android:text="@string/dirMode"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
-    
     <ImageView
         android:id="@+id/refreshButton"
         style="@style/dialog_header_button"
         android:src="@drawable/ic_refresh"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@id/dirModeSwitch"
+        android:layout_toEndOf="@id/sortButton"
         android:layout_alignBottom="@id/toolbarSpacer"
         android:contentDescription="@string/description_sort_button"/>
 
