@@ -14,7 +14,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.google.gson.Gson
 
-class SelectorFragment : Fragment(R.layout.fragment_selector) {
+class LocalFragment : Fragment(R.layout.fragment_selector) {
 
     private var _binding: FragmentSelectorBinding? = null
     private val binding: FragmentSelectorBinding get() = _binding!!
@@ -70,9 +70,9 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
     }
 
     companion object {
-        val TAG: String = SelectorFragment::class.java.simpleName
-        fun create(): SelectorFragment {
-            return SelectorFragment()
+        val TAG: String = LocalFragment::class.java.simpleName
+        fun create(): LocalFragment {
+            return LocalFragment()
         }
     }
 }
