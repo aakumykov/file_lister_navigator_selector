@@ -43,9 +43,12 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
         )
     }
 
+    override fun getDefaultInitialPath(): String = Environment.getExternalStorageDirectory().absolutePath
+
     override fun getDefaultDirSelectionMode(): Boolean = false
 
-    override fun getDefaultInitialPath(): String = Environment.getExternalStorageDirectory().absolutePath
+    override fun getDefaultMultipleSelectionMode(): Boolean = false
+
 
     override fun createDirCreatorDialog(basePath: String): DirCreatorDialog {
         return LocalDirCreatorDialog.create(basePath)
@@ -68,20 +71,25 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
         return SimpleSortingInfoSupplier()
     }
 
-
     companion object {
-        val TAG: String = LocalFileSelectorFragment::class.java.simpleName
-
         fun create(
             initialPath: String? = null,
             isDirSelectionMode: Boolean = false,
+            isMultipleSelectionMode: Boolean = false
         ) : LocalFileSelectorFragment {
             return LocalFileSelectorFragment().apply {
                 arguments = bundleOf(
                     INITIAL_PATH to initialPath,
-                    DIR_SELECTION_MODE to isDirSelectionMode
+                    DIR_SELECTION_MODE to isDirSelectionMode,
+                    MULTIPLE_SELECTION_MODE to isMultipleSelectionMode
                 )
             }
         }
     }
 }
+
+
+
+
+
+

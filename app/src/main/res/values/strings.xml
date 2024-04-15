@@ -12,4 +12,5 @@
     <string name="selection_mode_file">Файл</string>
     <string name="MENU_storage_access">Доступ к хранилищу</string>
     <string name="only_dirs">Только каталоги</string>
+    <string name="multiple_selection_mode">Множественный выбор</string>
 </resources>

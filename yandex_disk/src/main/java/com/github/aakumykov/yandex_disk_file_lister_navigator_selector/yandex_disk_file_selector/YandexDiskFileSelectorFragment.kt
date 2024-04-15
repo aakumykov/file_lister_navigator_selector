@@ -1,6 +1,6 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
-import android.os.Bundle
+import androidx.core.os.bundleOf
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
@@ -40,7 +40,13 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
 
     private var _fileExplorer: FileExplorer<SimpleSortingMode>? = null
 
+
     override fun getDefaultInitialPath(): String = "/"
+
+    override fun getDefaultDirSelectionMode(): Boolean = false
+
+    override fun getDefaultMultipleSelectionMode(): Boolean = false
+
 
     override fun createFileExplorer(): FileExplorer<SimpleSortingMode> {
         if (null == _fileExplorer) {
@@ -74,26 +80,21 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
     private fun authToken(): String? = arguments?.getString(AUTH_TOKEN)
 
 
-    // TODO: общий метод для создания этих диалогов
     companion object {
-        val TAG: String = YandexDiskFileSelectorFragment::class.java.simpleName
-
-        fun create(authToken: String,
-                   initialPath: String? = null,
-                   isMultipleSelectionMode: Boolean = false,
-                   isDirMode: Boolean = false
-        ) : YandexDiskFileSelectorFragment
-        {
+        fun create(
+            authToken: String,
+            initialPath: String? = null,
+            isDirSelectionMode: Boolean = false,
+            isMultipleSelectionMode: Boolean = false
+        ) : YandexDiskFileSelectorFragment {
             return YandexDiskFileSelectorFragment().apply {
-                arguments = Bundle().apply {
-                    putString(AUTH_TOKEN, authToken)
-                    putString(INITIAL_PATH, initialPath)
-                    putBoolean(DIR_SELECTION_MODE, isDirMode)
-//                    putBoolean(IS_MULTIPLE_SELECTION_MODE, isMultipleSelectionMode)
-                }
+                arguments = bundleOf(
+                    AUTH_TOKEN to authToken,
+                    INITIAL_PATH to initialPath,
+                    DIR_SELECTION_MODE to isDirSelectionMode,
+                    MULTIPLE_SELECTION_MODE to isMultipleSelectionMode
+                )
             }
         }
     }
-
-    override fun getDefaultDirSelectionMode(): Boolean = false
 }

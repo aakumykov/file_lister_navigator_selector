@@ -172,7 +172,7 @@ class YandexFragment : Fragment(R.layout.fragment_yandex) {
         YandexDiskFileSelectorFragment.create(
             authToken = yandexAuthToken!!,
             isMultipleSelectionMode = binding.multipleSelectionToggle.isChecked,
-            isDirMode = binding.dirModeToggle.isChecked
+            isDirSelectionMode = binding.dirModeToggle.isChecked
         )
             .show(childFragmentManager, FileSelectorFragment.TAG)
     }

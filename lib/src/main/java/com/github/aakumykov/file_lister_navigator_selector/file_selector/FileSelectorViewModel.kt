@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 
 class FileSelectorViewModel<SortingModeType> (
     val fileExplorer: FileExplorer<SortingModeType>,
+    private var isMultipleSelectionMode: Boolean
 )
     : ViewModel()
 {
@@ -38,6 +39,7 @@ class FileSelectorViewModel<SortingModeType> (
     val isReverseOrder: Boolean get() = fileExplorer.getReverseOrder()
     val isFoldersFirst: Boolean get() = fileExplorer.getFoldersFirst()
 
+    private val isSingleSelectionMode get() = !isMultipleSelectionMode
 
     fun startWork() {
         listCurrentPath()
@@ -59,11 +61,15 @@ class FileSelectorViewModel<SortingModeType> (
     }
 
     fun onItemLongClick(position: Int) {
-        getItemAtPosition(position)?.also { fsItem ->
-            if (selectedItems.contains(fsItem))
-                selectedItems.remove(fsItem)
-            else
-                selectedItems.add(fsItem)
+        getItemAtPosition(position)?.also { longClickedItem ->
+
+            if (selectedItems.contains(longClickedItem))
+                selectedItems.remove(longClickedItem)
+            else {
+                if (isSingleSelectionMode)
+                    selectedItems.clear()
+                selectedItems.add(longClickedItem)
+            }
 
             _selectedList.value = selectedItems
         }
@@ -118,12 +124,13 @@ class FileSelectorViewModel<SortingModeType> (
 
     class Factory<SortingModeType>(
         private val fileExplorer: FileExplorer<SortingModeType>,
+        private val isMultipleSelectionMode: Boolean
     )
         : ViewModelProvider.Factory
     {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FileSelectorViewModel(fileExplorer) as T
+            return FileSelectorViewModel(fileExplorer, isMultipleSelectionMode) as T
         }
     }
 }

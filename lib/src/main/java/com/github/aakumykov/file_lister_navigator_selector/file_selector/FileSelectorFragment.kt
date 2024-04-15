@@ -38,20 +38,33 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
     private lateinit var listAdapter: FileListAdapter<SortingModeType>
 
     private val viewModel: FileSelectorViewModel<SortingModeType> by viewModels {
-        FileSelectorViewModel.Factory(createFileExplorer())
+        FileSelectorViewModel.Factory(
+            createFileExplorer(),
+            isMultipleSelectionMode()
+        )
     }
 
     private val gson by lazy { Gson() }
 
+
     // Методы, просто возвращающие значение, имеют приставку "get".
     protected abstract fun getDefaultInitialPath(): String
     protected abstract fun getDefaultDirSelectionMode(): Boolean
+    protected abstract fun getDefaultMultipleSelectionMode(): Boolean
+
+    @Deprecated("Оцени обоснованность этого метода")
+    protected abstract fun defaultSortingMode(): SortingModeType
+
+    @Deprecated("Оцени обоснованность этого метода")
+    protected abstract fun defaultReverseMode(): Boolean
+
 
     // Методы, создающие новый экземпляр, имеют приставку "create".
     protected abstract fun createFileExplorer(): FileExplorer<SortingModeType>
     protected abstract fun createDirCreatorDialog(basePath: String): DirCreatorDialog
     protected abstract fun createSortingModeTranslator(): SortingModeTranslator<SortingModeType>
     protected abstract fun createSortingInfoSupplier(): SortingInfoSupplier<SortingModeType>
+
 
     // Методы, не возвращающие значений, не имеют приставки-действия.
     protected abstract fun requestWriteAccess(
@@ -168,12 +181,6 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         )
     }
 
-    @Deprecated("Оцени обоснованность этого метода")
-    protected abstract fun defaultSortingMode(): SortingModeType
-
-    @Deprecated("Оцени обоснованность этого метода")
-    protected abstract fun defaultReverseMode(): Boolean
-
 
     private fun onSortButtonClicked() {
         showSortingDialog()
@@ -258,6 +265,10 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         return arguments?.getBoolean(DIR_SELECTION_MODE) ?: getDefaultDirSelectionMode()
     }
 
+    private fun isMultipleSelectionMode(): Boolean {
+        return arguments?.getBoolean(MULTIPLE_SELECTION_MODE) ?: getDefaultMultipleSelectionMode()
+    }
+
     companion object {
         val TAG: String = FileSelectorFragment::class.java.simpleName
         const val ITEMS_SELECTION = "ITEMS_SELECTION"
@@ -265,5 +276,6 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         const val AUTH_TOKEN = "AUTH_TOKEN"
         const val INITIAL_PATH = "INITIAL_PATH"
         const val DIR_SELECTION_MODE = "DIR_SELECTION_MODE"
+        const val MULTIPLE_SELECTION_MODE = "MULTIPLE_SELECTION_MODE"
     }
 }
