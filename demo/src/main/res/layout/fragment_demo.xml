@@ -38,6 +38,7 @@
         android:layout_marginVertical="8dp"
         android:layout_weight="0"
         android:text="@string/multiple_selection_mode"
+        android:checked="true"
         android:switchPadding="8dp"
         android:layout_gravity="center_horizontal"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
