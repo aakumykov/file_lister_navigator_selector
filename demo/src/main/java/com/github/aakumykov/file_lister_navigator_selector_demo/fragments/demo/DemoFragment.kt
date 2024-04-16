@@ -28,7 +28,7 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
     private var fileSelector: FileSelectorFragment<SimpleSortingMode>? = null
 
     private var yandexAuthToken: String? = null
-    private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
+    private var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>? = null
 
     private lateinit var storageAccessHelper: StorageAccessHelper
 
@@ -48,6 +48,10 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
     }
 
     override fun onFragmentResult(requestKey: String, result: Bundle) {
+
+        // Для предотвращения утёчки фрагмента.
+        fileSelector = null
+
         FileSelectorFragment.extractSelectionResult(result)?.also { list ->
             binding.selectionResultView.text = getString(
                 R.string.selection_result, list.joinToString("\n") {
@@ -116,7 +120,7 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
     }
 
     private fun startYandexAuth() {
-        yandexAuthLauncher.launch(YandexAuthLoginOptions(LoginType.WEBVIEW))
+        yandexAuthLauncher?.launch(YandexAuthLoginOptions(LoginType.WEBVIEW))
     }
 
     private fun yandexFileSelector(): FileSelectorFragment<SimpleSortingMode> {
@@ -167,11 +171,6 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
         }
 
         yandexAuthLauncher = registerForActivityResult(yandexAuthSdkContract) { result ->
-            /*yandexAuthToken = result.getOrNull()?.value
-            storeYandexAuthToken()
-            if (null != yandexAuthToken)
-                showFileSelector()*/
-
             result.getOrNull()?.value?.also { token ->
                 yandexAuthToken = token
                 storeYandexAuthToken()
