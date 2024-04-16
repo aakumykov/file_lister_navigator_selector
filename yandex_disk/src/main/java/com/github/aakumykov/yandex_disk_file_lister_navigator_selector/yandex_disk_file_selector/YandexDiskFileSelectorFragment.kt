@@ -83,7 +83,7 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
     companion object {
         fun create(
             authToken: String,
-            initialPath: String? = null,
+            initialPath: String? = "/",
             isDirSelectionMode: Boolean = false,
             isMultipleSelectionMode: Boolean = false
         ) : YandexDiskFileSelectorFragment {
