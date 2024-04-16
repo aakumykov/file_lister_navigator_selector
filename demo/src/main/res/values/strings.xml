@@ -13,4 +13,10 @@
     <string name="MENU_storage_access">Доступ к хранилищу</string>
     <string name="only_dirs">Только каталоги</string>
     <string name="multiple_selection_mode">Множественный выбор</string>
+    <string name="BUTTON_select_local">Выбрать локально</string>
+    <string name="BUTTON_select_yandex">Выбрать в Яндекс.Диск-е</string>
+    <string name="DIALOG_title_logout_from_yandex">Выйти из Яндекса?</string>
+    <string name="DIALOG_message_yandex_auth_token_will_be_cleared">Токен авторизации в Яндекс будет забыт.</string>
+    <string name="DIALOG_button_yes">Да</string>
+    <string name="DIALOG_button_no">Нет</string>
 </resources>
