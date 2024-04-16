@@ -6,10 +6,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
-import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector_demo.R
 import com.github.aakumykov.file_lister_navigator_selector_demo.databinding.FragmentLocalBinding
+import com.github.aakumykov.file_lister_navigator_selector_demo.extensions.showToast
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.google.gson.Gson
 
@@ -49,16 +49,13 @@ class LocalFragment : Fragment(R.layout.fragment_local) {
     }
 
     private fun prepareFragmentResultListener() {
-        childFragmentManager.setFragmentResultListener(FileSelectorFragment.ITEMS_SELECTION, viewLifecycleOwner)
+        childFragmentManager.setFragmentResultListener(FileSelectorFragment.REQUEST_ITEMS_SELECTION, viewLifecycleOwner)
         { requestKey, result ->
-            if (FileSelectorFragment.ITEMS_SELECTION == requestKey) {
-                result.getStringArrayList(FileSelectorFragment.SELECTED_ITEMS_LIST)?.also { listOfJSON ->
-                    val fsItemList: List<FSItem> = listOfJSON.map {  jsonFSItem ->
-                        return@map gson.fromJson(jsonFSItem, SimpleFSItem::class.java)
-                    }
+            if (FileSelectorFragment.REQUEST_ITEMS_SELECTION == requestKey) {
+                FileSelectorFragment.extractSelectionResult(result)?.also { fsItemList ->
                     Log.d(TAG, fsItemList.toString())
                     displaySelectedItems(fsItemList)
-                }
+                } ?: showToast("Ошибка обработки результата выбора файлов.")
             }
         }
     }
