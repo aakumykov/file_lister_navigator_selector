@@ -101,7 +101,7 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
     }
 
     private fun showFileSelector() {
-        fileSelector?.show(childFragmentManager)
+        fileSelector?.show(childFragmentManager, FileSelectorFragment.TAG)
     }
 
     private fun startYandexAuth() {
