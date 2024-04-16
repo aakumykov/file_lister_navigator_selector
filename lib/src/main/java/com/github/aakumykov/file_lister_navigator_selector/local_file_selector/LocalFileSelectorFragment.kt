@@ -8,14 +8,14 @@ import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.Di
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
-import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SimpleSortingModeTranslator
-import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator.LocalDirCreator
 import com.github.aakumykov.file_lister_navigator_selector.local_dir_creator_dialog.LocalDirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.local_file_lister.LocalFileLister
 import com.github.aakumykov.file_lister_navigator_selector.local_fs_navigator.LocalFileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SimpleSortingInfoSupplier
 import com.github.aakumykov.file_lister_navigator_selector.sorting_info_supplier.SortingInfoSupplier
+import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SimpleSortingModeTranslator
+import com.github.aakumykov.file_lister_navigator_selector.sorting_mode_translator.SortingModeTranslator
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 
 class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
@@ -45,6 +45,10 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
 
     override fun getDefaultInitialPath(): String = Environment.getExternalStorageDirectory().absolutePath
 
+    override fun setSelectionResult(bundle: Bundle) {
+        parentFragmentManager.setFragmentResult(LOCAL_SELECTION_REQUEST_KEY, bundle)
+    }
+
     override fun getDefaultDirSelectionMode(): Boolean = false
 
     override fun getDefaultMultipleSelectionMode(): Boolean = false
@@ -72,6 +76,8 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
     }
 
     companion object {
+        const val LOCAL_SELECTION_REQUEST_KEY = "LOCAL_SELECTION_REQUEST_CODE"
+
         fun create(
             initialPath: String? = null,
             isDirSelectionMode: Boolean = false,

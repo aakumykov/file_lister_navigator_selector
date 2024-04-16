@@ -1,5 +1,6 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
@@ -41,6 +42,10 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
     private var _fileExplorer: FileExplorer<SimpleSortingMode>? = null
 
 
+    override fun setSelectionResult(bundle: Bundle) {
+        parentFragmentManager.setFragmentResult(YANDEX_DISK_SELECTION_REQUEST_KEY, bundle)
+    }
+
     override fun getDefaultInitialPath(): String = "/"
 
     override fun getDefaultDirSelectionMode(): Boolean = false
@@ -81,6 +86,8 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
 
 
     companion object {
+        const val YANDEX_DISK_SELECTION_REQUEST_KEY = "YANDEX_DISK_SELECTION_REQUEST_CODE"
+
         fun create(
             authToken: String,
             initialPath: String? = "/",

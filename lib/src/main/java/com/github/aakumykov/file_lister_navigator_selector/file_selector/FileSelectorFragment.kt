@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
 import com.github.aakumykov.file_lister_navigator_selector.R
@@ -72,11 +71,13 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         onWriteAccessRejected: (errorMsg: String?) -> Unit
     )
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = DialogFileSelectorBinding.bind(view)
 
+        // TODO: инкапсулировать в диалоге создания каталога
         childFragmentManager.setFragmentResultListener(DirCreatorDialog.DIR_NAME, viewLifecycleOwner, ::onDirCreationResult)
 
         prepareListAdapter()
@@ -223,8 +224,15 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         listAdapter.changeSortingMode(sortingMode)
     }
 
+    /**
+     * Возвращает результат по механизму FragmentResultAPI (вызывает "setFragmentResult"),
+     * используя специфический для реализации ключ результата.
+     */
+    protected abstract fun setSelectionResult(bundle: Bundle)
+
+
     private fun onConfirmSelectionClicked() {
-        setFragmentResult(REQUEST_ITEMS_SELECTION, selectedItemsToBundle())
+        setSelectionResult(selectedItemsToBundle())
         dismiss()
     }
 
@@ -273,7 +281,6 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
     companion object {
         val TAG: String = FileSelectorFragment::class.java.simpleName
 
-        const val REQUEST_ITEMS_SELECTION = "REQUEST_ITEMS_SELECTION"
         const val SELECTED_ITEMS_LIST = "SELECTED_ITEMS_LIST"
 
         @Deprecated("Перенести в реализацию для Яндекс")
