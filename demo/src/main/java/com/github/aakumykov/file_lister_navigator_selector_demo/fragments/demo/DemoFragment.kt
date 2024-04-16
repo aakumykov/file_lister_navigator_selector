@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.preference.PreferenceManager
+import com.github.aakumykov.file_lister_navigator_selector.extensions.listenForFragmentResult
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelectorFragment
@@ -36,13 +37,23 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
         prepareLayout(view)
         prepareStorageAccessHelper()
         prepareYandexAuthLauncher()
-        prepareSelectionResultListener()
+        prepareFragmentResultListener()
         prepareButtons()
         restoreYandexAuthToken(savedInstanceState)
     }
 
-    private fun prepareSelectionResultListener() {
-        childFragmentManager.setFragmentResultListener(FileSelectorFragment.REQUEST_ITEMS_SELECTION, viewLifecycleOwner, this)
+    private fun prepareFragmentResultListener() {
+        listenForFragmentResult(YandexDiskFileSelectorFragment.YANDEX_DISK_SELECTION_REQUEST_KEY, this)
+        listenForFragmentResult(LocalFileSelectorFragment.LOCAL_SELECTION_REQUEST_KEY, this)
+    }
+
+    override fun onFragmentResult(requestKey: String, result: Bundle) {
+        FileSelectorFragment.extractSelectionResult(result)?.also { list ->
+            binding.selectionResultView.text = getString(
+                R.string.selection_result, list.joinToString("\n") {
+                    (if (it.isDir) "dir: " else "file: ") + it.name
+                })
+        }
     }
 
     private fun prepareStorageAccessHelper() {
@@ -176,13 +187,5 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
         fun create(): DemoFragment = DemoFragment()
 
         const val YANDEX_AUTH_TOKEN = "YANDEX_AUTH_TOKEN"
-    }
-
-    override fun onFragmentResult(requestKey: String, result: Bundle) {
-        if (FileSelectorFragment.REQUEST_ITEMS_SELECTION == requestKey) {
-            FileSelectorFragment.extractSelectionResult(result)?.also { list ->
-                binding.selectionResultView.text = getString(R.string.selection_result, list.joinToString("\n") { it.name })
-            }
-        }
     }
 }
