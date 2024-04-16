@@ -225,7 +225,7 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
     }
 
     private fun onConfirmSelectionClicked() {
-        setFragmentResult(ITEMS_SELECTION, selectedItemsToBundle())
+        setFragmentResult(REQUEST_ITEMS_SELECTION, selectedItemsToBundle())
         dismiss()
     }
 
@@ -276,11 +276,23 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
 
     companion object {
         val TAG: String = FileSelectorFragment::class.java.simpleName
-        const val ITEMS_SELECTION = "ITEMS_SELECTION"
-        const val SELECTED_ITEMS_LIST = "FS_ITEM"
+
+        const val REQUEST_ITEMS_SELECTION = "REQUEST_ITEMS_SELECTION"
+        const val SELECTED_ITEMS_LIST = "SELECTED_ITEMS_LIST"
+
+        @Deprecated("Перенести в реализацию для Яндекс")
         const val AUTH_TOKEN = "AUTH_TOKEN"
+
         const val INITIAL_PATH = "INITIAL_PATH"
         const val DIR_SELECTION_MODE = "DIR_SELECTION_MODE"
         const val MULTIPLE_SELECTION_MODE = "MULTIPLE_SELECTION_MODE"
+
+        fun extractSelectionResult(result: Bundle): List<FSItem>? {
+            val gson = Gson()
+            return result.getStringArrayList(SELECTED_ITEMS_LIST)
+                ?.map { json ->
+                    gson.fromJson(json, SimpleFSItem::class.java)
+                }
+        }
     }
 }
