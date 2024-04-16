@@ -19,4 +19,5 @@
     <string name="DIALOG_message_yandex_auth_token_will_be_cleared">Токен авторизации в Яндекс будет забыт.</string>
     <string name="DIALOG_button_yes">Да</string>
     <string name="DIALOG_button_no">Нет</string>
+    <string name="selection_result">Выбрано:\n%1$s</string>
 </resources>

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentResultListener
 import androidx.preference.PreferenceManager
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSelectorFragment
@@ -18,7 +19,7 @@ import com.yandex.authsdk.YandexAuthOptions
 import com.yandex.authsdk.YandexAuthSdkContract
 import com.yandex.authsdk.internal.strategy.LoginType
 
-class DemoFragment : Fragment(R.layout.fragment_demo) {
+class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
 
     private var _binding: FragmentDemoBinding? = null
     private val binding get()= _binding!!
@@ -35,8 +36,13 @@ class DemoFragment : Fragment(R.layout.fragment_demo) {
         prepareLayout(view)
         prepareStorageAccessHelper()
         prepareYandexAuthLauncher()
+        prepareSelectionResultListener()
         prepareButtons()
         restoreYandexAuthToken(savedInstanceState)
+    }
+
+    private fun prepareSelectionResultListener() {
+        childFragmentManager.setFragmentResultListener(FileSelectorFragment.REQUEST_ITEMS_SELECTION, viewLifecycleOwner, this)
     }
 
     private fun prepareStorageAccessHelper() {
@@ -170,5 +176,13 @@ class DemoFragment : Fragment(R.layout.fragment_demo) {
         fun create(): DemoFragment = DemoFragment()
 
         const val YANDEX_AUTH_TOKEN = "YANDEX_AUTH_TOKEN"
+    }
+
+    override fun onFragmentResult(requestKey: String, result: Bundle) {
+        if (FileSelectorFragment.REQUEST_ITEMS_SELECTION == requestKey) {
+            FileSelectorFragment.extractSelectionResult(result)?.also { list ->
+                binding.selectionResultView.text = getString(R.string.selection_result, list.joinToString("\n") { it.name })
+            }
+        }
     }
 }
