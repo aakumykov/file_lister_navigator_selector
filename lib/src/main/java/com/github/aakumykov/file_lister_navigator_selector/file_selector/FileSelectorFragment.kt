@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.github.aakumykov.file_lister_navigator_selector.FileListAdapter
@@ -267,6 +268,10 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
 
     private fun isMultipleSelectionMode(): Boolean {
         return arguments?.getBoolean(MULTIPLE_SELECTION_MODE) ?: getDefaultMultipleSelectionMode()
+    }
+
+    fun show(childFragmentManager: FragmentManager) {
+        show(childFragmentManager, TAG)
     }
 
     companion object {
