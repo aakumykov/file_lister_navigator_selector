@@ -63,6 +63,10 @@ class FileSelectorViewModel<SortingModeType> (
     fun onItemLongClick(position: Int) {
         getItemAtPosition(position)?.also { longClickedItem ->
 
+            // Не позволяю "выбрать" ссылку на родительский каталог.
+            if (longClickedItem is ParentDirItem)
+                return
+
             if (selectedItems.contains(longClickedItem))
                 selectedItems.remove(longClickedItem)
             else {
