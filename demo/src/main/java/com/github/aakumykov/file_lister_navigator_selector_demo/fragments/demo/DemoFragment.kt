@@ -1,6 +1,7 @@
 package com.github.aakumykov.file_lister_navigator_selector_demo.fragments.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
@@ -43,11 +44,22 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
     }
 
     private fun prepareFragmentResultListener() {
+        listenForFragmentResult(FileSelectorFragment.SELECTION_CANCELLATION, this)
         listenForFragmentResult(YandexDiskFileSelectorFragment.YANDEX_DISK_SELECTION_REQUEST_KEY, this)
         listenForFragmentResult(LocalFileSelectorFragment.LOCAL_SELECTION_REQUEST_KEY, this)
     }
 
     override fun onFragmentResult(requestKey: String, result: Bundle) {
+
+        fileSelector = null
+
+        if (FileSelectorFragment.SELECTION_CANCELLATION == requestKey) {
+            Log.d(TAG, "onFragmentResult(), ОТМЕНЕНО")
+            return
+        }
+
+        Log.d(TAG, "onFragmentResult(), ВЫБРАНО")
+
         FileSelectorFragment.extractSelectionResult(result)?.also { list ->
             binding.selectionResultView.text = getString(
                 R.string.selection_result, list.joinToString("\n") {
@@ -93,7 +105,9 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
 
     private fun onLocalSelectButtonClicked() {
         fileSelector = localFileSelector()
-        storageAccessHelper.requestReadAccess { showFileSelector() }
+        storageAccessHelper.requestReadAccess {
+            showFileSelector()
+        }
     }
 
     private fun onYandexSelectButtonClicked() {

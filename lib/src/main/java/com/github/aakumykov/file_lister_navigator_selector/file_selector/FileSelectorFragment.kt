@@ -1,5 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.file_selector
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -98,11 +99,21 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
 
     private fun prepareButtons() {
         binding.confirmSelectionButton.setOnClickListener { onConfirmSelectionClicked() }
-        binding.dialogCloseButton.setOnClickListener { dismiss() }
+        binding.closeButton.setOnClickListener { closeWithCancelInfo() }
         binding.createDirButton.setOnClickListener { onCreateDirClicked() }
         binding.sortButton.setOnClickListener { onSortButtonClicked() }
         binding.backButton.setOnClickListener { onBackButtonClicked() }
         binding.refreshButton.setOnClickListener { onRefreshRequested() }
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        closeWithCancelInfo()
+    }
+
+    private fun closeWithCancelInfo() {
+        parentFragmentManager.setFragmentResult(SELECTION_CANCELLATION, bundleOf())
+        dismiss()
     }
 
     private fun onRefreshRequested() {
@@ -282,6 +293,7 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         val TAG: String = FileSelectorFragment::class.java.simpleName
 
         const val SELECTED_ITEMS_LIST = "SELECTED_ITEMS_LIST"
+        const val SELECTION_CANCELLATION = "SELECTION_WAS_CANCELLED"
 
         @Deprecated("Перенести в реализацию для Яндекс")
         const val AUTH_TOKEN = "AUTH_TOKEN"
@@ -297,5 +309,7 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
                     gson.fromJson(json, SimpleFSItem::class.java)
                 }
         }
+
+//        fun selectionWasCancelled(result: Bundle): Boolean = result.containsKey(SELECTION_WAS_CANCELLED)
     }
 }

@@ -46,14 +46,14 @@
         android:padding="12dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/refreshButton"
-        android:layout_toStartOf="@id/dialogCloseButton"
+        android:layout_toStartOf="@id/closeButton"
         android:text="@string/DIALOG_title_common_mode"
         android:gravity="center_horizontal"
         android:textColor="@color/design_default_color_on_primary"
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/dialogCloseButton"
+        android:id="@+id/closeButton"
         style="@style/dialog_header_button"
         android:src="@drawable/ic_close"
         android:layout_alignParentTop="true"
