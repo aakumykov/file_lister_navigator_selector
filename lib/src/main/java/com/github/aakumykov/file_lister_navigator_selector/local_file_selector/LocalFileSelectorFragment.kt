@@ -3,7 +3,9 @@ package com.github.aakumykov.file_lister_navigator_selector.local_file_selector
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
+import com.github.aakumykov.file_lister_navigator_selector.R
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
@@ -62,8 +64,10 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
         onWriteAccessGranted: () -> Unit,
         onWriteAccessRejected: (errorMsg: String?) -> Unit
     ) {
-        // TODO: StorageAccessHelper: реакция на запрет
-        storageAccessHelper.requestWriteAccess { onWriteAccessGranted() }
+        storageAccessHelper.requestWriteAccess { isGranted ->
+            if (isGranted) onWriteAccessGranted()
+            else Toast.makeText(requireContext(), R.string.TOAST_no_write_access, Toast.LENGTH_SHORT).show()
+        }
     }
 
 

@@ -3,6 +3,7 @@ package com.github.aakumykov.file_lister_navigator_selector_demo.fragments.demo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -69,7 +70,7 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
     }
 
     private fun prepareStorageAccessHelper() {
-        storageAccessHelper = StorageAccessHelper.Companion.create(this)
+        storageAccessHelper = StorageAccessHelper.create(this)
     }
 
     private fun prepareLayout(view: View) {
@@ -105,8 +106,9 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
 
     private fun onLocalSelectButtonClicked() {
         fileSelector = localFileSelector()
-        storageAccessHelper.requestReadAccess {
-            showFileSelector()
+        storageAccessHelper.requestReadAccess { isGranted ->
+            if (isGranted) showFileSelector()
+            else Toast.makeText(requireContext(), R.string.TOAST_no_read_access, Toast.LENGTH_SHORT).show()
         }
     }
 
