@@ -224,16 +224,19 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         listAdapter.changeSortingMode(sortingMode)
     }
 
+    private fun onConfirmSelectionClicked() {
+        setSelectionResult(selectedItemsToBundle())
+        dismiss()
+    }
+
     /**
      * Возвращает результат по механизму FragmentResultAPI (вызывает "setFragmentResult"),
      * используя специфический для реализации ключ результата.
      */
-    protected abstract fun setSelectionResult(bundle: Bundle)
-
-
-    private fun onConfirmSelectionClicked() {
-        setSelectionResult(selectedItemsToBundle())
-        dismiss()
+    private fun setSelectionResult(bundle: Bundle) {
+        getFragmentResultKey()?.also { key ->
+            parentFragmentManager.setFragmentResult(key, bundle)
+        } ?: throw IllegalStateException("Key for use to result selection result with FragmentResultAPI not found.")
     }
 
     private fun selectedItemsToBundle(): Bundle {
@@ -277,9 +280,18 @@ abstract class FileSelectorFragment<SortingModeType> : DialogFragment(R.layout.d
         return arguments?.getBoolean(MULTIPLE_SELECTION_MODE) ?: getDefaultMultipleSelectionMode()
     }
 
+    private fun getFragmentResultKey(): String? {
+        return arguments?.getString(FRAGMENT_RESULT_KEY)
+    }
+
 
     companion object {
         val TAG: String = FileSelectorFragment::class.java.simpleName
+
+        //
+        // Ключ для передачи фрагменту ключа же, по которому он вернёт результат (через FragmentResultAPI).
+        //
+        const val FRAGMENT_RESULT_KEY = "FRAGMENT_RESULT_KEY"
 
         const val SELECTED_ITEMS_LIST = "SELECTED_ITEMS_LIST"
 

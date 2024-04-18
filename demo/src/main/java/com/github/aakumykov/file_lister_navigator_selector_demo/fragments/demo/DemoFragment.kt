@@ -43,8 +43,8 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
     }
 
     private fun prepareFragmentResultListener() {
-        listenForFragmentResult(YandexDiskFileSelectorFragment.YANDEX_DISK_SELECTION_REQUEST_KEY, this)
-        listenForFragmentResult(LocalFileSelectorFragment.LOCAL_SELECTION_REQUEST_KEY, this)
+        listenForFragmentResult(YANDEX_DISK_SELECTION_REQUEST_KEY, this)
+        listenForFragmentResult(LOCAL_SELECTION_REQUEST_KEY, this)
     }
 
     override fun onFragmentResult(requestKey: String, result: Bundle) {
@@ -121,6 +121,7 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
 
     private fun yandexFileSelector(): FileSelectorFragment<SimpleSortingMode> {
         return YandexDiskFileSelectorFragment.create(
+            fragmentResultKey = YANDEX_DISK_SELECTION_REQUEST_KEY,
             authToken = yandexAuthToken!!,
             isDirSelectionMode = isDirSelectionMode(),
             isMultipleSelectionMode = isMultipleSelectionMode()
@@ -129,6 +130,7 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
 
     private fun localFileSelector(): FileSelectorFragment<SimpleSortingMode> {
         return LocalFileSelectorFragment.create(
+            fragmentResultKey = LOCAL_SELECTION_REQUEST_KEY,
             isDirSelectionMode = isDirSelectionMode(),
             isMultipleSelectionMode = isMultipleSelectionMode(),
         )
@@ -187,5 +189,8 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
         fun create(): DemoFragment = DemoFragment()
 
         const val YANDEX_AUTH_TOKEN = "YANDEX_AUTH_TOKEN"
+
+        const val LOCAL_SELECTION_REQUEST_KEY = "LOCAL_SELECTION_REQUEST_CODE"
+        const val YANDEX_DISK_SELECTION_REQUEST_KEY = "YANDEX_DISK_SELECTION_REQUEST_CODE"
     }
 }

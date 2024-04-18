@@ -1,6 +1,5 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
-import android.os.Bundle
 import androidx.core.os.bundleOf
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
@@ -20,6 +19,8 @@ import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_di
 
 class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
 
+    private var _fileExplorer: FileExplorer<SimpleSortingMode>? = null
+
     override fun createDirCreatorDialog(basePath: String): DirCreatorDialog {
         // TODO: как быть с "!!" ?
         return YandexDiskDirCreatorDialog.create(basePath, authToken()!!)
@@ -38,13 +39,6 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
     }
 
     override fun defaultReverseMode(): Boolean = false
-
-    private var _fileExplorer: FileExplorer<SimpleSortingMode>? = null
-
-
-    override fun setSelectionResult(bundle: Bundle) {
-        parentFragmentManager.setFragmentResult(YANDEX_DISK_SELECTION_REQUEST_KEY, bundle)
-    }
 
     override fun getDefaultInitialPath(): String = "/"
 
@@ -86,9 +80,8 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
 
 
     companion object {
-        const val YANDEX_DISK_SELECTION_REQUEST_KEY = "YANDEX_DISK_SELECTION_REQUEST_CODE"
-
         fun create(
+            fragmentResultKey: String,
             authToken: String,
             initialPath: String? = "/",
             isDirSelectionMode: Boolean = false,
@@ -96,6 +89,7 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
         ) : YandexDiskFileSelectorFragment {
             return YandexDiskFileSelectorFragment().apply {
                 arguments = bundleOf(
+                    FRAGMENT_RESULT_KEY to fragmentResultKey,
                     AUTH_TOKEN to authToken,
                     INITIAL_PATH to initialPath,
                     DIR_SELECTION_MODE to isDirSelectionMode,

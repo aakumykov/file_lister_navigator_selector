@@ -9,7 +9,7 @@ plugins {
 project.ext {
     artifactId = 'yandex_disk_file_lister_navigator_selector'
     groupId = 'com.github.aakumykov'
-    versionCode = 17
+    versionCode = 18
     versionName = "0.0." + versionCode
 }
 

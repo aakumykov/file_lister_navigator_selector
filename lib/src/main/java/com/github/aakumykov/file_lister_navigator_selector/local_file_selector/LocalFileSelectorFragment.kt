@@ -45,10 +45,6 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
 
     override fun getDefaultInitialPath(): String = Environment.getExternalStorageDirectory().absolutePath
 
-    override fun setSelectionResult(bundle: Bundle) {
-        parentFragmentManager.setFragmentResult(LOCAL_SELECTION_REQUEST_KEY, bundle)
-    }
-
     override fun getDefaultDirSelectionMode(): Boolean = false
 
     override fun getDefaultMultipleSelectionMode(): Boolean = false
@@ -66,7 +62,6 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
         storageAccessHelper.requestWriteAccess { onWriteAccessGranted() }
     }
 
-
     override fun createSortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {
         return SimpleSortingModeTranslator(resources)
     }
@@ -76,15 +71,15 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
     }
 
     companion object {
-        const val LOCAL_SELECTION_REQUEST_KEY = "LOCAL_SELECTION_REQUEST_CODE"
-
         fun create(
+            fragmentResultKey: String,
             initialPath: String? = null,
             isDirSelectionMode: Boolean = false,
             isMultipleSelectionMode: Boolean = false
         ) : LocalFileSelectorFragment {
             return LocalFileSelectorFragment().apply {
                 arguments = bundleOf(
+                    FRAGMENT_RESULT_KEY to fragmentResultKey,
                     INITIAL_PATH to initialPath,
                     DIR_SELECTION_MODE to isDirSelectionMode,
                     MULTIPLE_SELECTION_MODE to isMultipleSelectionMode
