@@ -46,9 +46,9 @@
     <TextView
         android:id="@+id/errorView"
         style="@style/error_view"
+        android:layout_below="@id/dirNameInput"
         tools:text="Сообщение об ошибке"
-        tools:visibility="visible"
-        android:layout_below="@id/dirNameInput"/>
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar"
