@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/errorView"
-        style="@style/error_view"
+        style="@style/flns_error_view"
         android:layout_below="@id/dirNameInput"
         tools:text="Сообщение об ошибке"
         tools:visibility="visible" />

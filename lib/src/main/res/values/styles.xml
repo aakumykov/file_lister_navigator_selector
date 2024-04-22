@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="error_view" parent="info_text_bar">
+    <style name="flns_error_view" parent="flns_info_text_bar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/error_view_bg</item>
@@ -8,7 +8,7 @@
         <item name="android:visibility">gone</item>
     </style>
 
-    <style name="info_text_bar">
+    <style name="flns_info_text_bar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
@@ -20,7 +20,7 @@
         <item name="android:paddingBottom">4dp</item>
     </style>
 
-    <style name="dialog_header_button">
+    <style name="flns_dialog_header_button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/design_default_color_primary</item>

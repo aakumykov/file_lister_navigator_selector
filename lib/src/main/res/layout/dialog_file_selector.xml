@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/backButton"
-        style="@style/dialog_header_button"
+        style="@style/flns_dialog_header_button"
         android:src="@drawable/ic_back"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -15,7 +15,7 @@
 
     <ImageView
         android:id="@+id/createDirButton"
-        style="@style/dialog_header_button"
+        style="@style/flns_dialog_header_button"
         android:src="@drawable/ic_mkdir"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/backButton"
@@ -24,7 +24,7 @@
 
     <ImageView
         android:id="@+id/sortButton"
-        style="@style/dialog_header_button"
+        style="@style/flns_dialog_header_button"
         android:src="@drawable/ic_sort"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/createDirButton"
@@ -33,7 +33,7 @@
 
     <ImageView
         android:id="@+id/refreshButton"
-        style="@style/dialog_header_button"
+        style="@style/flns_dialog_header_button"
         android:src="@drawable/ic_refresh"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/sortButton"
@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/toolbarSpacer"
-        style="@style/dialog_header_button"
+        style="@style/flns_dialog_header_button"
         android:padding="12dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/refreshButton"
@@ -54,7 +54,7 @@
 
     <ImageView
         android:id="@+id/dialogCloseButton"
-        style="@style/dialog_header_button"
+        style="@style/flns_dialog_header_button"
         android:src="@drawable/ic_close"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -89,14 +89,14 @@
 
     <TextView
         android:id="@+id/errorView"
-        style="@style/error_view"
+        style="@style/flns_error_view"
         android:layout_below="@id/progressBar"
         tools:visibility="visible"
         tools:text="Сообщение об ошибке"/>
 
     <TextView
         android:id="@+id/emptyListLabel"
-        style="@style/info_text_bar"
+        style="@style/flns_info_text_bar"
         android:layout_below="@id/errorView"
         tools:visibility="visible"
         android:text="@string/dir_is_empty" />
