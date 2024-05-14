@@ -9,7 +9,7 @@ plugins {
 project.ext {
     artifactId = 'file_lister_navigator_selector'
     groupId = 'com.github.aakumykov'
-    versionCode = 21
+    versionCode = 22
     versionName = "0.0." + versionCode
 }
 
@@ -70,6 +70,8 @@ dependencies {
     api 'com.github.aakumykov:extensible_sorting_comparator:0.0.2'
 
     implementation 'com.google.code.gson:gson:2.10.1'
+
+    api 'com.github.aakumykov:cloud_reader:0.1.1-alpha'
 }
 
 publishing {

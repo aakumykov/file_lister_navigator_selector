@@ -33,6 +33,9 @@ interface FileLister<SortingModeType> {
     ): List<FSItem>
 
 
+    suspend fun fileExists(path: String): Result<Boolean>
+
+
     @Deprecated("Избавиться, так как используется только в RecursiveDirReader")
     class NotADirException : IOException()
 

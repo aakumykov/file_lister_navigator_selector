@@ -1,6 +1,7 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
 import androidx.core.os.bundleOf
+import com.github.aakumykov.cloud_reader.YandexCloudReader
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
@@ -14,6 +15,8 @@ import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_di
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.FileListerYandexDiskClient
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_lister.YandexDiskFileLister
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_fs_navigator.YandexDiskFileExplorer
+import com.google.gson.Gson
+import okhttp3.OkHttpClient
 
 // TODO: внедрять зависимости
 
@@ -54,15 +57,17 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
 
             if (authToken.isNullOrEmpty())
                 throw IllegalArgumentException("Auth token is null or empty")
-            else {
-                val yandexDiskClient = FileListerYandexDiskClient(authToken)
-                _fileExplorer = YandexDiskFileExplorer(
-                        yandexDiskFileLister = YandexDiskFileLister(authToken),
-                        yandexDiskDirCreator = YandexDiskDirCreator(yandexDiskClient),
-                        initialPath = "/",
-                        isDirMode = isDirMode(),
-                )
-            }
+
+            val yandexDiskClient = FileListerYandexDiskClient(authToken)
+
+            val yandexCloudReader = YandexCloudReader(authToken, OkHttpClient(), Gson())
+
+            _fileExplorer = YandexDiskFileExplorer(
+                    yandexDiskFileLister = YandexDiskFileLister(authToken, yandexCloudReader),
+                    yandexDiskDirCreator = YandexDiskDirCreator(yandexDiskClient),
+                    initialPath = "/",
+                    isDirMode = isDirMode(),
+            )
         }
 
         return _fileExplorer!!

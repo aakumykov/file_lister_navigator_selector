@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import androidx.core.os.bundleOf
+import com.github.aakumykov.cloud_reader.LocalCloudReader
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
@@ -35,7 +36,7 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
 
     override fun createFileExplorer(): FileExplorer<SimpleSortingMode> {
         return LocalFileExplorer(
-            localFileLister = LocalFileLister(""),
+            localFileLister = LocalFileLister("", LocalCloudReader()),
             localDirCreator = LocalDirCreator(),
             initialPath = initialPath(),
             isDirMode = isDirMode(),
