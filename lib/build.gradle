@@ -9,8 +9,15 @@ plugins {
 project.ext {
     artifactId = 'file_lister_navigator_selector'
     groupId = 'com.github.aakumykov'
-    versionCode = 23
-    versionName = "0.0." + versionCode
+
+    majorVersionCode = 1
+    minorVersionCode = 0
+    patchVersionCode = 0
+    suffix = "alpha"
+
+    versionName = majorVersionCode + "." + minorVersionCode + "." + patchVersionCode + "-" + suffix
+
+    versionCode = 24
 }
 
 android {
@@ -71,7 +78,7 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.10.1'
 
-    api 'com.github.aakumykov:cloud_reader:0.1.1-alpha'
+    api 'com.github.aakumykov:cloud_reader:1.1.0-alpha'
 }
 
 publishing {

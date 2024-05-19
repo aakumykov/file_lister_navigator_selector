@@ -1,6 +1,6 @@
 package com.github.aakumykov.file_lister_navigator_selector.local_file_lister
 
-import com.github.aakumykov.cloud_reader.LocalCloudReader
+import com.github.aakumykov.cloud_reader.local_cloud_reader.LocalCloudReader
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.FileLister
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
