@@ -10,8 +10,8 @@ project.ext {
     artifactId = 'yandex_disk_file_lister_navigator_selector'
     groupId = 'com.github.aakumykov'
 
-    majorVersionCode = 1
-    minorVersionCode = 1
+    majorVersionCode = 2
+    minorVersionCode = 0
     patchVersionCode = 0
     suffix = "alpha"
 
@@ -63,8 +63,8 @@ dependencies {
 //    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation 'com.google.dagger:dagger:2.48.1'
-    kapt 'com.google.dagger:dagger-compiler:2.48.1'
+//    implementation 'com.google.dagger:dagger:2.48.1'
+//    kapt 'com.google.dagger:dagger-compiler:2.48.1'
 
     api 'com.github.aakumykov:yandex_disk_client:0.0.21'
 

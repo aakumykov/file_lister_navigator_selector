@@ -6,12 +6,10 @@ import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSor
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 import com.github.aakumykov.file_lister_navigator_selector.fs_item.SimpleFSItem
 import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FSItemSortingComparator
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import java.io.File
 
-class LocalFileLister @AssistedInject constructor(
-    @Assisted private val dummyAuthToken: String,
+class LocalFileLister(
+    private val dummyAuthToken: String,
     private val localCloudReader: LocalCloudReader
 )
     : FileLister<SimpleSortingMode>
