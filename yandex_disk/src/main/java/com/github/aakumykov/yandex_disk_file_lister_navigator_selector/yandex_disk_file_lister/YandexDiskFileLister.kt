@@ -40,4 +40,10 @@ class YandexDiskFileLister @AssistedInject constructor(
     }
 
     override suspend fun fileExists(path: String): Result<Boolean> = yandexCloudReader.fileExists(path)
+
+    companion object {
+        fun createDefault(authToken: String): YandexDiskFileLister {
+            return YandexDiskFileLister(authToken, YandexCloudReader(authToken))
+        }
+    }
 }

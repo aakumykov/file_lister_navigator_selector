@@ -55,4 +55,8 @@ class LocalFileLister @AssistedInject constructor(
 
 
     override suspend fun fileExists(path: String): Result<Boolean> = localCloudReader.fileExists(path)
+
+    companion object {
+        fun createDefault(): LocalFileLister = LocalFileLister("", LocalCloudReader())
+    }
 }
