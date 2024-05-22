@@ -1,7 +1,6 @@
 package com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector
 
 import androidx.core.os.bundleOf
-import com.github.aakumykov.cloud_reader.yandex_cloud_reader.YandexCloudReader
 import com.github.aakumykov.file_lister_navigator_selector.dir_creator_dialog.DirCreatorDialog
 import com.github.aakumykov.file_lister_navigator_selector.file_explorer.FileExplorer
 import com.github.aakumykov.file_lister_navigator_selector.file_lister.SimpleSortingMode
@@ -58,12 +57,8 @@ class YandexDiskFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>()
 
             val yandexDiskClient = FileListerYandexDiskClient(authToken)
 
-            val yandexCloudReader = YandexCloudReader(authToken)
-
-            val yandexDiskFileLister = YandexDiskFileLister(authToken, yandexCloudReader)
-
             _fileExplorer = YandexDiskFileExplorer(
-                    yandexDiskFileLister = yandexDiskFileLister,
+                    yandexDiskFileLister = YandexDiskFileLister(authToken),
                     yandexDiskDirCreator = YandexDiskDirCreator(yandexDiskClient),
                     initialPath = "/",
                     isDirMode = isDirMode(),

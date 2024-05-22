@@ -7,7 +7,7 @@ import com.github.aakumykov.file_lister_navigator_selector.fs_item.FSItem
 
 class YandexDiskFileLister(
     private val authToken: String,
-    private val yandexCloudReader: YandexCloudReader
+    private val yandexCloudReader: YandexCloudReader = YandexCloudReader(authToken)
 )
     : FileLister<SimpleSortingMode>
 {
@@ -38,10 +38,4 @@ class YandexDiskFileLister(
     }
 
     override suspend fun fileExists(path: String): Result<Boolean> = yandexCloudReader.fileExists(path)
-
-    companion object {
-        fun createDefault(authToken: String): YandexDiskFileLister {
-            return YandexDiskFileLister(authToken, YandexCloudReader(authToken))
-        }
-    }
 }
