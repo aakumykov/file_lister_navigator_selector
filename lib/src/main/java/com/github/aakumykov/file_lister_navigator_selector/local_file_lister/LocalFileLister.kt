@@ -9,8 +9,8 @@ import com.github.aakumykov.file_lister_navigator_selector.sorting_comparator.FS
 import java.io.File
 
 class LocalFileLister(
-    private val dummyAuthToken: String,
-    private val localCloudReader: LocalCloudReader
+    private val dummyAuthToken: String = "",
+    private val localCloudReader: LocalCloudReader = LocalCloudReader()
 )
     : FileLister<SimpleSortingMode>
 {
@@ -53,8 +53,4 @@ class LocalFileLister(
 
 
     override suspend fun fileExists(path: String): Result<Boolean> = localCloudReader.fileExists(path)
-
-    companion object {
-        fun createDefault(): LocalFileLister = LocalFileLister("", LocalCloudReader())
-    }
 }
