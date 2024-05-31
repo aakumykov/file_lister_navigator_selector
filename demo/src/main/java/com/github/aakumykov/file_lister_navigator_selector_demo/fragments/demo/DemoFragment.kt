@@ -51,7 +51,8 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
         FileSelectorFragment.extractSelectionResult(result)?.also { list ->
             binding.selectionResultView.text = getString(
                 R.string.selection_result, list.joinToString("\n") {
-                    (if (it.isDir) "dir: " else "file: ") + it.name
+//                    (if (it.isDir) "dir: " else "file: ") + it.name
+                    it.absolutePath
                 })
         }
     }
