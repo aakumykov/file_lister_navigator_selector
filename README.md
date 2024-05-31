@@ -7,7 +7,23 @@
 Всё это в облачном (пока только Яндекс.Диск) и локальном вариантах, с единообразным использованием.
 
 ### Подключение
+#### Временное решение
+Проект временно не собирается на сервере JitPack, поэтому для использования придётся опубликовать его в локальный m2-репозиторий, добавив и запустив gradle-конфигурацию запуска, 
+![publish_to_maven_local](https://github.com/aakumykov/file_lister_navigator_selector/assets/7845834/8ddbe05b-4cfa-4f2c-84d8-9c463c5037e3)
 
+А затем дописав источник mevenLocal() в settings.gradle, например:
+```
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenLocal()
+        mavenCentral()
+        maven{ url "https://jitpack.io" }
+    }
+}
+```
+#### Нормальное подключение
 Через Gradle из репозитория [JitPack](https://jitpack.io/#aakumykov/file_lister_navigator_selector):
 ```
     implementation 'com.github.aakumykov:storage_access_helper:1.0.1-alpha'
