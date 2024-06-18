@@ -68,7 +68,7 @@ dependencies {
 
     implementation 'com.github.aakumykov:exception_utils:0.4'
 
-    api 'com.github.aakumykov:storage_access_helper:0.0.5'
+    api 'com.github.aakumykov:storage_access_helper:2.0.0-alpha'
 
     api 'com.github.aakumykov:extensible_sorting_comparator:0.0.2'
 
