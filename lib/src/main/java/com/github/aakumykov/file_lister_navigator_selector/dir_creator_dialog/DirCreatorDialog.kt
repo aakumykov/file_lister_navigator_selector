@@ -33,6 +33,8 @@ abstract class DirCreatorDialog : DialogFragment(R.layout.dialog_dir_creator) {
         binding.dialogCloseButton.setOnClickListener { dismiss() }
         binding.confirmButton.setOnClickListener { onCreateButtonClicked() }
 
+        binding.dirNameInput.requestFocus()
+
         viewModel.isOperationSuccess.observe(viewLifecycleOwner, ::onOperationSuccessChanged)
         viewModel.errorMsg.observe(viewLifecycleOwner, ::onErrorMessageChanged)
     }
