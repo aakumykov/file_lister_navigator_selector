@@ -13,6 +13,7 @@ import com.github.aakumykov.file_lister_navigator_selector.file_selector.FileSel
 import com.github.aakumykov.file_lister_navigator_selector.local_file_selector.LocalFileSelectorFragment
 import com.github.aakumykov.file_lister_navigator_selector_demo.R
 import com.github.aakumykov.file_lister_navigator_selector_demo.databinding.FragmentDemoBinding
+import com.github.aakumykov.file_lister_navigator_selector_demo.extensions.showToast
 import com.github.aakumykov.storage_access_helper.StorageAccessHelper
 import com.github.aakumykov.yandex_disk_file_lister_navigator_selector.yandex_disk_file_selector.YandexDiskFileSelectorFragment
 import com.yandex.authsdk.YandexAuthLoginOptions
@@ -58,7 +59,11 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
     }
 
     private fun prepareStorageAccessHelper() {
-        storageAccessHelper = StorageAccessHelper.Companion.create(this)
+        storageAccessHelper = StorageAccessHelper.Companion.create(this).apply {
+            prepareForReadAccess()
+            prepareForWriteAccess()
+            prepareForFullAccess()
+        }
     }
 
     private fun prepareLayout(view: View) {
@@ -94,7 +99,10 @@ class DemoFragment : Fragment(R.layout.fragment_demo), FragmentResultListener {
 
     private fun onLocalSelectButtonClicked() {
         fileSelector = localFileSelector()
-        storageAccessHelper.requestReadAccess { showFileSelector() }
+        storageAccessHelper.requestFullAccess { isGranted ->
+            if (isGranted) showFileSelector()
+            else showToast(R.string.there_is_no_reading_access)
+        }
     }
 
     private fun onYandexSelectButtonClicked() {

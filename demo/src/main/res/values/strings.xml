@@ -20,4 +20,5 @@
     <string name="DIALOG_button_yes">Да</string>
     <string name="DIALOG_button_no">Нет</string>
     <string name="selection_result">Выбрано:\n%1$s</string>
+    <string name="there_is_no_reading_access">Нет доступа не чтение</string>
 </resources>
