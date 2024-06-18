@@ -24,7 +24,10 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        storageAccessHelper = StorageAccessHelper.create(this)
+        storageAccessHelper = StorageAccessHelper.create(this).apply {
+            prepareForWriteAccess()
+            prepareForFullAccess()
+        }
     }
 
 
