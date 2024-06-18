@@ -58,8 +58,10 @@ class LocalFileSelectorFragment : FileSelectorFragment<SimpleSortingMode>() {
         onWriteAccessGranted: () -> Unit,
         onWriteAccessRejected: (errorMsg: String?) -> Unit
     ) {
-        // TODO: StorageAccessHelper: реакция на запрет
-        storageAccessHelper.requestWriteAccess { onWriteAccessGranted() }
+        storageAccessHelper.requestWriteAccess { isGranted ->
+            if (isGranted) onWriteAccessGranted()
+            else onWriteAccessRejected(null)
+        }
     }
 
     override fun createSortingModeTranslator(): SortingModeTranslator<SimpleSortingMode> {

@@ -10,7 +10,7 @@ project.ext {
     groupId = 'com.github.aakumykov'
 
     majorVersionCode = 3
-    minorVersionCode = 0
+    minorVersionCode = 1
     patchVersionCode = 0
     suffix = "alpha"
 
