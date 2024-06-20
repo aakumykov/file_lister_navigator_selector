@@ -13,9 +13,9 @@ class RecursiveDirReader(private val fileLister: FileLister<SimpleSortingMode>) 
     @Deprecated("Используйте метод listDirRecursively()")
     @Throws(FileLister.NotADirException::class)
     fun getRecursiveList(path: String,
-                         sortingMode: SimpleSortingMode,
-                         reverseOrder: Boolean,
-                         foldersFirst: Boolean,
+                         sortingMode: SimpleSortingMode = SimpleSortingMode.NAME,
+                         reverseOrder: Boolean = false,
+                         foldersFirst: Boolean = false,
                          dirMode: Boolean = false
     ): List<FileListItem> {
         list.add(
@@ -64,9 +64,9 @@ class RecursiveDirReader(private val fileLister: FileLister<SimpleSortingMode>) 
 
     @Throws(FileLister.NotADirException::class)
     fun listDirRecursively(path: String,
-                           sortingMode: SimpleSortingMode,
-                           reverseOrder: Boolean,
-                           foldersFirst: Boolean,
+                           sortingMode: SimpleSortingMode = SimpleSortingMode.NAME,
+                           reverseOrder: Boolean = false,
+                           foldersFirst: Boolean = false,
                            dirMode: Boolean = false
     ): List<FileListItem> {
         return getRecursiveList(
