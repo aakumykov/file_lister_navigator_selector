@@ -9,14 +9,15 @@ project.ext {
     artifactId = 'file_lister_navigator_selector'
     groupId = 'com.github.aakumykov'
 
-    majorVersionCode = 3
-    minorVersionCode = 1
-    patchVersionCode = 1
-    suffix = "alpha"
+    // Переменные определены в build.gradle уровня проекта.
+    majorVersionCode = majorVersionCode
+    minorVersionCode = minorVersionCode
+    patchVersionCode = patchVersionCode
+    versionSuffix = versionSuffix
 
-    versionName = majorVersionCode + "." + minorVersionCode + "." + patchVersionCode + "-" + suffix
+    versionCode = versionCode
 
-    versionCode = 24
+    versionName = majorVersionCode + "." + minorVersionCode + "." + patchVersionCode + "-" + versionSuffix
 }
 
 android {
