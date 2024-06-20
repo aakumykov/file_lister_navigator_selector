@@ -23,6 +23,7 @@ interface FileLister<SortingModeType> {
      * YandexDiskFileLister преобразует SortingModeType в строковый аргумент типа сортировки для запроса
      * к облаку.
      */
+    // TODO: выбрасывать FileNotFoundException, если целевого каталога нет.
     @Throws(NotADirException::class)
     fun listDir(
         path: String,
