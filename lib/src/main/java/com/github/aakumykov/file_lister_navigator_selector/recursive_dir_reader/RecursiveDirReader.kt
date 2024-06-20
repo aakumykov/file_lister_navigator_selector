@@ -10,6 +10,7 @@ class RecursiveDirReader(private val fileLister: FileLister<SimpleSortingMode>) 
 
     private val list: MutableList<FileListItem> = mutableListOf()
 
+    @Deprecated("Используйте метод listDirRecursively()")
     @Throws(FileLister.NotADirException::class)
     fun getRecursiveList(path: String,
                          sortingMode: SimpleSortingMode,
@@ -58,6 +59,23 @@ class RecursiveDirReader(private val fileLister: FileLister<SimpleSortingMode>) 
         }
 
         return list
+    }
+
+
+    @Throws(FileLister.NotADirException::class)
+    fun listDirRecursively(path: String,
+                           sortingMode: SimpleSortingMode,
+                           reverseOrder: Boolean,
+                           foldersFirst: Boolean,
+                           dirMode: Boolean = false
+    ): List<FileListItem> {
+        return getRecursiveList(
+            path = path,
+             sortingMode = sortingMode,
+            reverseOrder = reverseOrder,
+            foldersFirst = foldersFirst,
+            dirMode = dirMode
+        )
     }
 
     private fun hasUnlistedDirs(): Boolean {
