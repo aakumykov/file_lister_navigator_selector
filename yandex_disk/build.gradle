@@ -66,7 +66,7 @@ dependencies {
     // TODO: избавиться от этой библиотеки
     api 'com.github.aakumykov:yandex_disk_client:0.0.21'
 
-    api 'com.github.aakumykov:cloud_reader:1.2.0-alpha'
+    api 'com.github.aakumykov:cloud_reader_lib:27ce12d654'
 }
 
 publishing {
