@@ -53,8 +53,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.github.aakumykov:exception_utils:0.4'
-    implementation project(path: ':lib')
-    implementation project(path: ':yandex_disk')
+
+//    implementation project(path: ':lib')
+//    implementation project(path: ':yandex_disk')
+    implementation 'com.github.aakumykov:file_lister_navigator_selector:3.3.3-alpha'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 
