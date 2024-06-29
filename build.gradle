@@ -2,11 +2,11 @@
 
 buildscript {
     ext {
-        majorVersionCode = 3
-        minorVersionCode = 3
-        patchVersionCode = 3
+        majorVersionCode = 4
+        minorVersionCode = 0
+        patchVersionCode = 0
         versionSuffix = "alpha"
-        versionCode = 30
+        versionCode = 31
     }
 }
 

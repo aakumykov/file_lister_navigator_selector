@@ -75,7 +75,7 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.10.1'
 
-    api "com.github.aakumykov:cloud_reader_lib:27ce12d654"
+    implementation "com.github.aakumykov:cloud_reader_lib:27ce12d654"
 }
 
 publishing {
